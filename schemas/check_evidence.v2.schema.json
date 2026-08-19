@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coppertrace.local/schemas/check_evidence.v2.schema.json",
+  "title": "CopperTrace Check Evidence v2",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "collection_status",
+    "check_candidate_count",
+    "represented_alerts",
+    "destination_capacity_evidence",
+    "semantic_decision"
+  ],
+  "properties": {
+    "schema_version": {"const": "ct-mini-check-candidates-v2"},
+    "collection_status": {"enum": ["COMPLETE", "TRUNCATED", "ERROR"]},
+    "check_candidate_count": {"type": "integer", "minimum": 0},
+    "semantic_decision": {"const": "NOT_PERFORMED"},
+    "represented_alerts": {"type": "array"},
+    "destination_capacity_evidence": {"type": "array"}
+  },
+  "additionalProperties": true
+}

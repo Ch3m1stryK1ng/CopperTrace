@@ -1,0 +1,258 @@
+{
+  "schema_version": "ct-mini-sink-patterns-v2",
+  "name": "sink_patterns",
+  "description": "General standard C/runtime Sink summaries plus name-independent body-pattern definitions. Project, framework, sample, and CVE function names are forbidden.",
+  "policy": {
+    "front_pipeline_llm": false,
+    "allow_framework_name_summaries": false,
+    "require_high_pcode_site": true,
+    "require_bound_vulnerable_parameter": true,
+    "custom_function_names_forbidden": true,
+    "role_aware_pruning": true,
+    "wrapper_confirmation": "Every vulnerable or explicit admission role must map uniquely through actual/formal bindings. A descriptive non-startpoint role may use a uniquely proved formal-object lineage. The outermost proved wrapper callsite is canonical and the primitive call remains its effect-site evidence.",
+    "recognition": {
+      "registry_direct": "deterministic",
+      "recursive_wrapper": "deterministic",
+      "body_derived_pattern": "heuristic"
+    }
+  },
+  "sink_labels": [
+    {"label": "COPY_SINK", "enabled": true},
+    {"label": "MEMSET_SINK", "enabled": true},
+    {"label": "FORMAT_STRING_SINK", "enabled": true},
+    {"label": "BUFFER_STATE_SINK", "enabled": true},
+    {"label": "LOOP_WRITE_SINK", "enabled": true},
+    {"label": "PARSER_OOB_READ_SINK", "enabled": true},
+    {"label": "STORE_SINK", "enabled": true}
+  ],
+  "primitive_sinks": [
+    {"name": "memcpy", "enabled": true, "kind": "primitive_memory_copy", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2, "semantic_roles": ["dst", "src", "len"], "vulnerable_parameter_roles": ["src", "len"], "role_tracking": {"dst": "memory_object", "src": "memory_content", "len": "scalar"}},
+    {"name": "memmove", "enabled": true, "kind": "primitive_memory_copy", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2, "semantic_roles": ["dst", "src", "len"], "vulnerable_parameter_roles": ["src", "len"], "role_tracking": {"dst": "memory_object", "src": "memory_content", "len": "scalar"}},
+    {"name": "bcopy", "enabled": true, "kind": "primitive_memory_copy", "label": "COPY_SINK", "src_arg": 0, "dst_arg": 1, "len_arg": 2, "semantic_roles": ["dst", "src", "len"], "vulnerable_parameter_roles": ["src", "len"], "role_tracking": {"dst": "memory_object", "src": "memory_content", "len": "scalar"}},
+
+    {"name": "__aeabi_memcpy", "enabled": true, "kind": "compiler_memory_copy", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2, "semantic_roles": ["dst", "src", "len"], "vulnerable_parameter_roles": ["src", "len"], "role_tracking": {"dst": "memory_object", "src": "memory_content", "len": "scalar"}},
+    {"name": "__aeabi_memcpy4", "enabled": true, "kind": "compiler_memory_copy", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2, "semantic_roles": ["dst", "src", "len"], "vulnerable_parameter_roles": ["src", "len"], "role_tracking": {"dst": "memory_object", "src": "memory_content", "len": "scalar"}},
+    {"name": "__aeabi_memcpy8", "enabled": true, "kind": "compiler_memory_copy", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2, "semantic_roles": ["dst", "src", "len"], "vulnerable_parameter_roles": ["src", "len"], "role_tracking": {"dst": "memory_object", "src": "memory_content", "len": "scalar"}},
+    {"name": "__aeabi_memmove", "enabled": true, "kind": "compiler_memory_copy", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2, "semantic_roles": ["dst", "src", "len"], "vulnerable_parameter_roles": ["src", "len"], "role_tracking": {"dst": "memory_object", "src": "memory_content", "len": "scalar"}},
+    {"name": "__aeabi_memmove4", "enabled": true, "kind": "compiler_memory_copy", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2, "semantic_roles": ["dst", "src", "len"], "vulnerable_parameter_roles": ["src", "len"], "role_tracking": {"dst": "memory_object", "src": "memory_content", "len": "scalar"}},
+    {"name": "__aeabi_memmove8", "enabled": true, "kind": "compiler_memory_copy", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2, "semantic_roles": ["dst", "src", "len"], "vulnerable_parameter_roles": ["src", "len"], "role_tracking": {"dst": "memory_object", "src": "memory_content", "len": "scalar"}},
+    {"name": "__rt_memcpy", "enabled": true, "kind": "compiler_memory_copy", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2, "semantic_roles": ["dst", "src", "len"], "vulnerable_parameter_roles": ["src", "len"], "role_tracking": {"dst": "memory_object", "src": "memory_content", "len": "scalar"}},
+    {"name": "__rt_memmove", "enabled": true, "kind": "compiler_memory_copy", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2, "semantic_roles": ["dst", "src", "len"], "vulnerable_parameter_roles": ["src", "len"], "role_tracking": {"dst": "memory_object", "src": "memory_content", "len": "scalar"}},
+    {"name": "__memcpy_r4", "enabled": true, "kind": "compiler_memory_copy", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2, "semantic_roles": ["dst", "src", "len"], "vulnerable_parameter_roles": ["src", "len"], "role_tracking": {"dst": "memory_object", "src": "memory_content", "len": "scalar"}},
+    {"name": "__memcpy_r7", "enabled": true, "kind": "compiler_memory_copy", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2, "semantic_roles": ["dst", "src", "len"], "vulnerable_parameter_roles": ["src", "len"], "role_tracking": {"dst": "memory_object", "src": "memory_content", "len": "scalar"}},
+
+    {"name": "memset", "enabled": true, "kind": "primitive_memory_fill", "label": "MEMSET_SINK", "dst_arg": 0, "value_arg": 1, "len_arg": 2, "semantic_roles": ["dst", "value", "len"], "vulnerable_parameter_roles": ["len"], "role_tracking": {"dst": "memory_object", "value": "scalar", "len": "scalar"}},
+    {"name": "bzero", "enabled": true, "kind": "primitive_memory_fill", "label": "MEMSET_SINK", "dst_arg": 0, "len_arg": 1, "value_expr": "0", "semantic_roles": ["dst", "value", "len"], "vulnerable_parameter_roles": ["len"], "role_tracking": {"dst": "memory_object", "value": "scalar", "len": "scalar"}},
+    {"name": "__aeabi_memset", "enabled": true, "kind": "compiler_memory_fill", "label": "MEMSET_SINK", "dst_arg": 0, "len_arg": 1, "value_arg": 2, "semantic_roles": ["dst", "value", "len"], "vulnerable_parameter_roles": ["len"], "role_tracking": {"dst": "memory_object", "value": "scalar", "len": "scalar"}},
+    {"name": "__aeabi_memclr", "enabled": true, "kind": "compiler_memory_fill", "label": "MEMSET_SINK", "dst_arg": 0, "len_arg": 1, "value_expr": "0", "semantic_roles": ["dst", "value", "len"], "vulnerable_parameter_roles": ["len"], "role_tracking": {"dst": "memory_object", "value": "scalar", "len": "scalar"}},
+
+    {"name": "strcpy", "enabled": true, "kind": "primitive_unbounded_string_copy", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "semantic_roles": ["dst", "src"], "vulnerable_parameter_roles": ["src"], "role_tracking": {"dst": "memory_object", "src": "memory_content"}},
+    {"name": "strcat", "enabled": true, "kind": "primitive_unbounded_string_copy", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "semantic_roles": ["dst", "src"], "vulnerable_parameter_roles": ["src"], "role_tracking": {"dst": "memory_object", "src": "memory_content"}},
+    {"name": "strncpy", "enabled": true, "kind": "primitive_bounded_string_copy", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2, "semantic_roles": ["dst", "src", "len"], "vulnerable_parameter_roles": ["src", "len"], "role_tracking": {"dst": "memory_object", "src": "memory_content", "len": "scalar"}},
+    {"name": "strlcpy", "enabled": true, "kind": "primitive_bounded_string_copy", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2, "semantic_roles": ["dst", "src", "len"], "vulnerable_parameter_roles": ["src", "len"], "role_tracking": {"dst": "memory_object", "src": "memory_content", "len": "scalar"}},
+    {"name": "strncat", "enabled": true, "kind": "primitive_bounded_string_copy", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2, "semantic_roles": ["dst", "src", "len"], "vulnerable_parameter_roles": ["src", "len"], "role_tracking": {"dst": "memory_object", "src": "memory_content", "len": "scalar"}},
+
+    {"name": "printf", "enabled": true, "kind": "primitive_format", "label": "FORMAT_STRING_SINK", "fmt_arg": 0, "semantic_roles": ["fmt"], "vulnerable_parameter_roles": ["fmt"], "role_tracking": {"fmt": "memory_content"}, "require_nonliteral_format": true},
+    {"name": "fprintf", "enabled": true, "kind": "primitive_format", "label": "FORMAT_STRING_SINK", "fmt_arg": 1, "semantic_roles": ["fmt"], "vulnerable_parameter_roles": ["fmt"], "role_tracking": {"fmt": "memory_content"}, "require_nonliteral_format": true},
+    {"name": "sprintf", "enabled": true, "kind": "primitive_format", "label": "FORMAT_STRING_SINK", "dst_arg": 0, "fmt_arg": 1, "semantic_roles": ["dst", "fmt"], "vulnerable_parameter_roles": ["fmt"], "role_tracking": {"dst": "memory_object", "fmt": "memory_content"}, "require_nonliteral_format": true},
+    {"name": "snprintf", "enabled": true, "kind": "primitive_format", "label": "FORMAT_STRING_SINK", "dst_arg": 0, "len_arg": 1, "fmt_arg": 2, "semantic_roles": ["dst", "len", "fmt"], "vulnerable_parameter_roles": ["fmt"], "role_tracking": {"dst": "memory_object", "len": "scalar", "fmt": "memory_content"}, "require_nonliteral_format": true},
+    {"name": "vprintf", "enabled": true, "kind": "primitive_format", "label": "FORMAT_STRING_SINK", "fmt_arg": 0, "semantic_roles": ["fmt"], "vulnerable_parameter_roles": ["fmt"], "role_tracking": {"fmt": "memory_content"}, "require_nonliteral_format": true},
+    {"name": "vfprintf", "enabled": true, "kind": "primitive_format", "label": "FORMAT_STRING_SINK", "fmt_arg": 1, "semantic_roles": ["fmt"], "vulnerable_parameter_roles": ["fmt"], "role_tracking": {"fmt": "memory_content"}, "require_nonliteral_format": true},
+    {"name": "vsprintf", "enabled": true, "kind": "primitive_format", "label": "FORMAT_STRING_SINK", "dst_arg": 0, "fmt_arg": 1, "semantic_roles": ["dst", "fmt"], "vulnerable_parameter_roles": ["fmt"], "role_tracking": {"dst": "memory_object", "fmt": "memory_content"}, "require_nonliteral_format": true},
+    {"name": "vsnprintf", "enabled": true, "kind": "primitive_format", "label": "FORMAT_STRING_SINK", "dst_arg": 0, "len_arg": 1, "fmt_arg": 2, "semantic_roles": ["dst", "len", "fmt"], "vulnerable_parameter_roles": ["fmt"], "role_tracking": {"dst": "memory_object", "len": "scalar", "fmt": "memory_content"}, "require_nonliteral_format": true}
+  ],
+  "heuristic_sink_rules": [
+    {
+      "id": "counted_range_copy",
+      "enabled": false,
+      "audit_enabled": true,
+      "recognition": "heuristic",
+      "kind": "counted_range_copy",
+      "label": "COPY_SINK",
+      "object_roles": ["dst"],
+      "vulnerable_parameter_roles": ["src", "len"],
+      "enablement_status": "disabled_after_audit",
+      "enablement_blockers": [
+        "fewer_than_10_audited_unique_implementations",
+        "combined_counted_range_parameter_precision_below_0_80",
+        "no_post_freeze_holdout_callsites"
+      ]
+    },
+    {
+      "id": "counted_range_fill",
+      "enabled": false,
+      "audit_enabled": true,
+      "recognition": "heuristic",
+      "kind": "counted_range_fill",
+      "label": "MEMSET_SINK",
+      "object_roles": ["dst"],
+      "vulnerable_parameter_roles": ["len"],
+      "enablement_status": "disabled_after_audit",
+      "enablement_blockers": [
+        "fewer_than_10_audited_unique_implementations",
+        "derived_fill_extent_bound_to_wrong_caller_parameter",
+        "no_post_freeze_holdout_callsites"
+      ]
+    },
+    {
+      "id": "sentinel_copy",
+      "enabled": false,
+      "audit_enabled": true,
+      "recognition": "heuristic",
+      "kind": "sentinel_copy",
+      "label": "COPY_SINK",
+      "object_roles": ["dst"],
+      "vulnerable_parameter_roles": ["src"],
+      "enablement_status": "disabled_after_audit",
+      "enablement_blockers": [
+        "no_audited_callsite_findings",
+        "no_generalization_evidence"
+      ]
+    },
+    {
+      "id": "paired_buffer_state",
+      "enabled": true,
+      "audit_enabled": true,
+      "recognition": "heuristic",
+      "kind": "paired_buffer_state_update",
+      "label": "BUFFER_STATE_SINK",
+      "object_roles": ["buffer"],
+      "vulnerable_parameter_roles": ["buffer", "amount"],
+      "role_tracking": {"buffer": "memory_object", "amount": "scalar"},
+      "require_same_base_formal": true,
+      "require_same_delta_lineage": true,
+      "enablement_status": "enabled_after_independent_audit",
+      "enablement_blockers": [],
+      "audit_evidence": {
+        "audited_unique_implementations": 12,
+        "sink_semantic_precision": 1.0,
+        "vulnerable_parameter_precision": 1.0,
+        "independent_implementation_families": 6
+      }
+    },
+    {
+      "id": "buffer_state_reserve",
+      "enabled": false,
+      "audit_enabled": true,
+      "recognition": "heuristic",
+      "kind": "buffer_state_reservation_or_growth",
+      "label": "BUFFER_STATE_SINK",
+      "object_roles": ["buffer"],
+      "vulnerable_parameter_roles": ["buffer", "amount"],
+      "role_tracking": {"buffer": "memory_object", "amount": "scalar"},
+      "enablement_status": "pending_initial_audit",
+      "enablement_blockers": [
+        "14_and_30_sample_audit_not_yet_run",
+        "independent_implementation_families_not_yet_established"
+      ]
+    },
+    {
+      "id": "stateful_loop_write",
+      "enabled": false,
+      "audit_enabled": true,
+      "recognition": "heuristic",
+      "kind": "stateful_loop_write",
+      "label": "LOOP_WRITE_SINK",
+      "object_roles": ["dst"],
+      "vulnerable_parameter_roles": ["dst", "src", "index"],
+      "role_tracking": {"dst": "memory_object", "src": "memory_content", "index": "scalar"},
+      "enablement_status": "pending_initial_audit",
+      "enablement_blockers": [
+        "14_and_30_sample_audit_not_yet_run",
+        "independent_implementation_families_not_yet_established"
+      ]
+    },
+    {
+      "id": "in_place_swap",
+      "enabled": false,
+      "audit_enabled": true,
+      "recognition": "heuristic",
+      "kind": "in_place_swap_operation",
+      "label": "LOOP_WRITE_SINK",
+      "object_roles": ["buffer"],
+      "vulnerable_parameter_roles": ["buffer", "len"],
+      "role_tracking": {"buffer": "memory_content", "len": "scalar"},
+      "enablement_status": "pending_initial_audit",
+      "enablement_blockers": [
+        "14_and_30_sample_audit_not_yet_run",
+        "independent_implementation_families_not_yet_established"
+      ]
+    },
+    {
+      "id": "parser_oob_read",
+      "enabled": false,
+      "audit_enabled": true,
+      "recognition": "heuristic",
+      "kind": "parser_out_of_bounds_read",
+      "label": "PARSER_OOB_READ_SINK",
+      "vulnerable_parameter_roles": [
+        "offset",
+        "index",
+        "cursor",
+        "width",
+        "available_length"
+      ],
+      "role_tracking": {
+        "offset": "scalar",
+        "index": "scalar",
+        "cursor": "scalar",
+        "width": "scalar",
+        "available_length": "scalar"
+      },
+      "range_read_primitives": [
+        {
+          "name": "memcmp",
+          "read_pointer_args": [0, 1],
+          "length_arg": 2
+        },
+        {
+          "name": "strncmp",
+          "read_pointer_args": [0, 1],
+          "length_arg": 2
+        },
+        {
+          "name": "memchr",
+          "read_pointer_args": [0],
+          "length_arg": 2
+        }
+      ],
+      "enablement_status": "audit_failed_not_enabled",
+      "enablement_blockers": [
+        "no_independent_parser_oob_implementations_detected",
+        "candidate_density_exceeds_discovery_budget",
+        "top_n_ranking_displacement"
+      ]
+    },
+    {
+      "id": "variable_address_store",
+      "enabled": false,
+      "audit_enabled": true,
+      "audit_only": true,
+      "recognition": "heuristic",
+      "kind": "variable_address_memory_store",
+      "label": "STORE_SINK",
+      "object_roles": ["dst"],
+      "vulnerable_parameter_roles": ["dst", "index", "offset"],
+      "role_tracking": {
+        "dst": "memory_object",
+        "index": "scalar",
+        "offset": "scalar"
+      },
+      "enablement_status": "audit_failed_not_enabled",
+      "enablement_threshold": {
+        "audited_unique_implementations": 10,
+        "independent_implementation_families": 2,
+        "sink_semantic_precision": 0.8,
+        "vulnerable_parameter_precision": 0.8
+      },
+      "enablement_blockers": [
+        "sink_semantic_precision_below_threshold",
+        "internal_allocator_scheduler_and_device_configuration_writes_dominate",
+        "does_not_cover_fixed_field_update_store_endpoints"
+      ]
+    }
+  ],
+  "framework_sinks": [],
+  "pattern_sinks": [],
+  "dispatch_patterns": []
+}

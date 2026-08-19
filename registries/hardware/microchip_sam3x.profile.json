@@ -1,0 +1,478 @@
+{
+  "evidence_reference": "component_spi.h,sam3x8e.h,https://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-11057-32-bit-Cortex-M3-Microcontroller-SAM3X-SAM3A_Datasheet.pdf#SPI",
+  "evidence_source": "cmsis_header+role_overlay",
+  "metadata_source": "trusted_platform_summary",
+  "mmio_ranges": [
+    {
+      "end": "0x5fffffff",
+      "evidence_reference": "SAM3X-SAM3A datasheet memory mapping",
+      "evidence_source": "architecture_and_vendor_memory_map",
+      "name": "cortex_m_external_peripheral_space",
+      "start": "0x40000000"
+    }
+  ],
+  "peripheral_instances": [
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x40000000",
+      "peripheral_instance": "HSMCI",
+      "peripheral_type": "Hsmci"
+    },
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x40004000",
+      "peripheral_instance": "SSC",
+      "peripheral_type": "Ssc"
+    },
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x40008000",
+      "peripheral_instance": "SPI0",
+      "peripheral_type": "Spi"
+    },
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x40080000",
+      "peripheral_instance": "TC0",
+      "peripheral_type": "Tc"
+    },
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x40084000",
+      "peripheral_instance": "TC1",
+      "peripheral_type": "Tc"
+    },
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x40088000",
+      "peripheral_instance": "TC2",
+      "peripheral_type": "Tc"
+    },
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x4008c000",
+      "peripheral_instance": "TWI0",
+      "peripheral_type": "Twi"
+    },
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x4008c100",
+      "peripheral_instance": "PDC_TWI0",
+      "peripheral_type": "Pdc"
+    },
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x40090000",
+      "peripheral_instance": "TWI1",
+      "peripheral_type": "Twi"
+    },
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x40090100",
+      "peripheral_instance": "PDC_TWI1",
+      "peripheral_type": "Pdc"
+    },
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x40094000",
+      "peripheral_instance": "PWM",
+      "peripheral_type": "Pwm"
+    },
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x40094100",
+      "peripheral_instance": "PDC_PWM",
+      "peripheral_type": "Pdc"
+    },
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x40098000",
+      "peripheral_instance": "USART0",
+      "peripheral_type": "Usart"
+    },
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x40098100",
+      "peripheral_instance": "PDC_USART0",
+      "peripheral_type": "Pdc"
+    },
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x4009c000",
+      "peripheral_instance": "USART1",
+      "peripheral_type": "Usart"
+    },
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x4009c100",
+      "peripheral_instance": "PDC_USART1",
+      "peripheral_type": "Pdc"
+    },
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x400a0000",
+      "peripheral_instance": "USART2",
+      "peripheral_type": "Usart"
+    },
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x400a0100",
+      "peripheral_instance": "PDC_USART2",
+      "peripheral_type": "Pdc"
+    },
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x400a4000",
+      "peripheral_instance": "USART3",
+      "peripheral_type": "Usart"
+    },
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x400a4100",
+      "peripheral_instance": "PDC_USART3",
+      "peripheral_type": "Pdc"
+    },
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x400ac000",
+      "peripheral_instance": "UOTGHS",
+      "peripheral_type": "Uotghs"
+    },
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x400b0000",
+      "peripheral_instance": "EMAC",
+      "peripheral_type": "Emac"
+    },
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x400b4000",
+      "peripheral_instance": "CAN0",
+      "peripheral_type": "Can"
+    },
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x400b8000",
+      "peripheral_instance": "CAN1",
+      "peripheral_type": "Can"
+    },
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x400bc000",
+      "peripheral_instance": "TRNG",
+      "peripheral_type": "Trng"
+    },
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x400c0000",
+      "peripheral_instance": "ADC",
+      "peripheral_type": "Adc"
+    },
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x400c0100",
+      "peripheral_instance": "PDC_ADC",
+      "peripheral_type": "Pdc"
+    },
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x400c4000",
+      "peripheral_instance": "DMAC",
+      "peripheral_type": "Dmac"
+    },
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x400c8000",
+      "peripheral_instance": "DACC",
+      "peripheral_type": "Dacc"
+    },
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x400c8100",
+      "peripheral_instance": "PDC_DACC",
+      "peripheral_type": "Pdc"
+    },
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x400e0000",
+      "peripheral_instance": "SMC",
+      "peripheral_type": "Smc"
+    },
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x400e0400",
+      "peripheral_instance": "MATRIX",
+      "peripheral_type": "Matrix"
+    },
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x400e0600",
+      "peripheral_instance": "PMC",
+      "peripheral_type": "Pmc"
+    },
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x400e0800",
+      "peripheral_instance": "UART",
+      "peripheral_type": "Uart"
+    },
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x400e0900",
+      "peripheral_instance": "PDC_UART",
+      "peripheral_type": "Pdc"
+    },
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x400e0940",
+      "peripheral_instance": "CHIPID",
+      "peripheral_type": "Chipid"
+    },
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x400e0a00",
+      "peripheral_instance": "EFC0",
+      "peripheral_type": "Efc"
+    },
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x400e0c00",
+      "peripheral_instance": "EFC1",
+      "peripheral_type": "Efc"
+    },
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x400e0e00",
+      "peripheral_instance": "PIOA",
+      "peripheral_type": "Pio"
+    },
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x400e1000",
+      "peripheral_instance": "PIOB",
+      "peripheral_type": "Pio"
+    },
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x400e1200",
+      "peripheral_instance": "PIOC",
+      "peripheral_type": "Pio"
+    },
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x400e1400",
+      "peripheral_instance": "PIOD",
+      "peripheral_type": "Pio"
+    },
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x400e1a00",
+      "peripheral_instance": "RSTC",
+      "peripheral_type": "Rstc"
+    },
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x400e1a10",
+      "peripheral_instance": "SUPC",
+      "peripheral_type": "Supc"
+    },
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x400e1a30",
+      "peripheral_instance": "RTT",
+      "peripheral_type": "Rtt"
+    },
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x400e1a50",
+      "peripheral_instance": "WDT",
+      "peripheral_type": "Wdt"
+    },
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x400e1a60",
+      "peripheral_instance": "RTC",
+      "peripheral_type": "Rtc"
+    },
+    {
+      "evidence_reference": "sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "instance_base": "0x400e1a90",
+      "peripheral_instance": "GPBR",
+      "peripheral_type": "Gpbr"
+    }
+  ],
+  "platform_id": "microchip-sam3x",
+  "registers": [
+    {
+      "address": "0x40008000",
+      "evidence_reference": "component_spi.h,sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "field_offset": "0x0",
+      "instance_base": "0x40008000",
+      "peripheral_instance": "SPI0",
+      "peripheral_type": "Spi",
+      "register": "SPI_CR",
+      "role": "UNKNOWN"
+    },
+    {
+      "address": "0x40008004",
+      "evidence_reference": "component_spi.h,sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "field_offset": "0x4",
+      "instance_base": "0x40008000",
+      "peripheral_instance": "SPI0",
+      "peripheral_type": "Spi",
+      "register": "SPI_MR",
+      "role": "UNKNOWN"
+    },
+    {
+      "address": "0x40008008",
+      "evidence_reference": "https://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-11057-32-bit-Cortex-M3-Microcontroller-SAM3X-SAM3A_Datasheet.pdf#SPI",
+      "evidence_source": "vendor_manual",
+      "field_offset": "0x8",
+      "instance_base": "0x40008000",
+      "peripheral_instance": "SPI0",
+      "peripheral_type": "Spi",
+      "register": "SPI_RDR",
+      "role": "RX_DATA"
+    },
+    {
+      "address": "0x4000800c",
+      "evidence_reference": "https://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-11057-32-bit-Cortex-M3-Microcontroller-SAM3X-SAM3A_Datasheet.pdf#SPI",
+      "evidence_source": "vendor_manual",
+      "field_offset": "0xc",
+      "instance_base": "0x40008000",
+      "peripheral_instance": "SPI0",
+      "peripheral_type": "Spi",
+      "register": "SPI_TDR",
+      "role": "TX_DATA"
+    },
+    {
+      "address": "0x40008010",
+      "evidence_reference": "https://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-11057-32-bit-Cortex-M3-Microcontroller-SAM3X-SAM3A_Datasheet.pdf#SPI",
+      "evidence_source": "vendor_manual",
+      "field_offset": "0x10",
+      "instance_base": "0x40008000",
+      "peripheral_instance": "SPI0",
+      "peripheral_type": "Spi",
+      "register": "SPI_SR",
+      "role": "STATUS"
+    },
+    {
+      "address": "0x40008014",
+      "evidence_reference": "component_spi.h,sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "field_offset": "0x14",
+      "instance_base": "0x40008000",
+      "peripheral_instance": "SPI0",
+      "peripheral_type": "Spi",
+      "register": "SPI_IER",
+      "role": "UNKNOWN"
+    },
+    {
+      "address": "0x40008018",
+      "evidence_reference": "component_spi.h,sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "field_offset": "0x18",
+      "instance_base": "0x40008000",
+      "peripheral_instance": "SPI0",
+      "peripheral_type": "Spi",
+      "register": "SPI_IDR",
+      "role": "UNKNOWN"
+    },
+    {
+      "address": "0x4000801c",
+      "evidence_reference": "component_spi.h,sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "field_offset": "0x1c",
+      "instance_base": "0x40008000",
+      "peripheral_instance": "SPI0",
+      "peripheral_type": "Spi",
+      "register": "SPI_IMR",
+      "role": "UNKNOWN"
+    },
+    {
+      "address": "0x40008030",
+      "evidence_reference": "component_spi.h,sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "field_offset": "0x30",
+      "instance_base": "0x40008000",
+      "peripheral_instance": "SPI0",
+      "peripheral_type": "Spi",
+      "register": "SPI_CSR",
+      "role": "UNKNOWN"
+    },
+    {
+      "address": "0x400080e4",
+      "evidence_reference": "component_spi.h,sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "field_offset": "0xe4",
+      "instance_base": "0x40008000",
+      "peripheral_instance": "SPI0",
+      "peripheral_type": "Spi",
+      "register": "SPI_WPMR",
+      "role": "UNKNOWN"
+    },
+    {
+      "address": "0x400080e8",
+      "evidence_reference": "component_spi.h,sam3x8e.h",
+      "evidence_source": "cmsis_header",
+      "field_offset": "0xe8",
+      "instance_base": "0x40008000",
+      "peripheral_instance": "SPI0",
+      "peripheral_type": "Spi",
+      "register": "SPI_WPSR",
+      "role": "UNKNOWN"
+    }
+  ],
+  "schema_version": "ct-mini-hardware-metadata-v2",
+  "scope": "platform"
+}

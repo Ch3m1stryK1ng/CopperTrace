@@ -1,0 +1,78 @@
+{
+  "schema_version": "ct-mini-deterministic-sink-seeds-v1",
+  "name": "deterministic_sink_seeds",
+  "description": "Standard C/runtime sink effects plus name-independent body-proved structural effects. Project, framework, sample, and CVE function names are forbidden.",
+  "policy": {
+    "front_pipeline_llm": false,
+    "allow_structural_heuristic_startpoints": false,
+    "allow_framework_name_summaries": false,
+    "require_high_pcode_site": true,
+    "require_bound_vulnerable_parameter": true,
+    "custom_function_names_forbidden": true,
+    "admission": "A call is admitted only when at least one admission role is non-constant at the exact High P-code callsite. This is a declared supported-scope rule, not a safety proof."
+  },
+  "sink_labels": [
+    {"label": "COPY_SINK", "enabled": true},
+    {"label": "MEMSET_SINK", "enabled": true},
+    {"label": "FORMAT_STRING_SINK", "enabled": true},
+    {"label": "BUFFER_STATE_SINK", "enabled": true}
+  ],
+  "structural_sink_rules": [
+    {
+      "id": "paired_buffer_state_update",
+      "enabled": true,
+      "kind": "paired_buffer_state_update",
+      "label": "BUFFER_STATE_SINK",
+      "vulnerable_parameter_roles": ["buffer", "amount"],
+      "admission_roles": ["amount"],
+      "require_same_base_formal": true,
+      "require_same_delta_formal": true,
+      "require_distinct_constant_offsets": true,
+      "require_linear_effect_window": true,
+      "max_instruction_span_bytes": 32,
+      "accepted_direction_pairs": [
+        ["scalar_sub", "cursor_add"],
+        ["scalar_add", "cursor_sub"]
+      ]
+    }
+  ],
+  "primitive_sinks": [
+    {"name": "memcpy", "enabled": true, "kind": "primitive_memory_copy", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2, "vulnerable_parameter_roles": ["src", "len"], "admission_roles": ["len"]},
+    {"name": "memmove", "enabled": true, "kind": "primitive_memory_copy", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2, "vulnerable_parameter_roles": ["src", "len"], "admission_roles": ["len"]},
+    {"name": "bcopy", "enabled": true, "kind": "primitive_memory_copy", "label": "COPY_SINK", "src_arg": 0, "dst_arg": 1, "len_arg": 2, "vulnerable_parameter_roles": ["src", "len"], "admission_roles": ["len"]},
+
+    {"name": "__aeabi_memcpy", "enabled": true, "kind": "compiler_memory_copy", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2, "vulnerable_parameter_roles": ["src", "len"], "admission_roles": ["len"]},
+    {"name": "__aeabi_memcpy4", "enabled": true, "kind": "compiler_memory_copy", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2, "vulnerable_parameter_roles": ["src", "len"], "admission_roles": ["len"]},
+    {"name": "__aeabi_memcpy8", "enabled": true, "kind": "compiler_memory_copy", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2, "vulnerable_parameter_roles": ["src", "len"], "admission_roles": ["len"]},
+    {"name": "__aeabi_memmove", "enabled": true, "kind": "compiler_memory_copy", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2, "vulnerable_parameter_roles": ["src", "len"], "admission_roles": ["len"]},
+    {"name": "__aeabi_memmove4", "enabled": true, "kind": "compiler_memory_copy", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2, "vulnerable_parameter_roles": ["src", "len"], "admission_roles": ["len"]},
+    {"name": "__aeabi_memmove8", "enabled": true, "kind": "compiler_memory_copy", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2, "vulnerable_parameter_roles": ["src", "len"], "admission_roles": ["len"]},
+    {"name": "__rt_memcpy", "enabled": true, "kind": "compiler_memory_copy", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2, "vulnerable_parameter_roles": ["src", "len"], "admission_roles": ["len"]},
+    {"name": "__rt_memmove", "enabled": true, "kind": "compiler_memory_copy", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2, "vulnerable_parameter_roles": ["src", "len"], "admission_roles": ["len"]},
+    {"name": "__memcpy_r4", "enabled": true, "kind": "compiler_memory_copy", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2, "vulnerable_parameter_roles": ["src", "len"], "admission_roles": ["len"]},
+    {"name": "__memcpy_r7", "enabled": true, "kind": "compiler_memory_copy", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2, "vulnerable_parameter_roles": ["src", "len"], "admission_roles": ["len"]},
+
+    {"name": "memset", "enabled": true, "kind": "primitive_memory_fill", "label": "MEMSET_SINK", "dst_arg": 0, "value_arg": 1, "len_arg": 2, "vulnerable_parameter_roles": ["len"], "admission_roles": ["len"]},
+    {"name": "bzero", "enabled": true, "kind": "primitive_memory_fill", "label": "MEMSET_SINK", "dst_arg": 0, "len_arg": 1, "value_expr": "0", "vulnerable_parameter_roles": ["len"], "admission_roles": ["len"]},
+    {"name": "__aeabi_memset", "enabled": true, "kind": "compiler_memory_fill", "label": "MEMSET_SINK", "dst_arg": 0, "len_arg": 1, "value_arg": 2, "vulnerable_parameter_roles": ["len"], "admission_roles": ["len"]},
+    {"name": "__aeabi_memclr", "enabled": true, "kind": "compiler_memory_fill", "label": "MEMSET_SINK", "dst_arg": 0, "len_arg": 1, "value_expr": "0", "vulnerable_parameter_roles": ["len"], "admission_roles": ["len"]},
+
+    {"name": "strcpy", "enabled": true, "kind": "primitive_unbounded_string_copy", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "vulnerable_parameter_roles": ["src"], "admission_roles": ["src"]},
+    {"name": "strcat", "enabled": true, "kind": "primitive_unbounded_string_copy", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "vulnerable_parameter_roles": ["src"], "admission_roles": ["src"]},
+    {"name": "strncpy", "enabled": true, "kind": "primitive_bounded_string_copy", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2, "vulnerable_parameter_roles": ["src", "len"], "admission_roles": ["len"]},
+    {"name": "strlcpy", "enabled": true, "kind": "primitive_bounded_string_copy", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2, "vulnerable_parameter_roles": ["src", "len"], "admission_roles": ["len"]},
+    {"name": "strncat", "enabled": true, "kind": "primitive_bounded_string_copy", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2, "vulnerable_parameter_roles": ["src", "len"], "admission_roles": ["len"]},
+
+    {"name": "printf", "enabled": true, "kind": "primitive_format", "label": "FORMAT_STRING_SINK", "fmt_arg": 0, "vulnerable_parameter_roles": ["fmt"], "admission_roles": ["fmt"], "require_nonliteral_format": true},
+    {"name": "fprintf", "enabled": true, "kind": "primitive_format", "label": "FORMAT_STRING_SINK", "fmt_arg": 1, "vulnerable_parameter_roles": ["fmt"], "admission_roles": ["fmt"], "require_nonliteral_format": true},
+    {"name": "sprintf", "enabled": true, "kind": "primitive_format", "label": "FORMAT_STRING_SINK", "dst_arg": 0, "fmt_arg": 1, "vulnerable_parameter_roles": ["fmt"], "admission_roles": ["fmt"], "require_nonliteral_format": true},
+    {"name": "snprintf", "enabled": true, "kind": "primitive_format", "label": "FORMAT_STRING_SINK", "dst_arg": 0, "len_arg": 1, "fmt_arg": 2, "vulnerable_parameter_roles": ["fmt"], "admission_roles": ["fmt"], "require_nonliteral_format": true},
+    {"name": "vprintf", "enabled": true, "kind": "primitive_format", "label": "FORMAT_STRING_SINK", "fmt_arg": 0, "vulnerable_parameter_roles": ["fmt"], "admission_roles": ["fmt"], "require_nonliteral_format": true},
+    {"name": "vfprintf", "enabled": true, "kind": "primitive_format", "label": "FORMAT_STRING_SINK", "fmt_arg": 1, "vulnerable_parameter_roles": ["fmt"], "admission_roles": ["fmt"], "require_nonliteral_format": true},
+    {"name": "vsprintf", "enabled": true, "kind": "primitive_format", "label": "FORMAT_STRING_SINK", "dst_arg": 0, "fmt_arg": 1, "vulnerable_parameter_roles": ["fmt"], "admission_roles": ["fmt"], "require_nonliteral_format": true},
+    {"name": "vsnprintf", "enabled": true, "kind": "primitive_format", "label": "FORMAT_STRING_SINK", "dst_arg": 0, "len_arg": 1, "fmt_arg": 2, "vulnerable_parameter_roles": ["fmt"], "admission_roles": ["fmt"], "require_nonliteral_format": true}
+  ],
+  "framework_sinks": [],
+  "pattern_sinks": [],
+  "dispatch_patterns": []
+}

@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coppertrace.local/schemas/chain.v1.schema.json",
+  "title": "CopperTrace Mini unified sink-backward chains",
+  "type": "object",
+  "required": ["schema_version", "counts", "chains"],
+  "properties": {
+    "schema_version": {"const": "ct-mini-chains-v1"},
+    "analysis": {"type": "string"},
+    "strict_mode": {"type": "boolean"},
+    "counts": {"type": "object"},
+    "unified_graph": {"$ref": "#/$defs/unifiedGraph"},
+    "chains": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/chain"}
+    }
+  },
+  "$defs": {
+    "analysisStatus": {
+      "enum": [
+        "SOURCE_REACHED_DETERMINISTIC",
+        "SOURCE_REACHED_HEURISTIC",
+        "PARTIAL_SOURCE_REACHABILITY",
+        "PROVEN_INTERNAL_ONLY",
+        "SOURCE_NOT_RESOLVED",
+        "GRAPH_INCOMPLETE",
+        "ANALYSIS_BUDGET_EXHAUSTED"
+      ]
+    },
+    "region": {
+      "type": "object",
+      "required": ["object_id", "start", "end", "relative", "precision"],
+      "properties": {
+        "object_id": {"type": "string"},
+        "start": {"type": "string"},
+        "end": {"type": "string"},
+        "relative": {"type": "boolean"},
+        "precision": {"type": "string"}
+      }
+    },
+    "graphNode": {
+      "type": "object",
+      "required": ["node_id"],
+      "properties": {
+        "node_id": {"type": "string", "minLength": 1},
+        "node_kind": {"enum": ["FUNCTION", "SHARED_OBJECT"]}
+      }
+    },
+    "graphEdge": {
+      "type": "object",
+      "required": ["edge_id", "src_node_id", "dst_node_id", "site_id", "edge_kind"],
+      "properties": {
+        "edge_id": {"type": "string", "minLength": 1},
+        "src_node_id": {"type": "string"},
+        "dst_node_id": {"type": "string"},
+        "site_id": {"type": "string"},
+        "edge_kind": {
+          "enum": ["CALL", "CALLIND", "CHANNEL_WRITE", "CHANNEL_READ"]
+        },
+        "object_id": {"type": "string"},
+        "region": {"$ref": "#/$defs/region"},
+        "evidence": {"type": "object"},
+        "backward_transfer": {"type": "string"}
+      }
+    },
+    "unifiedGraph": {
+      "type": "object",
+      "required": ["node_model", "edge_kinds", "strict_mode", "nodes", "edges", "counts"],
+      "properties": {
+        "node_model": {"const": "FUNCTION_PLUS_SHARED_OBJECT"},
+        "edge_kinds": {
+          "type": "array",
+          "items": {
+            "enum": ["CALL", "CALLIND", "CHANNEL_WRITE", "CHANNEL_READ"]
+          },
+          "uniqueItems": true
+        },
+        "strict_mode": {"type": "boolean"},
+        "nodes": {"type": "array", "items": {"$ref": "#/$defs/graphNode"}},
+        "edges": {"type": "array", "items": {"$ref": "#/$defs/graphEdge"}},
+        "rejected_channel_edges": {"type": "array", "items": {"type": "object"}},
+        "counts": {"type": "object"}
+      }
+    },
+    "candidateTrace": {
+      "type": "object",
+      "required": ["trace_id", "start_node_id", "end_node_id", "node_ids", "edge_ids", "edge_kinds", "mixed", "edges"],
+      "properties": {
+        "trace_id": {"type": "string"},
+        "start_node_id": {"type": "string"},
+        "end_node_id": {"type": "string"},
+        "node_ids": {"type": "array", "items": {"type": "string"}},
+        "edge_ids": {"type": "array", "items": {"type": "string"}},
+        "edge_kinds": {
+          "type": "array",
+          "items": {
+            "enum": ["CALL", "CALLIND", "CHANNEL_WRITE", "CHANNEL_READ"]
+          }
+        },
+        "mixed": {"type": "boolean"},
+        "edges": {"type": "array", "items": {"$ref": "#/$defs/graphEdge"}}
+      }
+    },
+    "candidateSearch": {
+      "type": "object",
+      "required": ["status", "start_node_id", "candidate_traces", "allowed_edge_ids", "visited_nodes", "steps", "blockers"],
+      "properties": {
+        "status": {
+          "enum": ["COMPLETE", "GRAPH_INCOMPLETE", "ANALYSIS_BUDGET_EXHAUSTED"]
+        },
+        "start_node_id": {"type": "string"},
+        "candidate_traces": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/candidateTrace"}
+        },
+        "allowed_edge_ids": {"type": "array", "items": {"type": "string"}},
+        "allowed_node_ids": {"type": "array", "items": {"type": "string"}},
+        "visited_nodes": {"type": "integer", "minimum": 0},
+        "steps": {"type": "integer", "minimum": 0},
+        "frontier": {"type": "array", "items": {"type": "string"}},
+        "blockers": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "parameterResult": {
+      "type": "object",
+      "required": ["role", "status", "paths", "blockers"],
+      "properties": {
+        "role": {"type": "string"},
+        "status": {"$ref": "#/$defs/analysisStatus"},
+        "paths": {"type": "array", "items": {"type": "object"}},
+        "blockers": {"type": "array", "items": {"type": "string"}},
+        "binding_evidence": {"type": "object"},
+        "rejected_evidence": {"type": "array", "items": {"type": "object"}},
+        "trace_constraint": {"type": "object"}
+      }
+    },
+    "chain": {
+      "type": "object",
+      "required": ["chain_id", "sink_id", "status", "parameter_results"],
+      "properties": {
+        "chain_id": {"type": "string"},
+        "sink_id": {"type": "string"},
+        "status": {"$ref": "#/$defs/analysisStatus"},
+        "candidate_search": {"$ref": "#/$defs/candidateSearch"},
+        "candidate_traces": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/candidateTrace"}
+        },
+        "parameter_results": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/parameterResult"}
+        }
+      }
+    }
+  }
+}

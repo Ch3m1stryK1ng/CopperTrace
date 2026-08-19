@@ -1,0 +1,43 @@
+[project]
+name = "coppertrace"
+version = "0.1.0"
+description = "Static detection of taint-style vulnerabilities in monolithic firmware"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {file = "LICENSE"}
+authors = [{name = "CopperTrace Authors"}]
+dependencies = [
+  "jsonschema>=4.21",
+  "pyelftools>=0.30",
+  "PyYAML>=6.0",
+]
+
+[project.optional-dependencies]
+ghidra = ["pyghidra>=2.2"]
+llm = [
+  "litellm>=1.40",
+  "python-dotenv>=1.0",
+  "tiktoken>=0.7",
+]
+dev = [
+  "capstone>=5.0",
+  "pytest>=8.2",
+  "pytest-asyncio>=0.23",
+  "ruff>=0.4",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["sourceagent"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-q --tb=short"
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100

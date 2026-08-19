@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coppertrace.local/schemas/channel_graph.v3.schema.json",
+  "title": "CopperTrace Mini Channelgraph v3",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "source_associations",
+    "shared_objects",
+    "nodes",
+    "edges",
+    "call_edges",
+    "channel_edges",
+    "channel_blockers",
+    "counts"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "ct-mini-channel-graph-v3"
+    },
+    "source_associations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "association_id",
+          "source_definition_id",
+          "state_kind",
+          "relation_kind",
+          "precision"
+        ],
+        "properties": {
+          "association_id": {"type": "string", "minLength": 1},
+          "source_definition_id": {"type": "string", "minLength": 1},
+          "source_id": {"type": "string"},
+          "state_kind": {
+            "enum": ["VALUE", "MEMORY_CONTENT", "OBJECT_REFERENCE"]
+          },
+          "function_id": {"type": "string"},
+          "atom_id": {"type": "string"},
+          "object_id": {"type": "string"},
+          "pointee_object_id": {"type": "string"},
+          "region": {"type": "object"},
+          "predecessor_association_id": {"type": "string"},
+          "relation_kind": {"type": "string", "minLength": 1},
+          "site_id": {"type": "string"},
+          "precision": {"enum": ["EXACT", "MAY"]},
+          "evidence": {"type": "object"}
+        }
+      }
+    },
+    "shared_objects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "object_id",
+          "transfer_semantics",
+          "source_lineage_ids",
+          "writers",
+          "readers",
+          "recognition"
+        ],
+        "properties": {
+          "object_id": {"type": "string", "minLength": 1},
+          "transfer_semantics": {
+            "enum": ["MEMORY_CONTENT", "OBJECT_REFERENCE"]
+          },
+          "source_lineage_ids": {
+            "type": "array",
+            "minItems": 1,
+            "items": {"type": "string", "minLength": 1}
+          },
+          "writers": {"type": "array", "minItems": 1},
+          "readers": {"type": "array", "minItems": 1},
+          "recognition": {"enum": ["deterministic", "heuristic"]}
+        }
+      }
+    },
+    "nodes": {"type": "array"},
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "edge_id",
+          "src_node_id",
+          "dst_node_id",
+          "edge_kind",
+          "site_id"
+        ],
+        "properties": {
+          "edge_kind": {
+            "enum": ["CALL", "CALLIND", "CHANNEL_WRITE", "CHANNEL_READ"]
+          },
+          "transfer_semantics": {
+            "enum": ["MEMORY_CONTENT", "OBJECT_REFERENCE"]
+          },
+          "reference_binding": {"type": "object"}
+        }
+      }
+    },
+    "call_edges": {"type": "array"},
+    "channel_edges": {"type": "array"},
+    "channel_blockers": {"type": "array"},
+    "counts": {"type": "object"}
+  }
+}

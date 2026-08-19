@@ -1,0 +1,263 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coppertrace.local/schemas/channel_graph.v2.schema.json",
+  "title": "CopperTrace Mini ChannelGraph v2",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "function_nodes",
+    "object_nodes",
+    "nodes",
+    "edges",
+    "call_edges",
+    "channel_edges",
+    "candidate_channel_edges",
+    "channel_blockers",
+    "counts"
+  ],
+  "properties": {
+    "schema_version": {"const": "ct-mini-channel-graph-v2"},
+    "strict_traversal_surface": {"const": "channel_edges"},
+    "dispatch_resolution": {
+      "type": "object",
+      "required": ["counts", "applied_unique_targets"],
+      "properties": {
+        "counts": {"type": "object"},
+        "applied_unique_targets": {"type": "integer", "minimum": 0}
+      }
+    },
+    "function_nodes": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/functionNode"}
+    },
+    "object_nodes": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/objectNode"}
+    },
+    "nodes": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/unifiedNode"}
+    },
+    "edges": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/unifiedEdge"}
+    },
+    "call_edges": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/callEdge"}
+    },
+    "channel_edges": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/channelEdge"}
+    },
+    "candidate_channel_edges": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/candidateEdge"}
+    },
+    "channel_blockers": {
+      "type": "array",
+      "items": {"type": "object"}
+    },
+    "value_object_bindings": {"type": "array", "items": {"type": "object"}},
+    "counts": {"type": "object"}
+  },
+  "$defs": {
+    "unifiedNode": {
+      "oneOf": [
+        {
+          "allOf": [
+            {"$ref": "#/$defs/functionNode"},
+            {
+              "required": ["node_kind"],
+              "properties": {"node_kind": {"const": "FUNCTION"}}
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {"$ref": "#/$defs/objectNode"},
+            {
+              "required": ["node_kind", "strict_shared_object"],
+              "properties": {
+                "node_kind": {"const": "SHARED_OBJECT"},
+                "strict_shared_object": {"const": true}
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "unifiedEdge": {
+      "oneOf": [
+        {"$ref": "#/$defs/callEdge"},
+        {"$ref": "#/$defs/channelEdge"}
+      ]
+    },
+    "functionNode": {
+      "type": "object",
+      "required": ["node_id"],
+      "properties": {
+        "node_id": {"type": "string", "minLength": 1},
+        "deterministic_context_id": {"type": "string"},
+        "deterministic_context_ids": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1},
+          "uniqueItems": true
+        },
+        "context_blockers": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1},
+          "uniqueItems": true
+        }
+      }
+    },
+    "objectNode": {
+      "type": "object",
+      "required": ["node_id"],
+      "properties": {
+        "node_id": {"type": "string", "minLength": 1},
+        "object_id": {"type": "string"},
+        "base_object_id": {"type": "string"},
+        "writable": {"type": "boolean"},
+        "is_stack": {"type": "boolean"},
+        "is_rom": {"type": "boolean"},
+        "shared_object": {"type": "boolean"},
+        "strict_shared_object": {"type": "boolean"},
+        "shared_object_candidate": {"type": "boolean"},
+        "shared_blockers": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1},
+          "uniqueItems": true
+        }
+      }
+    },
+    "commonEdge": {
+      "type": "object",
+      "required": ["edge_id", "src_node_id", "dst_node_id", "site_id", "edge_kind"],
+      "properties": {
+        "edge_id": {"type": "string", "minLength": 1},
+        "src_node_id": {"type": "string"},
+        "dst_node_id": {"type": "string"},
+        "site_id": {"type": "string"},
+        "edge_kind": {"type": "string"}
+      }
+    },
+    "callEdge": {
+      "allOf": [
+        {"$ref": "#/$defs/commonEdge"},
+        {
+          "properties": {
+            "edge_kind": {"enum": ["CALL", "CALLIND"]},
+            "resolution": {
+              "enum": ["DIRECT", "EXACT_INDIRECT_TARGET", "UNRESOLVED_INDIRECT"]
+            },
+            "argument_value_ids": {"type": "array", "items": {"type": "string"}},
+            "resolved_argument_object_ids": {"type": "array", "items": {"type": "string"}},
+            "formal_parameter_object_ids": {"type": "array", "items": {"type": "string"}},
+            "resolution_kind": {"type": "string"},
+            "resolution_evidence": {"type": "array", "items": {"type": "object"}}
+          }
+        }
+      ]
+    },
+    "region": {
+      "type": "object",
+      "required": [
+        "region_id",
+        "base_object_id",
+        "offset",
+        "extent",
+        "start",
+        "end",
+        "writable",
+        "is_stack",
+        "is_rom"
+      ],
+      "properties": {
+        "region_id": {"type": "string", "minLength": 1},
+        "base_object_id": {"type": "string", "minLength": 1},
+        "offset": {"type": "integer", "minimum": 0},
+        "extent": {"type": "integer", "minimum": 1},
+        "start": {"type": "string", "minLength": 1},
+        "end": {"type": "string", "minLength": 1},
+        "writable": {"const": true},
+        "is_stack": {"const": false},
+        "is_rom": {"const": false}
+      }
+    },
+    "channelEdge": {
+      "allOf": [
+        {"$ref": "#/$defs/commonEdge"},
+        {
+          "type": "object",
+          "required": [
+            "object_id",
+            "base_object_id",
+            "region_id",
+            "region_offset",
+            "region_extent",
+            "region",
+            "context_id",
+            "deterministic_context_ids",
+            "paired_edge_ids",
+            "strict",
+            "candidate_only",
+            "traversable"
+          ],
+          "properties": {
+            "edge_kind": {"enum": ["CHANNEL_WRITE", "CHANNEL_READ"]},
+            "object_id": {"type": "string", "minLength": 1},
+            "base_object_id": {"type": "string", "minLength": 1},
+            "region_id": {"type": "string", "minLength": 1},
+            "region_offset": {"type": "integer", "minimum": 0},
+            "region_extent": {"type": "integer", "minimum": 1},
+            "region": {"$ref": "#/$defs/region"},
+            "context_id": {"type": "string", "minLength": 1},
+            "deterministic_context_ids": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 1,
+              "items": {"type": "string", "minLength": 1}
+            },
+            "paired_edge_ids": {
+              "type": "array",
+              "minItems": 1,
+              "items": {"type": "string", "minLength": 1},
+              "uniqueItems": true
+            },
+            "strict": {"const": true},
+            "candidate_only": {"const": false},
+            "traversable": {"const": true},
+            "source_definition_id": {"type": "string", "minLength": 1}
+          },
+          "allOf": [
+            {
+              "if": {"properties": {"edge_kind": {"const": "CHANNEL_WRITE"}}},
+              "then": {"required": ["source_definition_id"]}
+            }
+          ]
+        }
+      ]
+    },
+    "candidateEdge": {
+      "allOf": [
+        {"$ref": "#/$defs/commonEdge"},
+        {
+          "type": "object",
+          "required": ["candidate_only", "traversable", "candidate_class"],
+          "properties": {
+            "edge_kind": {"enum": ["OBJECT_WRITE", "OBJECT_READ"]},
+            "candidate_only": {"const": true},
+            "traversable": {"const": false},
+            "candidate_class": {"type": "string", "minLength": 1},
+            "analysis_blockers": {
+              "type": "array",
+              "items": {"type": "string", "minLength": 1},
+              "uniqueItems": true
+            }
+          }
+        }
+      ]
+    }
+  }
+}

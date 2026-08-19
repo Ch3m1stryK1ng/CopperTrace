@@ -1,0 +1,72 @@
+{
+  "schema_version": "ct-mini-hardware-metadata-v2",
+  "scope": "platform",
+  "platform_id": "microchip-sam4e16e",
+  "metadata_source": "trusted_platform_summary",
+  "evidence_source": "vendor_register_header+devicetree+role_overlay",
+  "evidence_reference": "Zephyr sam4e.dtsi; NuttX sam34/sam_spi.h; Microchip SAM4E Series Datasheet",
+  "binary_identity": {
+    "required_symbols": [
+      {
+        "name": "CONFIG_SOC_PART_NUMBER_SAM4E16E",
+        "value": "0x1"
+      }
+    ]
+  },
+  "mmio_ranges": [
+    {
+      "start": "0x40000000",
+      "end": "0x5fffffff",
+      "name": "arm_external_peripheral_space",
+      "evidence_source": "architecture_and_vendor_memory_map",
+      "evidence_reference": "Microchip SAM4E memory map"
+    }
+  ],
+  "peripheral_instances": [
+    {
+      "peripheral_instance": "SPI0",
+      "peripheral_type": "Spi",
+      "instance_base": "0x40088000",
+      "evidence_source": "Zephyr devicetree",
+      "evidence_reference": "dts/arm/atmel/sam4e.dtsi: spi@40088000"
+    }
+  ],
+  "registers": [
+    {
+      "address": "0x40088008",
+      "instance_base": "0x40088000",
+      "field_offset": "0x8",
+      "peripheral_instance": "SPI0",
+      "peripheral_type": "Spi",
+      "register": "SPI_RDR",
+      "role": "RX_DATA",
+      "evidence_source": "vendor_register_header",
+      "evidence_reference": "NuttX sam34/sam_spi.h: SAM_SPI_RDR_OFFSET=0x0008 Receive Data Register"
+    },
+    {
+      "address": "0x4008800c",
+      "instance_base": "0x40088000",
+      "field_offset": "0xc",
+      "peripheral_instance": "SPI0",
+      "peripheral_type": "Spi",
+      "register": "SPI_TDR",
+      "role": "TX_DATA",
+      "evidence_source": "vendor_register_header",
+      "evidence_reference": "NuttX sam34/sam_spi.h: Transmit Data Register"
+    },
+    {
+      "address": "0x40088010",
+      "instance_base": "0x40088000",
+      "field_offset": "0x10",
+      "peripheral_instance": "SPI0",
+      "peripheral_type": "Spi",
+      "register": "SPI_SR",
+      "role": "STATUS",
+      "evidence_source": "vendor_register_header",
+      "evidence_reference": "NuttX sam34/sam_spi.h: Status Register"
+    }
+  ],
+  "evidence_urls": [
+    "https://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-11157-32-bit-Cortex-M4-Microcontroller-SAM4E_Datasheet.pdf"
+  ]
+}

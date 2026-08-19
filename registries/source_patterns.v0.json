@@ -1,0 +1,152 @@
+{
+  "schema_version": "ct-mini-source-patterns-v1",
+  "name": "mcu_source_patterns_v1",
+  "source_labels": [
+    "MMIO_READ",
+    "ISR_MMIO_READ",
+    "ISR_FILLED_BUFFER",
+    "DMA_BACKED_BUFFER",
+    "BYTE_STREAM_INGRESS",
+    "CONTROL_STATE",
+    "SENSOR_INPUT"
+  ],
+  "policy": {
+    "core_registry_scope": "generalized_patterns_only",
+    "no_exact_sample_or_cve_function_shortcuts": true,
+    "confirmation_classes": {
+      "deterministic_high_pcode": "A peripheral value is connected to an exact Source Buffer/Object by High P-code def-use and the register or API role is independently known.",
+      "trusted_summary": "A generalized platform/API summary with versioned provenance is instantiated at a statically bound callsite.",
+      "heuristic_structural": "Generalized structural evidence admits a possible ingress endpoint for backward DFA without claiming deterministic source semantics.",
+      "drop_local_heuristic": "The candidate does not satisfy the local admission threshold; this is not proof that the value is internally generated.",
+      "raw_observation": "MMIO/status/config access without a source-buffer proof; never enters sources.json."
+    },
+    "notes": [
+      "Core Source Miner must not directly confirm a source only because a function name matches a sample/framework-specific API.",
+      "Exact sample/framework function summaries are intentionally excluded from this core registry.",
+      "Those summaries may be reintroduced later only as explicit framework-assisted packs and must be reported separately from generic-only results.",
+      "Unknown MMIO addresses never become confirmed merely because their values are written into memory.",
+      "ISR naming is context evidence only; it does not prove peripheral ingress.",
+      "Every confirmed Source must bind a stable site_id and one typed output: ObjectId for memory, ValueId for a scalar, or the verified SiteId for an event. A memory buffer is not mandatory for scalar/control/event Sources."
+    ]
+  },
+  "deterministic_api_sources": [],
+  "source_return_apis": [],
+  "framework_parameter_sources": [],
+  "body_derived_source_summaries": {
+    "enabled": true,
+    "description": "Infer source-producing functions from their body, not from exact API names. A function becomes a source summary when it writes a peripheral/MMIO data value into a formal buffer argument.",
+    "max_wrapper_depth": 3,
+    "callsite_label": "BYTE_STREAM_INGRESS",
+    "callsite_source_kind": "body_derived_peripheral_stream_into_actual_buffer"
+  },
+  "structural_software_interface_patterns": {
+    "recognition": "heuristic",
+    "rules": [
+      {
+        "id": "duplex_transfer_receive_output",
+        "description": "A resolved call has two typed pointer/length pairs; one is exactly NULL/0 and the other binds a variable receive buffer and extent."
+      },
+      {
+        "id": "callback_table_output_copy",
+        "description": "A function referenced by one initialized ELF object copies a static writable frame object into a pointer formal and returns a value derived from that copy extent."
+      }
+    ],
+    "prohibited_evidence": [
+      "CVE identifier",
+      "sample identifier",
+      "exact customized function name"
+    ]
+  },
+  "mmio_data_register_to_buffer": {
+    "label": "MMIO_READ",
+    "source_kind": "peripheral_data_register_to_buffer",
+    "data_register_names": [
+      "DR",
+      "RDR",
+      "RXD",
+      "RXDATA",
+      "RXDR",
+      "RHR",
+      "FIFO",
+      "DATA",
+      "SPI_RDR"
+    ],
+    "status_register_names": [
+      "SR",
+      "ISR",
+      "CSR",
+      "STATUS",
+      "FLAG"
+    ],
+    "control_register_names": [
+      "CR",
+      "CR1",
+      "CR2",
+      "CCR",
+      "CTRL",
+      "CFG",
+      "CONFIG"
+    ]
+  },
+  "dma_descriptor_patterns": {
+    "label": "DMA_BACKED_BUFFER",
+    "required_proof": [
+      "same_descriptor_or_configuration_function",
+      "stored_value_provenance",
+      "exact_ram_destination",
+      "peripheral_to_memory_direction"
+    ],
+    "address_register_names": ["M0AR", "M1AR", "CMAR", "DSTADDR", "DADDR"],
+    "peripheral_register_names": ["PAR", "CPAR", "SRCADDR", "SADDR"],
+    "count_register_names": ["NDTR", "CNDTR", "COUNT", "LEN"],
+    "direction_tokens": ["RX", "RECEIVE", "PERIPH_TO_MEM"],
+    "default_route_when_incomplete": "heuristic_local_decision"
+  },
+  "semantic_ingress_triggers": {
+    "function_tokens": [
+      "recv",
+      "receive",
+      "read",
+      "incoming",
+      "input",
+      "rx",
+      "transceive",
+      "transfer"
+    ],
+    "buffer_tokens": [
+      "buf",
+      "buffer",
+      "data",
+      "payload",
+      "packet",
+      "pkt",
+      "msg",
+      "frame"
+    ],
+    "default_route": "heuristic_local_decision"
+  },
+  "semantic_callsite_triggers": {
+    "callee_tokens": [
+      "recv",
+      "receive",
+      "read",
+      "rx",
+      "input",
+      "transceive",
+      "transfer"
+    ],
+    "control_state_tokens": [],
+    "return_value_tokens": [],
+    "default_route": "heuristic_local_decision"
+  },
+  "ignore_or_raw_observation": [
+    {
+      "name": "status_polling_only",
+      "description": "Status/control MMIO values used only in branch or polling conditions are raw observations, not confirmed sources."
+    },
+    {
+      "name": "init_config_only",
+      "description": "init/config/setup/clock functions without source_buffer binding are ignored by the first source-miner interface."
+    }
+  ]
+}

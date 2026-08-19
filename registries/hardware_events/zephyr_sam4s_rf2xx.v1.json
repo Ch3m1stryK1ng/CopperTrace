@@ -1,0 +1,35 @@
+{
+  "schema_version": "ct-mini-hardware-events-v1",
+  "target_family": "Zephyr SAM4S with AT86RF2xx over Xplained header",
+  "models": [
+    {
+      "name": "rf2xx_gpio_irq_status",
+      "kind": "gpio_irq_status",
+      "function_symbol": "gpio_sam_isr",
+      "function_offset": "0x6",
+      "register_address": "0x400e104c",
+      "config_symbol": "rf2xx_ctx_config_0",
+      "pin_field_offset": "0x4",
+      "pin_field_size": 4,
+      "metadata_reference": "rf2xx irq_gpio pin; gpio_sam_isr reads PIOB_ISR"
+    },
+    {
+      "name": "spi_sam_finish_rx_drain",
+      "kind": "discarded_mmio_read",
+      "function_symbol": "spi_sam_finish",
+      "function_offset": "0xe",
+      "register_address": "0x40008008",
+      "value": 0,
+      "metadata_reference": "spi_sam_finish reads SPI_RDR only to drain the final byte; the loaded value has no data-flow use"
+    },
+    {
+      "name": "rf231_rx_after_interface_up",
+      "kind": "interrupt_trigger",
+      "trigger_name": "rf231_rx",
+      "function_symbol": "net_if_up",
+      "function_offset": "0x3c",
+      "irq": 28,
+      "metadata_reference": "trigger RF231 RX only after net_if_up has atomically committed NET_IF_UP; this avoids an interface-down packet drop"
+    }
+  ]
+}

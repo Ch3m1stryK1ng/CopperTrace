@@ -1,0 +1,92 @@
+{
+  "schema_version": "ct-mini-hardware-metadata-v2",
+  "scope": "platform",
+  "platform_id": "ti-cc2538-rfcore",
+  "metadata_source": "trusted_platform_summary",
+  "profile_id": "ti-cc2538-rfcore-v1",
+  "evidence_source": "vendor_header_and_manual",
+  "evidence_reference": "Texas Instruments CC2538 User's Guide; Contiki-NG cc2538-reg.h RFCORE_SFR_RFDATA",
+  "mmio_ranges": [
+    {
+      "name": "cc2538_peripheral_space",
+      "start": "0x40000000",
+      "end": "0x5fffffff",
+      "evidence_source": "vendor_memory_map",
+      "evidence_reference": "Texas Instruments CC2538 User's Guide"
+    }
+  ],
+  "peripheral_instances": [
+    {
+      "peripheral_instance": "RFCORE",
+      "peripheral_type": "IEEE802154_RADIO",
+      "instance_base": "0x40088800",
+      "evidence_source": "vendor_header_and_manual",
+      "evidence_reference": "Contiki-NG cc2538-reg.h and Texas Instruments CC2538 User's Guide"
+    }
+  ],
+  "registers": [
+    {
+      "address": "0x40088624",
+      "instance_base": "0x40088600",
+      "field_offset": "0x24",
+      "peripheral_instance": "RFCORE",
+      "peripheral_type": "IEEE802154_RADIO",
+      "register": "RFCORE_XREG_FRMCTRL0",
+      "role": "CONTROL",
+      "access": "read-write",
+      "evidence_source": "vendor_header_and_manual",
+      "evidence_reference": "Contiki-NG rfcore-xreg.h: RFCORE_XREG_FRMCTRL0 Frame handling; Texas Instruments CC2538 User's Guide"
+    },
+    {
+      "address": "0x4008862c",
+      "instance_base": "0x40088600",
+      "field_offset": "0x2c",
+      "peripheral_instance": "RFCORE",
+      "peripheral_type": "IEEE802154_RADIO",
+      "register": "RFCORE_XREG_RXENABLE",
+      "role": "CONTROL",
+      "access": "read-write",
+      "evidence_source": "vendor_header_and_manual",
+      "evidence_reference": "Contiki-NG rfcore-xreg.h: RFCORE_XREG_RXENABLE RX enabling; Texas Instruments CC2538 User's Guide"
+    },
+    {
+      "address": "0x4008864c",
+      "instance_base": "0x40088600",
+      "field_offset": "0x4c",
+      "peripheral_instance": "RFCORE",
+      "peripheral_type": "IEEE802154_RADIO",
+      "register": "RFCORE_XREG_FSMSTAT1",
+      "role": "STATUS",
+      "access": "read-only",
+      "evidence_source": "vendor_header_and_manual",
+      "evidence_reference": "Contiki-NG rfcore-xreg.h: RFCORE_XREG_FSMSTAT1 Radio status register; Texas Instruments CC2538 User's Guide"
+    },
+    {
+      "address": "0x40088664",
+      "instance_base": "0x40088600",
+      "field_offset": "0x64",
+      "peripheral_instance": "RFCORE",
+      "peripheral_type": "IEEE802154_RADIO",
+      "register": "RFCORE_XREG_RSSISTAT",
+      "role": "STATUS",
+      "access": "read-only",
+      "evidence_source": "vendor_header_and_manual",
+      "evidence_reference": "Contiki-NG rfcore-xreg.h: RFCORE_XREG_RSSISTAT RSSI valid status; Texas Instruments CC2538 User's Guide"
+    },
+    {
+      "address": "0x40088828",
+      "instance_base": "0x40088800",
+      "field_offset": "0x28",
+      "peripheral_instance": "RFCORE",
+      "peripheral_type": "IEEE802154_RADIO",
+      "register": "RFCORE_SFR_RFDATA",
+      "role": "RX_DATA",
+      "access": "read-write",
+      "expected_behaviors": [
+        "LOAD"
+      ],
+      "evidence_source": "vendor_header_and_manual",
+      "evidence_reference": "Contiki-NG cc2538-reg.h and Texas Instruments CC2538 User's Guide"
+    }
+  ]
+}

@@ -1,0 +1,582 @@
+{
+  "$schema": "../schemas/software_source_summary.schema.json",
+  "schema_version": "ct-mini-software-source-summary-v1",
+  "pack_id": "mango_compat",
+  "pack_kind": "compatibility",
+  "activation": "explicit",
+  "description": "Revision-pinned software Source and handle-provenance summaries reproducing operation-mango-public's external-input handlers without adding Mango- or vendor-specific names to CopperTrace's generalized core.",
+  "policy": {
+    "name_matching": "exact",
+    "generalized_core_import": "allow_only_entries_with_core_eligible_true",
+    "compatibility_specific_core_eligible": false,
+    "declared_input_without_handler": "inventory_only",
+    "notes": [
+      "This pack must be enabled explicitly as mango_compat.",
+      "compatibility_specific entries are exact Mango, vendor, or library-extension symbols and are never generalized-core seeds.",
+      "A Mango input marker without a handler is recorded for coverage but does not create a deterministic Source summary."
+    ]
+  },
+  "upstream": {
+    "repository": "git@github.com:Ch3m1stryK1ng/operation-mango-public.git",
+    "revision": "a26bf93fec67929a9e13d9a1abfde8811e5f2f97",
+    "revision_date": "2024-10-30T20:30:58-07:00",
+    "files": [
+      {"path": "package/argument_resolver/external_function/input_functions.py", "sha256": "ba66046f41d4f5aa77f382e734cf9a339460d8098faa88078c6822d79e15b03e"},
+      {"path": "package/argument_resolver/external_function/sink/sink_lists.py", "sha256": "1e33315f826483753db6f3f200472f250cc415567822c8bcdc887f3f32aafbb3"},
+      {"path": "package/argument_resolver/external_function/function_declarations/custom.py", "sha256": "12de4595dd745823a42f442fee5ec792d7f6dea6a14a4bedbb12fb45cd514689"},
+      {"path": "package/argument_resolver/external_function/function_declarations/nvram.py", "sha256": "fda34cc37a739d094cf463791b2834588625debf7c8de8967724519539f1e62c"},
+      {"path": "package/argument_resolver/handlers/base.py", "sha256": "219818fb0317566ac3ed4b818f455aa97892d2501e361f005d6a18e1cccf1a51"},
+      {"path": "package/argument_resolver/utils/calling_convention.py", "sha256": "c9d29373290d16140e27c49c5ee76786a27ed7293ab2632fdfa01b8dcaa2178f"},
+      {"path": "package/argument_resolver/handlers/network.py", "sha256": "34bde9cff4f4a56e8571699aea4e1d596349a53b3ad5fda3d88bf77b65ecf0b2"},
+      {"path": "package/argument_resolver/handlers/unistd.py", "sha256": "98982f820d294bfcedbfeb18badf1b4567359699c52af9517273fc237a9d65be"},
+      {"path": "package/argument_resolver/handlers/stdio.py", "sha256": "e5138833beb77f212ac9c8fcd9beb2f4bd1f853f3bf3f73a4f5fbec123be20d6"},
+      {"path": "package/argument_resolver/handlers/stdlib.py", "sha256": "53e7f73dddb83ca414b7110e9e530f23239813d9f6c9e455e1152a30510d778f"},
+      {"path": "package/argument_resolver/handlers/nvram.py", "sha256": "9bb3f9db9849572b06fabcfdf1cf8bb643a1eabfd93b035cc67e16627b16284a"},
+      {"path": "package/argument_resolver/handlers/url_param.py", "sha256": "a6579f53bd9e2a6806c866af0b83084ca5df3b07113dd82fe250d60cba81dae1"}
+    ]
+  },
+  "source_defaults": {
+    "max_symbolic_read_bytes": 32,
+    "fread_hard_cap_bytes": 4096,
+    "handle_tracker": "HandlerBase.fd_tracker",
+    "first_synthetic_handle": 3,
+    "provenance": [
+      {"path": "package/argument_resolver/handlers/base.py", "line": 41, "symbol": "HandlerBase.MAX_READ_SIZE"},
+      {"path": "package/argument_resolver/handlers/base.py", "line": 76, "symbol": "HandlerBase.fd_tracker"},
+      {"path": "package/argument_resolver/handlers/base.py", "line": 91, "symbol": "HandlerBase.gen_fd"}
+    ]
+  },
+  "initial_handles": [
+    {
+      "value": 0,
+      "name": "stdin",
+      "kind": "file_descriptor",
+      "ingress_capable": true,
+      "source_channel": {"kind": "stdio_stream", "derivation": "fixed fd_tracker entry 0"},
+      "provenance": {"path": "package/argument_resolver/handlers/base.py", "line": 77, "symbol": "HandlerBase.fd_tracker[0]"}
+    },
+    {
+      "value": 1,
+      "name": "stdout",
+      "kind": "file_descriptor",
+      "ingress_capable": false,
+      "source_channel": {"kind": "none", "derivation": "fixed output-only fd_tracker entry 1"},
+      "provenance": {"path": "package/argument_resolver/handlers/base.py", "line": 78, "symbol": "HandlerBase.fd_tracker[1]"}
+    },
+    {
+      "value": 2,
+      "name": "stderr",
+      "kind": "file_descriptor",
+      "ingress_capable": false,
+      "source_channel": {"kind": "none", "derivation": "fixed output-only fd_tracker entry 2"},
+      "provenance": {"path": "package/argument_resolver/handlers/base.py", "line": 79, "symbol": "HandlerBase.fd_tracker[2]"}
+    }
+  ],
+  "input_function_inventory": [
+    {"name": "read", "origin": "direct_literal", "handler_status": "modeled", "compatibility_specific": false, "core_eligible": true, "summary_id": "mango-compat.read", "provenance": [{"path": "package/argument_resolver/external_function/input_functions.py", "line": 7, "symbol": "INPUT_EXTERNAL_FUNCTIONS.read"}]},
+    {"name": "fread", "origin": "direct_literal", "handler_status": "modeled", "compatibility_specific": false, "core_eligible": true, "summary_id": "mango-compat.fread", "provenance": [{"path": "package/argument_resolver/external_function/input_functions.py", "line": 8, "symbol": "INPUT_EXTERNAL_FUNCTIONS.fread"}]},
+    {"name": "fgets", "origin": "direct_literal", "handler_status": "modeled", "compatibility_specific": false, "core_eligible": true, "summary_id": "mango-compat.fgets", "provenance": [{"path": "package/argument_resolver/external_function/input_functions.py", "line": 9, "symbol": "INPUT_EXTERNAL_FUNCTIONS.fgets"}]},
+    {"name": "recv", "origin": "direct_literal", "handler_status": "modeled", "compatibility_specific": false, "core_eligible": true, "summary_id": "mango-compat.recv", "provenance": [{"path": "package/argument_resolver/external_function/input_functions.py", "line": 10, "symbol": "INPUT_EXTERNAL_FUNCTIONS.recv"}]},
+    {"name": "recvfrom", "origin": "direct_literal", "handler_status": "modeled", "compatibility_specific": false, "core_eligible": true, "summary_id": "mango-compat.recvfrom", "provenance": [{"path": "package/argument_resolver/external_function/input_functions.py", "line": 11, "symbol": "INPUT_EXTERNAL_FUNCTIONS.recvfrom"}]},
+    {"name": "custom_param_parser", "origin": "direct_literal", "handler_status": "modeled", "compatibility_specific": true, "core_eligible": false, "summary_id": "mango-compat.custom-param-parser", "provenance": [{"path": "package/argument_resolver/external_function/input_functions.py", "line": 12, "symbol": "INPUT_EXTERNAL_FUNCTIONS.custom_param_parser"}]},
+    {"name": "getenv", "origin": "getter_union", "handler_status": "modeled", "compatibility_specific": false, "core_eligible": true, "summary_id": "mango-compat.getenv", "provenance": [{"path": "package/argument_resolver/external_function/sink/sink_lists.py", "line": 75, "symbol": "GETTER_SINKS.getenv"}, {"path": "package/argument_resolver/external_function/input_functions.py", "line": 13, "symbol": "VULN_TYPES.getter union"}]},
+    {"name": "GetValue", "origin": "getter_union", "handler_status": "modeled", "compatibility_specific": true, "core_eligible": false, "summary_id": "mango-compat.getvalue", "provenance": [{"path": "package/argument_resolver/external_function/sink/sink_lists.py", "line": 76, "symbol": "GETTER_SINKS.GetValue"}, {"path": "package/argument_resolver/external_function/input_functions.py", "line": 13, "symbol": "VULN_TYPES.getter union"}]},
+    {"name": "acosNvramConfig_get", "origin": "getter_union", "handler_status": "modeled", "compatibility_specific": true, "core_eligible": false, "summary_id": "mango-compat.acos-nvram-config-get", "provenance": [{"path": "package/argument_resolver/external_function/sink/sink_lists.py", "line": 77, "symbol": "GETTER_SINKS.acosNvramConfig_get"}]},
+    {"name": "acosNvramConfig_read", "origin": "getter_union", "handler_status": "modeled", "compatibility_specific": true, "core_eligible": false, "summary_id": "mango-compat.acos-nvram-config-read", "provenance": [{"path": "package/argument_resolver/external_function/sink/sink_lists.py", "line": 78, "symbol": "GETTER_SINKS.acosNvramConfig_read"}]},
+    {"name": "nvram_get", "origin": "getter_union", "handler_status": "modeled", "compatibility_specific": true, "core_eligible": false, "summary_id": "mango-compat.nvram-get", "provenance": [{"path": "package/argument_resolver/external_function/sink/sink_lists.py", "line": 79, "symbol": "GETTER_SINKS.nvram_get"}]},
+    {"name": "nvram_safe_get", "origin": "getter_union", "handler_status": "modeled", "compatibility_specific": true, "core_eligible": false, "summary_id": "mango-compat.nvram-safe-get", "provenance": [{"path": "package/argument_resolver/external_function/sink/sink_lists.py", "line": 80, "symbol": "GETTER_SINKS.nvram_safe_get"}]},
+    {"name": "bcm_nvram_get", "origin": "getter_union", "handler_status": "modeled", "compatibility_specific": true, "core_eligible": false, "summary_id": "mango-compat.bcm-nvram-get", "provenance": [{"path": "package/argument_resolver/external_function/sink/sink_lists.py", "line": 81, "symbol": "GETTER_SINKS.bcm_nvram_get"}]},
+    {"name": "envram_get", "origin": "getter_union", "handler_status": "modeled", "compatibility_specific": true, "core_eligible": false, "summary_id": "mango-compat.envram-get", "provenance": [{"path": "package/argument_resolver/external_function/sink/sink_lists.py", "line": 82, "symbol": "GETTER_SINKS.envram_get"}]},
+    {"name": "wlcsm_nvram_get", "origin": "getter_union", "handler_status": "modeled", "compatibility_specific": true, "core_eligible": false, "summary_id": "mango-compat.wlcsm-nvram-get", "provenance": [{"path": "package/argument_resolver/external_function/sink/sink_lists.py", "line": 83, "symbol": "GETTER_SINKS.wlcsm_nvram_get"}]},
+    {"name": "dni_nvram_get", "origin": "getter_union", "handler_status": "declared_without_handler", "compatibility_specific": true, "core_eligible": false, "provenance": [{"path": "package/argument_resolver/external_function/sink/sink_lists.py", "line": 84, "symbol": "GETTER_SINKS.dni_nvram_get"}, {"path": "package/argument_resolver/external_function/function_declarations/nvram.py", "line": 117, "symbol": "libnvram_decls.dni_nvram_get"}]},
+    {"name": "PTI_nvram_get", "origin": "getter_union", "handler_status": "declared_without_handler", "compatibility_specific": true, "core_eligible": false, "provenance": [{"path": "package/argument_resolver/external_function/sink/sink_lists.py", "line": 85, "symbol": "GETTER_SINKS.PTI_nvram_get"}, {"path": "package/argument_resolver/external_function/function_declarations/nvram.py", "line": 130, "symbol": "libnvram_decls.PTI_nvram_get"}]}
+  ],
+  "api_summaries": [
+    {
+      "id": "mango-compat.socket",
+      "name": "socket",
+      "summary_kind": "handle_producer",
+      "compatibility_specific": false,
+      "core_eligible": true,
+      "handler": {"module": "package/argument_resolver/handlers/network.py", "class": "NetworkHandlers", "method": "handle_socket"},
+      "calling_convention": {"abi": "architecture_default", "lookup_name": "socket", "lookup_mode": "stored_function_name", "declaration_source": "angr_glibc", "declared_argument_count": 3, "maximum_consumed_argument_count": 3, "variadic": false, "trailing_arguments": "consumed", "notes": []},
+      "arguments": [
+        {"index": 0, "name": "domain", "role": "socket_domain", "direction": "in", "c_type": "int", "consumed_by_handler": true},
+        {"index": 1, "name": "type", "role": "socket_type", "direction": "in", "c_type": "int", "consumed_by_handler": true},
+        {"index": 2, "name": "protocol", "role": "socket_protocol", "direction": "in", "c_type": "int", "consumed_by_handler": true}
+      ],
+      "outputs": [{"role": "socket_handle", "carrier": "return", "value_kind": "handle", "external_data": false, "semantics": "Returns the next synthetic integer fd and records domain/type/protocol in fd_tracker with no parent."}],
+      "size": {"kind": "none", "expression": "no source buffer", "units": "bytes"},
+      "handle_provenance": {"tracker": "HandlerBase.fd_tracker", "produces_return_handle": true, "record_shape": "{val, parent, ins_addr}", "notes": ["parent is None and ins_addr is None"]},
+      "source_channel": {"kind": "network_socket", "derivation": "new socket root recorded from domain, type, and protocol"},
+      "provenance": [{"path": "package/argument_resolver/handlers/network.py", "line": 152, "symbol": "NetworkHandlers.handle_socket"}, {"path": "package/argument_resolver/handlers/base.py", "line": 91, "symbol": "HandlerBase.gen_fd"}],
+      "notes": ["Only AF_UNIX, AF_INET, AF_INET6 and STREAM/DGRAM/RAW receive friendly names; other concrete values are rendered numerically."]
+    },
+    {
+      "id": "mango-compat.accept",
+      "name": "accept",
+      "summary_kind": "handle_producer",
+      "compatibility_specific": false,
+      "core_eligible": true,
+      "handler": {"module": "package/argument_resolver/handlers/network.py", "class": "NetworkHandlers", "method": "handle_accept"},
+      "calling_convention": {"abi": "architecture_default", "lookup_name": "accept", "lookup_mode": "stored_function_name", "declaration_source": "angr_glibc", "declared_argument_count": 3, "maximum_consumed_argument_count": 1, "variadic": false, "trailing_arguments": "ignored", "notes": ["Mango consumes only the listening socket argument."]},
+      "arguments": [
+        {"index": 0, "name": "sockfd", "role": "parent_handle", "direction": "in", "c_type": "int", "consumed_by_handler": true},
+        {"index": 1, "name": "addr", "role": "peer_address_output", "direction": "out", "c_type": "struct sockaddr *", "consumed_by_handler": false},
+        {"index": 2, "name": "addrlen", "role": "peer_address_size", "direction": "inout", "c_type": "socklen_t *", "consumed_by_handler": false}
+      ],
+      "outputs": [{"role": "accepted_handle", "carrier": "return", "value_kind": "handle", "external_data": false, "semantics": "Returns a synthetic fd whose parent list contains each concrete tracked or untracked input fd value."}],
+      "size": {"kind": "none", "expression": "no source buffer", "units": "bytes"},
+      "handle_provenance": {"tracker": "HandlerBase.fd_tracker", "consumes_argument": 0, "produces_return_handle": true, "parent_argument": 0, "record_shape": "{val, parent, ins_addr}", "notes": ["The symbolic label includes the rendered parent fd values."]},
+      "source_channel": {"kind": "network_socket", "derivation": "child connection inherits the listening descriptor as parent"},
+      "provenance": [{"path": "package/argument_resolver/handlers/network.py", "line": 31, "symbol": "NetworkHandlers.handle_accept"}],
+      "notes": ["Peer address and address-length outputs are not modeled."]
+    },
+    {
+      "id": "mango-compat.recv",
+      "name": "recv",
+      "summary_kind": "source",
+      "compatibility_specific": false,
+      "core_eligible": true,
+      "handler": {"module": "package/argument_resolver/handlers/network.py", "class": "NetworkHandlers", "method": "handle_recv"},
+      "calling_convention": {"abi": "architecture_default", "lookup_name": "recv", "lookup_mode": "stored_function_name", "declaration_source": "angr_glibc", "declared_argument_count": 4, "maximum_consumed_argument_count": 3, "variadic": false, "trailing_arguments": "ignored", "notes": ["The flags argument is not consumed by _handle_recv."]},
+      "arguments": [
+        {"index": 0, "name": "sockfd", "role": "input_handle", "direction": "in", "c_type": "int", "consumed_by_handler": true},
+        {"index": 1, "name": "buf", "role": "output_buffer", "direction": "out", "c_type": "void *", "consumed_by_handler": true},
+        {"index": 2, "name": "len", "role": "requested_size", "direction": "in", "c_type": "size_t", "consumed_by_handler": true},
+        {"index": 3, "name": "flags", "role": "receive_flags", "direction": "in", "c_type": "int", "consumed_by_handler": false}
+      ],
+      "outputs": [
+        {"role": "output_buffer", "carrier": "argument_pointee", "argument_index": 1, "value_kind": "bytes", "external_data": true, "semantics": "Writes a TOP-tagged symbolic byte vector to each recognized stack, heap, or concrete memory destination."},
+        {"role": "return_value", "carrier": "return", "value_kind": "integer", "external_data": false, "semantics": "Returns the modeled buffer length len_max, not an independently symbolic received-byte count."}
+      ],
+      "available_extent": {"carrier": "return", "extent_for_role": "output_buffer", "proof_kind": "standard_recv_abi_return_count"},
+      "size": {"kind": "argument_bounded", "expression": "min(max(arch_bytes, max(concrete(arg[2]))), 32)", "units": "bytes", "cap_bytes": 32, "unknown_bytes": "arch_bytes", "notes": ["The accumulator starts at arch_bytes, so concrete zero does not produce a zero-sized model."]},
+      "handle_provenance": {"tracker": "HandlerBase.fd_tracker", "consumes_argument": 0, "produces_return_handle": false, "unresolved_parent": "?", "record_shape": "{val, parent, ins_addr}", "notes": ["Concrete tracked handles contribute their symbolic provenance and integer parent ids."]},
+      "source_channel": {"kind": "network_socket", "derivation": "fd_tracker provenance from sockfd; unknown parents render as ?"},
+      "provenance": [{"path": "package/argument_resolver/handlers/network.py", "line": 50, "symbol": "NetworkHandlers._handle_recv"}, {"path": "package/argument_resolver/handlers/network.py", "line": 125, "symbol": "NetworkHandlers.handle_recv"}],
+      "notes": ["The handler stores per-call Source records under fd_tracker['recv']."]
+    },
+    {
+      "id": "mango-compat.recvfrom",
+      "name": "recvfrom",
+      "summary_kind": "source",
+      "compatibility_specific": false,
+      "core_eligible": true,
+      "handler": {"module": "package/argument_resolver/handlers/network.py", "class": "NetworkHandlers", "method": "handle_recvfrom"},
+      "calling_convention": {"abi": "architecture_default", "lookup_name": "recvfrom", "lookup_mode": "stored_function_name", "declaration_source": "angr_glibc", "declared_argument_count": 6, "maximum_consumed_argument_count": 3, "variadic": false, "trailing_arguments": "ignored", "notes": ["Mango aliases recvfrom to _handle_recv and ignores flags, source address, and address length."]},
+      "arguments": [
+        {"index": 0, "name": "sockfd", "role": "input_handle", "direction": "in", "c_type": "int", "consumed_by_handler": true},
+        {"index": 1, "name": "buf", "role": "output_buffer", "direction": "out", "c_type": "void *", "consumed_by_handler": true},
+        {"index": 2, "name": "len", "role": "requested_size", "direction": "in", "c_type": "size_t", "consumed_by_handler": true},
+        {"index": 3, "name": "flags", "role": "receive_flags", "direction": "in", "c_type": "int", "consumed_by_handler": false},
+        {"index": 4, "name": "src_addr", "role": "peer_address_output", "direction": "out", "c_type": "struct sockaddr *", "consumed_by_handler": false},
+        {"index": 5, "name": "addrlen", "role": "peer_address_size", "direction": "inout", "c_type": "socklen_t *", "consumed_by_handler": false}
+      ],
+      "outputs": [
+        {"role": "output_buffer", "carrier": "argument_pointee", "argument_index": 1, "value_kind": "bytes", "external_data": true, "semantics": "Uses the same TOP-tagged stack/heap/concrete-memory write model as recv."},
+        {"role": "return_value", "carrier": "return", "value_kind": "integer", "external_data": false, "semantics": "Returns len_max rather than an independently symbolic receive count."}
+      ],
+      "available_extent": {"carrier": "return", "extent_for_role": "output_buffer", "proof_kind": "standard_recvfrom_abi_return_count"},
+      "size": {"kind": "argument_bounded", "expression": "min(max(arch_bytes, max(concrete(arg[2]))), 32)", "units": "bytes", "cap_bytes": 32, "unknown_bytes": "arch_bytes"},
+      "handle_provenance": {"tracker": "HandlerBase.fd_tracker", "consumes_argument": 0, "produces_return_handle": false, "unresolved_parent": "?", "record_shape": "{val, parent, ins_addr}", "notes": []},
+      "source_channel": {"kind": "network_socket", "derivation": "fd_tracker provenance from sockfd"},
+      "provenance": [{"path": "package/argument_resolver/handlers/network.py", "line": 50, "symbol": "NetworkHandlers._handle_recv"}, {"path": "package/argument_resolver/handlers/network.py", "line": 134, "symbol": "NetworkHandlers.handle_recvfrom"}],
+      "notes": ["No peer-address output is defined by the Mango handler."]
+    },
+    {
+      "id": "mango-compat.nflog-get-payload",
+      "name": "nflog_get_payload",
+      "summary_kind": "source",
+      "compatibility_specific": true,
+      "core_eligible": false,
+      "handler": {"module": "package/argument_resolver/handlers/network.py", "class": "NetworkHandlers", "method": "handle_nflog_get_payload"},
+      "calling_convention": {"abi": "architecture_default", "lookup_name": "nflog_get_payload", "lookup_mode": "stored_function_name", "declaration_source": "mango_custom", "declared_argument_count": 3, "maximum_consumed_argument_count": 3, "variadic": false, "trailing_arguments": "consumed", "notes": ["The custom declaration has three char-pointer arguments, while _handle_recv interprets them as handle, destination, and length."]},
+      "arguments": [
+        {"index": 0, "name": "arg0", "role": "input_handle", "direction": "in", "c_type": "char *", "consumed_by_handler": true, "notes": "Interpreted numerically as a tracked fd despite the custom pointer type."},
+        {"index": 1, "name": "arg1", "role": "output_buffer", "direction": "out", "c_type": "char *", "consumed_by_handler": true},
+        {"index": 2, "name": "arg2", "role": "requested_size", "direction": "in", "c_type": "char *", "consumed_by_handler": true, "notes": "Interpreted as an integer length despite the custom pointer type."}
+      ],
+      "outputs": [
+        {"role": "output_buffer", "carrier": "argument_pointee", "argument_index": 1, "value_kind": "bytes", "external_data": true, "semantics": "Reuses _handle_recv's TOP-tagged stack/heap/concrete-memory output."},
+        {"role": "return_value", "carrier": "return", "value_kind": "integer", "external_data": false, "semantics": "Returns the _handle_recv len_max model."}
+      ],
+      "size": {"kind": "argument_bounded", "expression": "min(max(arch_bytes, max(concrete(arg[2]))), 32)", "units": "bytes", "cap_bytes": 32, "unknown_bytes": "arch_bytes"},
+      "handle_provenance": {"tracker": "HandlerBase.fd_tracker", "consumes_argument": 0, "produces_return_handle": false, "unresolved_parent": "?", "record_shape": "{val, parent, ins_addr}", "notes": []},
+      "source_channel": {"kind": "network_packet_filter", "derivation": "Mango-specific reuse of network receive provenance"},
+      "provenance": [{"path": "package/argument_resolver/handlers/network.py", "line": 143, "symbol": "NetworkHandlers.handle_nflog_get_payload"}, {"path": "package/argument_resolver/external_function/function_declarations/custom.py", "line": 104, "symbol": "custom_decls.nflog_get_payload"}],
+      "notes": ["This source-producing handler is not present in INPUT_EXTERNAL_FUNCTIONS, so the compatibility summary records but does not erase that mismatch."]
+    },
+    {
+      "id": "mango-compat.open",
+      "name": "open",
+      "summary_kind": "handle_producer",
+      "compatibility_specific": false,
+      "core_eligible": true,
+      "handler": {"module": "package/argument_resolver/handlers/unistd.py", "class": "UnistdHandlers", "method": "handle_open"},
+      "calling_convention": {"abi": "architecture_default", "lookup_name": "fread", "lookup_mode": "fixed_name", "declaration_source": "angr_glibc", "declared_argument_count": 4, "maximum_consumed_argument_count": 2, "variadic": false, "trailing_arguments": "ignored", "notes": ["This faithfully records Mango's get_cc('fread') lookup bug. Only the first two argument locations are consumed as path and numeric flags/mode."]},
+      "arguments": [
+        {"index": 0, "name": "path", "role": "resource_name", "direction": "in", "c_type": "const char *", "consumed_by_handler": true},
+        {"index": 1, "name": "flags", "role": "open_mode", "direction": "in", "c_type": "int", "consumed_by_handler": true},
+        {"index": 2, "name": "mode", "role": "creation_mode", "direction": "in", "c_type": "mode_t", "consumed_by_handler": false, "condition": "present when creation flags require it"}
+      ],
+      "outputs": [{"role": "file_handle", "carrier": "return", "value_kind": "handle", "external_data": false, "semantics": "Returns a synthetic fd and stores a TOP-tagged label containing path and decoded O_RDONLY/O_WRONLY/O_RDWR mode."}],
+      "size": {"kind": "none", "expression": "no source buffer", "units": "bytes"},
+      "handle_provenance": {"tracker": "HandlerBase.fd_tracker", "produces_return_handle": true, "record_shape": "{val, parent, ins_addr}", "notes": ["parent and ins_addr are None"]},
+      "source_channel": {"kind": "filesystem", "derivation": "path and numeric open flags captured in the synthetic handle label"},
+      "provenance": [{"path": "package/argument_resolver/handlers/unistd.py", "line": 32, "symbol": "UnistdHandlers.handle_open"}],
+      "notes": ["The handler's docstring shows a nonstandard two-argument prototype and calls the second argument mode."]
+    },
+    {
+      "id": "mango-compat.read",
+      "name": "read",
+      "summary_kind": "source",
+      "compatibility_specific": false,
+      "core_eligible": true,
+      "handler": {"module": "package/argument_resolver/handlers/unistd.py", "class": "UnistdHandlers", "method": "handle_read"},
+      "calling_convention": {"abi": "architecture_default", "lookup_name": "read", "lookup_mode": "fixed_name", "declaration_source": "angr_glibc", "declared_argument_count": 3, "maximum_consumed_argument_count": 3, "variadic": false, "trailing_arguments": "consumed", "notes": []},
+      "arguments": [
+        {"index": 0, "name": "fd", "role": "input_handle", "direction": "in", "c_type": "int", "consumed_by_handler": true},
+        {"index": 1, "name": "buf", "role": "output_buffer", "direction": "out", "c_type": "void *", "consumed_by_handler": true},
+        {"index": 2, "name": "count", "role": "requested_size", "direction": "in", "c_type": "size_t", "consumed_by_handler": true}
+      ],
+      "outputs": [
+        {"role": "output_buffer", "carrier": "argument_pointee", "argument_index": 1, "value_kind": "bytes", "external_data": true, "semantics": "Defines only destinations that resolve to a stack offset; heap and global destinations are not modeled."},
+        {"role": "return_value", "carrier": "return", "value_kind": "integer", "external_data": false, "semantics": "Returns the original arg[2] MultiValues, effectively echoing requested count rather than bytes actually read."}
+      ],
+      "available_extent": {"carrier": "return", "extent_for_role": "output_buffer", "proof_kind": "standard_read_abi_return_count"},
+      "size": {"kind": "argument_bounded", "expression": "concrete arg[2]: min(value, 32); symbolic arg[2]: arch_bytes", "units": "bytes", "cap_bytes": 32, "unknown_bytes": "arch_bytes"},
+      "handle_provenance": {"tracker": "HandlerBase.fd_tracker", "consumes_argument": 0, "produces_return_handle": false, "unresolved_parent": "?", "record_shape": "{val, parent, ins_addr}", "notes": ["fd 0 resolves to the initial stdin label."]},
+      "source_channel": {"kind": "descriptor_inherited", "derivation": "fd_tracker parent from fd; may resolve to stdin, an opened file, or another tracked descriptor"},
+      "provenance": [{"path": "package/argument_resolver/handlers/unistd.py", "line": 82, "symbol": "UnistdHandlers.handle_read"}],
+      "notes": ["One output definition is attempted for every destination/count combination."]
+    },
+    {
+      "id": "mango-compat.fgets",
+      "name": "fgets",
+      "summary_kind": "source",
+      "compatibility_specific": false,
+      "core_eligible": true,
+      "handler": {"module": "package/argument_resolver/handlers/stdio.py", "class": "StdioHandlers", "method": "handle_fgets"},
+      "calling_convention": {"abi": "architecture_default", "lookup_name": "fgets", "lookup_mode": "fixed_name", "declaration_source": "angr_glibc", "declared_argument_count": 3, "maximum_consumed_argument_count": 3, "variadic": false, "trailing_arguments": "consumed", "notes": []},
+      "arguments": [
+        {"index": 0, "name": "s", "role": "output_buffer", "direction": "out", "c_type": "char *", "consumed_by_handler": true},
+        {"index": 1, "name": "size", "role": "requested_size", "direction": "in", "c_type": "int", "consumed_by_handler": true},
+        {"index": 2, "name": "stream", "role": "input_handle", "direction": "in", "c_type": "FILE *", "consumed_by_handler": true}
+      ],
+      "outputs": [
+        {"role": "output_buffer", "carrier": "argument_pointee", "argument_index": 0, "value_kind": "bytes", "external_data": true, "semantics": "Writes a TOP-tagged symbolic byte vector to each destination pointer without restricting its address space."},
+        {"role": "return_pointer", "carrier": "return", "value_kind": "pointer", "external_data": false, "semantics": "Returns the original destination-pointer MultiValues; failure/null is not modeled."}
+      ],
+      "size": {"kind": "argument_bounded", "expression": "min(max(concrete(arg[1])) if any concrete values else arch_bytes, 32)", "units": "bytes", "cap_bytes": 32, "unknown_bytes": "arch_bytes"},
+      "handle_provenance": {"tracker": "HandlerBase.fd_tracker", "consumes_argument": 2, "produces_return_handle": false, "unresolved_parent": "?", "record_shape": "{val, parent, ins_addr}", "notes": []},
+      "source_channel": {"kind": "stdio_stream", "derivation": "fd_tracker provenance from FILE * stream; unknown streams render as ?"},
+      "provenance": [{"path": "package/argument_resolver/handlers/stdio.py", "line": 469, "symbol": "StdioHandlers.handle_fgets"}],
+      "notes": ["The model does not reserve one byte for a terminating NUL."]
+    },
+    {
+      "id": "mango-compat.fopen",
+      "name": "fopen",
+      "summary_kind": "handle_producer",
+      "compatibility_specific": false,
+      "core_eligible": true,
+      "handler": {"module": "package/argument_resolver/handlers/stdio.py", "class": "StdioHandlers", "method": "handle_fopen"},
+      "calling_convention": {"abi": "architecture_default", "lookup_name": "fopen", "lookup_mode": "fixed_name", "declaration_source": "angr_glibc", "declared_argument_count": 2, "maximum_consumed_argument_count": 2, "variadic": false, "trailing_arguments": "consumed", "notes": []},
+      "arguments": [
+        {"index": 0, "name": "path", "role": "resource_name", "direction": "in", "c_type": "const char *", "consumed_by_handler": true},
+        {"index": 1, "name": "mode", "role": "open_mode", "direction": "in", "c_type": "const char *", "consumed_by_handler": true}
+      ],
+      "outputs": [{"role": "stream_handle", "carrier": "return", "value_kind": "handle", "external_data": false, "semantics": "Returns a synthetic integer used as a FILE handle and records concrete/symbolic path and mode strings."}],
+      "size": {"kind": "none", "expression": "no source buffer", "units": "bytes"},
+      "handle_provenance": {"tracker": "HandlerBase.fd_tracker", "produces_return_handle": true, "record_shape": "{val, parent, ins_addr}", "notes": ["parent and ins_addr are None"]},
+      "source_channel": {"kind": "filesystem", "derivation": "path and mode strings captured in the synthetic stream handle"},
+      "provenance": [{"path": "package/argument_resolver/handlers/stdio.py", "line": 526, "symbol": "StdioHandlers.handle_fopen"}],
+      "notes": ["The synthetic FILE handle shares the same integer fd_tracker namespace as descriptors and sockets."]
+    },
+    {
+      "id": "mango-compat.fread",
+      "name": "fread",
+      "summary_kind": "source",
+      "compatibility_specific": false,
+      "core_eligible": true,
+      "handler": {"module": "package/argument_resolver/handlers/stdio.py", "class": "StdioHandlers", "method": "handle_fread"},
+      "calling_convention": {"abi": "architecture_default", "lookup_name": "fread", "lookup_mode": "fixed_name", "declaration_source": "angr_glibc", "declared_argument_count": 4, "maximum_consumed_argument_count": 4, "variadic": false, "trailing_arguments": "consumed", "notes": []},
+      "arguments": [
+        {"index": 0, "name": "ptr", "role": "output_buffer", "direction": "out", "c_type": "void *", "consumed_by_handler": true},
+        {"index": 1, "name": "size", "role": "element_size", "direction": "in", "c_type": "size_t", "consumed_by_handler": true},
+        {"index": 2, "name": "nmemb", "role": "element_count", "direction": "in", "c_type": "size_t", "consumed_by_handler": true},
+        {"index": 3, "name": "stream", "role": "input_handle", "direction": "in", "c_type": "FILE *", "consumed_by_handler": true}
+      ],
+      "outputs": [
+        {"role": "output_buffer", "carrier": "argument_pointee", "argument_index": 0, "value_kind": "bytes", "external_data": true, "semantics": "Writes a TOP-tagged symbolic vector to each destination pointer and applies the dependency at the callsite."},
+        {"role": "return_value", "carrier": "return", "value_kind": "integer", "external_data": false, "semantics": "Returns an architecture-width TOP value with no relation to size, nmemb, or the output bytes."}
+      ],
+      "size": {"kind": "product_bounded", "expression": "min((max(concrete(arg[1])) or arch_bytes) * (max(concrete(arg[2])) or arch_bytes), 4096)", "units": "bytes", "cap_bytes": 4096, "unknown_bytes": "arch_bytes for each unknown factor"},
+      "handle_provenance": {"tracker": "HandlerBase.fd_tracker", "consumes_argument": 3, "produces_return_handle": false, "unresolved_parent": "?", "record_shape": "{val, parent, ins_addr}", "notes": []},
+      "source_channel": {"kind": "stdio_stream", "derivation": "fd_tracker provenance from FILE * stream"},
+      "provenance": [{"path": "package/argument_resolver/handlers/stdio.py", "line": 573, "symbol": "StdioHandlers.handle_fread"}],
+      "notes": ["The 4096-byte cap is local to fread and differs from HandlerBase.MAX_READ_SIZE (32)."]
+    },
+    {
+      "id": "mango-compat.getenv",
+      "name": "getenv",
+      "summary_kind": "source",
+      "compatibility_specific": false,
+      "core_eligible": true,
+      "handler": {"module": "package/argument_resolver/handlers/stdlib.py", "class": "StdlibHandlers", "method": "handle_getenv"},
+      "calling_convention": {"abi": "architecture_default", "lookup_name": "getenv", "lookup_mode": "fixed_name", "declaration_source": "angr_glibc", "declared_argument_count": 1, "maximum_consumed_argument_count": 1, "variadic": false, "trailing_arguments": "consumed", "notes": []},
+      "arguments": [{"index": 0, "name": "name", "role": "environment_key", "direction": "in", "c_type": "const char *", "consumed_by_handler": true}],
+      "outputs": [
+        {"role": "output_buffer", "carrier": "return_pointee", "value_kind": "bytes", "external_data": true, "semantics": "Uses existing state.environment storage when present; otherwise allocates 32 bytes and defines a TOP-tagged symbolic value keyed by the requested name."},
+        {"role": "return_pointer", "carrier": "return", "value_kind": "pointer", "external_data": false, "semantics": "Returns one or more environment-storage addresses; the null-result case is not modeled."}
+      ],
+      "size": {"kind": "fixed", "expression": "32 for undefined or symbolic environment values; existing environment objects retain their modeled storage", "units": "bytes", "cap_bytes": 32, "unknown_bytes": "32"},
+      "source_channel": {"kind": "process_environment", "derivation": "environment name from arg[0], with state.environment lookup before symbolic fallback"},
+      "provenance": [{"path": "package/argument_resolver/handlers/stdlib.py", "line": 162, "symbol": "StdlibHandlers.handle_getenv"}, {"path": "package/argument_resolver/external_function/sink/sink_lists.py", "line": 75, "symbol": "GETTER_SINKS.getenv"}],
+      "notes": ["Concrete and symbolic names are both supported; concrete undefined names receive explicit heap storage."]
+    },
+    {
+      "id": "mango-compat.nvram-get",
+      "name": "nvram_get",
+      "summary_kind": "source",
+      "compatibility_specific": true,
+      "core_eligible": false,
+      "handler": {"module": "package/argument_resolver/handlers/nvram.py", "class": "NVRAMHandlers", "method": "handle_nvram_get"},
+      "calling_convention": {"abi": "architecture_default", "lookup_name": "nvram_get", "lookup_mode": "stored_function_name", "declaration_source": "mango_nvram", "declared_argument_count": 1, "maximum_consumed_argument_count": 1, "variadic": false, "trailing_arguments": "consumed", "notes": []},
+      "arguments": [{"index": 0, "name": "key", "role": "configuration_key", "direction": "in", "c_type": "char *", "consumed_by_handler": true}],
+      "outputs": [
+        {"role": "output_buffer", "carrier": "return_pointee", "value_kind": "bytes", "external_data": true, "semantics": "Allocates heap storage for configured/default values or a 32-byte TOP-tagged symbolic value named from the key."},
+        {"role": "return_pointer", "carrier": "return", "value_kind": "pointer", "external_data": false, "semantics": "Returns the allocated heap address."}
+      ],
+      "size": {"kind": "value_dependent", "expression": "size of concrete/default value including its modeled terminator, or 32 for symbolic fallback", "units": "bytes", "unknown_bytes": "32"},
+      "source_channel": {"kind": "persistent_configuration", "derivation": "exact NVRAM getter name and arg[0] key"},
+      "provenance": [{"path": "package/argument_resolver/handlers/nvram.py", "line": 165, "symbol": "NVRAMHandlers._handle_nvram_get"}, {"path": "package/argument_resolver/handlers/nvram.py", "line": 268, "symbol": "NVRAMHandlers.handle_nvram_get"}, {"path": "package/argument_resolver/external_function/function_declarations/nvram.py", "line": 24, "symbol": "libnvram_decls.nvram_get"}],
+      "notes": ["Setter history is consulted through the derived name nvram_set when env_dict is available."]
+    },
+    {
+      "id": "mango-compat.getvalue",
+      "name": "GetValue",
+      "summary_kind": "source",
+      "compatibility_specific": true,
+      "core_eligible": false,
+      "handler": {"module": "package/argument_resolver/handlers/nvram.py", "class": "NVRAMHandlers", "method": "handle_GetValue"},
+      "calling_convention": {"abi": "architecture_default", "lookup_name": "GetValue", "lookup_mode": "stored_function_name", "declaration_source": "mango_custom", "declared_argument_count": 2, "maximum_consumed_argument_count": 2, "variadic": false, "trailing_arguments": "consumed", "notes": []},
+      "arguments": [
+        {"index": 0, "name": "key", "role": "configuration_key", "direction": "in", "c_type": "char *", "consumed_by_handler": true},
+        {"index": 1, "name": "dst", "role": "output_buffer", "direction": "out", "c_type": "char *", "consumed_by_handler": true}
+      ],
+      "outputs": [
+        {"role": "output_buffer", "carrier": "argument_pointee", "argument_index": 1, "value_kind": "bytes", "external_data": true, "semantics": "Writes configured/default data or a 32-byte symbolic fallback to each concrete destination."},
+        {"role": "return_value", "carrier": "none", "value_kind": "none", "external_data": false, "semantics": "The handler passes None to return handling despite the custom declaration's int return type."}
+      ],
+      "size": {"kind": "value_dependent", "expression": "size of configured/default value, or 32 for symbolic fallback", "units": "bytes", "unknown_bytes": "32"},
+      "source_channel": {"kind": "persistent_configuration", "derivation": "exact Mango compatibility getter and arg[0] key"},
+      "provenance": [{"path": "package/argument_resolver/handlers/nvram.py", "line": 165, "symbol": "NVRAMHandlers._handle_nvram_get"}, {"path": "package/argument_resolver/handlers/nvram.py", "line": 285, "symbol": "NVRAMHandlers.handle_GetValue"}, {"path": "package/argument_resolver/external_function/function_declarations/custom.py", "line": 120, "symbol": "custom_decls.GetValue"}],
+      "notes": ["Setter history is looked up under SetValue."]
+    },
+    {
+      "id": "mango-compat.nvram-safe-get",
+      "name": "nvram_safe_get",
+      "summary_kind": "source",
+      "compatibility_specific": true,
+      "core_eligible": false,
+      "handler": {"module": "package/argument_resolver/handlers/nvram.py", "class": "NVRAMHandlers", "method": "handle_nvram_safe_get"},
+      "calling_convention": {"abi": "architecture_default", "lookup_name": "nvram_safe_get", "lookup_mode": "stored_function_name", "declaration_source": "mango_nvram", "declared_argument_count": 1, "maximum_consumed_argument_count": 1, "variadic": false, "trailing_arguments": "consumed", "notes": []},
+      "arguments": [{"index": 0, "name": "key", "role": "configuration_key", "direction": "in", "c_type": "char *", "consumed_by_handler": true}],
+      "outputs": [
+        {"role": "output_buffer", "carrier": "return_pointee", "value_kind": "bytes", "external_data": true, "semantics": "Allocates and defines the same configured/default or 32-byte symbolic value as _handle_nvram_get."},
+        {"role": "return_pointer", "carrier": "return", "value_kind": "pointer", "external_data": false, "semantics": "Returns the allocated heap address."}
+      ],
+      "size": {"kind": "value_dependent", "expression": "size of configured/default value, or 32 for symbolic fallback", "units": "bytes", "unknown_bytes": "32"},
+      "source_channel": {"kind": "persistent_configuration", "derivation": "exact NVRAM safe-getter name and arg[0] key"},
+      "provenance": [{"path": "package/argument_resolver/handlers/nvram.py", "line": 165, "symbol": "NVRAMHandlers._handle_nvram_get"}, {"path": "package/argument_resolver/handlers/nvram.py", "line": 302, "symbol": "NVRAMHandlers.handle_nvram_safe_get"}, {"path": "package/argument_resolver/external_function/function_declarations/nvram.py", "line": 30, "symbol": "libnvram_decls.nvram_safe_get"}],
+      "notes": []
+    },
+    {
+      "id": "mango-compat.acos-nvram-config-get",
+      "name": "acosNvramConfig_get",
+      "summary_kind": "source",
+      "compatibility_specific": true,
+      "core_eligible": false,
+      "handler": {"module": "package/argument_resolver/handlers/nvram.py", "class": "NVRAMHandlers", "method": "handle_acosNvramConfig_get"},
+      "calling_convention": {"abi": "architecture_default", "lookup_name": "acosNvramConfig_get", "lookup_mode": "stored_function_name", "declaration_source": "mango_nvram", "declared_argument_count": 1, "maximum_consumed_argument_count": 1, "variadic": false, "trailing_arguments": "consumed", "notes": []},
+      "arguments": [{"index": 0, "name": "key", "role": "configuration_key", "direction": "in", "c_type": "char *", "consumed_by_handler": true}],
+      "outputs": [
+        {"role": "output_buffer", "carrier": "return_pointee", "value_kind": "bytes", "external_data": true, "semantics": "Allocates and defines configured/default data or a 32-byte symbolic fallback."},
+        {"role": "return_pointer", "carrier": "return", "value_kind": "pointer", "external_data": false, "semantics": "Returns the allocated heap address."}
+      ],
+      "size": {"kind": "value_dependent", "expression": "size of configured/default value, or 32 for symbolic fallback", "units": "bytes", "unknown_bytes": "32"},
+      "source_channel": {"kind": "persistent_configuration", "derivation": "exact acos NVRAM getter and arg[0] key"},
+      "provenance": [{"path": "package/argument_resolver/handlers/nvram.py", "line": 165, "symbol": "NVRAMHandlers._handle_nvram_get"}, {"path": "package/argument_resolver/handlers/nvram.py", "line": 319, "symbol": "NVRAMHandlers.handle_acosNvramConfig_get"}, {"path": "package/argument_resolver/external_function/function_declarations/nvram.py", "line": 57, "symbol": "libnvram_decls.acosNvramConfig_get"}],
+      "notes": ["Setter history is looked up under acosNvramConfig_set."]
+    },
+    {
+      "id": "mango-compat.acos-nvram-config-read",
+      "name": "acosNvramConfig_read",
+      "summary_kind": "source",
+      "compatibility_specific": true,
+      "core_eligible": false,
+      "handler": {"module": "package/argument_resolver/handlers/nvram.py", "class": "NVRAMHandlers", "method": "handle_acosNvramConfig_read"},
+      "calling_convention": {"abi": "architecture_default", "lookup_name": "acosNvramConfig_read", "lookup_mode": "stored_function_name", "declaration_source": "mango_nvram", "declared_argument_count": 1, "maximum_consumed_argument_count": 2, "variadic": false, "trailing_arguments": "conditional", "notes": ["The local SimTypeFunction declares one key argument, but _handle_nvram_get requests a second destination argument. Mango's patched get_next_arg repeats the last declared type while advancing the ABI session."]},
+      "arguments": [
+        {"index": 0, "name": "key", "role": "configuration_key", "direction": "in", "c_type": "char *", "consumed_by_handler": true},
+        {"index": 1, "name": "dst", "role": "output_buffer", "direction": "out", "c_type": "char * (repeated last declared type)", "consumed_by_handler": true, "notes": "Handler-only second argument absent from the declaration's args list."}
+      ],
+      "outputs": [
+        {"role": "output_buffer", "carrier": "argument_pointee", "argument_index": 1, "value_kind": "bytes", "external_data": true, "semantics": "Writes configured/default data or a 32-byte symbolic fallback to each concrete destination."},
+        {"role": "return_value", "carrier": "none", "value_kind": "none", "external_data": false, "semantics": "The handler passes None to return handling, despite the declaration's pointer return type."}
+      ],
+      "size": {"kind": "value_dependent", "expression": "size of configured/default value, or 32 for symbolic fallback", "units": "bytes", "unknown_bytes": "32"},
+      "source_channel": {"kind": "persistent_configuration", "derivation": "exact acos NVRAM read symbol and arg[0] key"},
+      "provenance": [{"path": "package/argument_resolver/handlers/nvram.py", "line": 165, "symbol": "NVRAMHandlers._handle_nvram_get"}, {"path": "package/argument_resolver/handlers/nvram.py", "line": 337, "symbol": "NVRAMHandlers.handle_acosNvramConfig_read"}, {"path": "package/argument_resolver/external_function/function_declarations/nvram.py", "line": 62, "symbol": "libnvram_decls.acosNvramConfig_read"}, {"path": "package/argument_resolver/utils/calling_convention.py", "line": 113, "symbol": "get_next_arg"}],
+      "notes": ["Setter history is looked up under acosNvramConfig_write."]
+    },
+    {
+      "id": "mango-compat.bcm-nvram-get",
+      "name": "bcm_nvram_get",
+      "summary_kind": "source",
+      "compatibility_specific": true,
+      "core_eligible": false,
+      "handler": {"module": "package/argument_resolver/handlers/nvram.py", "class": "NVRAMHandlers", "method": "handle_bcm_nvram_get"},
+      "calling_convention": {"abi": "architecture_default", "lookup_name": "bcm_nvram_get", "lookup_mode": "stored_function_name", "declaration_source": "mango_nvram", "declared_argument_count": 1, "maximum_consumed_argument_count": 1, "variadic": false, "trailing_arguments": "consumed", "notes": ["The custom declaration return type is void/bottom, but the handler returns a heap pointer."]},
+      "arguments": [{"index": 0, "name": "name", "role": "configuration_key", "direction": "in", "c_type": "char *", "consumed_by_handler": true}],
+      "outputs": [
+        {"role": "output_buffer", "carrier": "return_pointee", "value_kind": "bytes", "external_data": true, "semantics": "Allocates and defines configured/default data or a 32-byte symbolic fallback."},
+        {"role": "return_pointer", "carrier": "return", "value_kind": "pointer", "external_data": false, "semantics": "Handler returns the allocated heap address despite the declaration's void/bottom return."}
+      ],
+      "size": {"kind": "value_dependent", "expression": "size of configured/default value, or 32 for symbolic fallback", "units": "bytes", "unknown_bytes": "32"},
+      "source_channel": {"kind": "persistent_configuration", "derivation": "exact Broadcom-style NVRAM getter and arg[0] key"},
+      "provenance": [{"path": "package/argument_resolver/handlers/nvram.py", "line": 165, "symbol": "NVRAMHandlers._handle_nvram_get"}, {"path": "package/argument_resolver/handlers/nvram.py", "line": 354, "symbol": "NVRAMHandlers.handle_bcm_nvram_get"}, {"path": "package/argument_resolver/external_function/function_declarations/nvram.py", "line": 78, "symbol": "libnvram_decls.bcm_nvram_get"}],
+      "notes": []
+    },
+    {
+      "id": "mango-compat.envram-get",
+      "name": "envram_get",
+      "summary_kind": "source",
+      "compatibility_specific": true,
+      "core_eligible": false,
+      "handler": {"module": "package/argument_resolver/handlers/nvram.py", "class": "NVRAMHandlers", "method": "handle_envram_get"},
+      "calling_convention": {"abi": "architecture_default", "lookup_name": "envram_get", "lookup_mode": "stored_function_name", "declaration_source": "mango_nvram", "declared_argument_count": 1, "maximum_consumed_argument_count": 1, "variadic": false, "trailing_arguments": "consumed", "notes": ["The declaration return type is void/bottom, but the handler returns a heap pointer."]},
+      "arguments": [{"index": 0, "name": "name", "role": "configuration_key", "direction": "in", "c_type": "char *", "consumed_by_handler": true}],
+      "outputs": [
+        {"role": "output_buffer", "carrier": "return_pointee", "value_kind": "bytes", "external_data": true, "semantics": "Allocates and defines configured/default data or a 32-byte symbolic fallback."},
+        {"role": "return_pointer", "carrier": "return", "value_kind": "pointer", "external_data": false, "semantics": "Handler returns the allocated heap address despite the declaration's void/bottom return."}
+      ],
+      "size": {"kind": "value_dependent", "expression": "size of configured/default value, or 32 for symbolic fallback", "units": "bytes", "unknown_bytes": "32"},
+      "source_channel": {"kind": "persistent_configuration", "derivation": "exact envram getter and arg[0] key"},
+      "provenance": [{"path": "package/argument_resolver/handlers/nvram.py", "line": 165, "symbol": "NVRAMHandlers._handle_nvram_get"}, {"path": "package/argument_resolver/handlers/nvram.py", "line": 371, "symbol": "NVRAMHandlers.handle_envram_get"}, {"path": "package/argument_resolver/external_function/function_declarations/nvram.py", "line": 91, "symbol": "libnvram_decls.envram_get"}],
+      "notes": []
+    },
+    {
+      "id": "mango-compat.wlcsm-nvram-get",
+      "name": "wlcsm_nvram_get",
+      "summary_kind": "source",
+      "compatibility_specific": true,
+      "core_eligible": false,
+      "handler": {"module": "package/argument_resolver/handlers/nvram.py", "class": "NVRAMHandlers", "method": "handle_wlcsm_nvram_get"},
+      "calling_convention": {"abi": "architecture_default", "lookup_name": "wlcsm_nvram_get", "lookup_mode": "stored_function_name", "declaration_source": "mango_nvram", "declared_argument_count": 1, "maximum_consumed_argument_count": 1, "variadic": false, "trailing_arguments": "consumed", "notes": ["The declaration return type is void/bottom, but the handler returns a heap pointer."]},
+      "arguments": [{"index": 0, "name": "name", "role": "configuration_key", "direction": "in", "c_type": "char *", "consumed_by_handler": true}],
+      "outputs": [
+        {"role": "output_buffer", "carrier": "return_pointee", "value_kind": "bytes", "external_data": true, "semantics": "Allocates and defines configured/default data or a 32-byte symbolic fallback."},
+        {"role": "return_pointer", "carrier": "return", "value_kind": "pointer", "external_data": false, "semantics": "Handler returns the allocated heap address despite the declaration's void/bottom return."}
+      ],
+      "size": {"kind": "value_dependent", "expression": "size of configured/default value, or 32 for symbolic fallback", "units": "bytes", "unknown_bytes": "32"},
+      "source_channel": {"kind": "persistent_configuration", "derivation": "exact WLC state-manager NVRAM getter and arg[0] key"},
+      "provenance": [{"path": "package/argument_resolver/handlers/nvram.py", "line": 165, "symbol": "NVRAMHandlers._handle_nvram_get"}, {"path": "package/argument_resolver/handlers/nvram.py", "line": 388, "symbol": "NVRAMHandlers.handle_wlcsm_nvram_get"}, {"path": "package/argument_resolver/external_function/function_declarations/nvram.py", "line": 104, "symbol": "libnvram_decls.wlcsm_nvram_get"}],
+      "notes": []
+    },
+    {
+      "id": "mango-compat.custom-param-parser",
+      "name": "custom_param_parser",
+      "summary_kind": "source",
+      "compatibility_specific": true,
+      "core_eligible": false,
+      "handler": {"module": "package/argument_resolver/handlers/url_param.py", "class": "URLParamHandlers", "method": "handle_custom_param_parser"},
+      "calling_convention": {
+        "abi": "architecture_default",
+        "lookup_name": "query_param_parser",
+        "lookup_mode": "fixed_name",
+        "declaration_source": "mango_custom",
+        "declared_argument_count": 3,
+        "maximum_consumed_argument_count": 3,
+        "variadic": false,
+        "trailing_arguments": "conditional",
+        "variants": [
+          {"when": "stored function prototype has exactly 1 argument", "consumed_argument_indices": [0], "notes": "arg[0] is the parameter name; there is no destination write"},
+          {"when": "stored function prototype does not have exactly 1 argument", "consumed_argument_indices": [0, 1, 2], "notes": "arg[0] is source context, arg[1] is parameter name, and arg[2] is destination"}
+        ],
+        "notes": ["Argument locations always come from the three-pointer query_param_parser declaration, not from custom_param_parser's recovered prototype."]
+      },
+      "arguments": [
+        {"index": 0, "name": "src_or_param", "role": "source_context_or_parameter_name", "direction": "in", "c_type": "char *", "consumed_by_handler": true, "condition": "parameter name for 1-argument prototypes; source context otherwise"},
+        {"index": 1, "name": "param", "role": "parameter_name", "direction": "in", "c_type": "char *", "consumed_by_handler": true, "condition": "prototype argument count is not 1"},
+        {"index": 2, "name": "dst", "role": "output_buffer", "direction": "out", "c_type": "char *", "consumed_by_handler": true, "condition": "prototype argument count is greater than 2"}
+      ],
+      "outputs": [
+        {"role": "output_buffer", "carrier": "argument_pointee", "argument_index": 2, "value_kind": "bytes", "external_data": true, "condition": "prototype argument count is greater than 2 and destination is not TOP", "semantics": "Writes the 32-byte frontend_param symbolic vector; dependency sources include only arg[0]."},
+        {"role": "return_value", "carrier": "return", "value_kind": "bytes", "external_data": true, "semantics": "Always returns the same 32-byte symbolic bitvector directly as a MultiValues value rather than a pointer."}
+      ],
+      "size": {"kind": "fixed", "expression": "32", "units": "bytes", "cap_bytes": 32, "unknown_bytes": "32"},
+      "source_channel": {"kind": "web_request_parameter", "derivation": "parameter-name strings rendered into frontend_param(name-list)"},
+      "provenance": [{"path": "package/argument_resolver/handlers/url_param.py", "line": 30, "symbol": "URLParamHandlers.handle_custom_param_parser"}, {"path": "package/argument_resolver/external_function/function_declarations/custom.py", "line": 112, "symbol": "custom_decls.query_param_parser"}, {"path": "package/argument_resolver/external_function/input_functions.py", "line": 12, "symbol": "INPUT_EXTERNAL_FUNCTIONS.custom_param_parser"}],
+      "notes": ["The exact custom_param_parser name is assigned by Mango's heuristic discovery and is intentionally compatibility-specific."]
+    }
+  ],
+  "callback_registrations": [],
+  "handler_inventory": [
+    {"module": "package/argument_resolver/handlers/network.py", "class": "NetworkHandlers", "handler": "handle_accept", "api_name": "accept", "line": 31, "source_disposition": "handle_producer", "calling_convention_lookup": "accept", "compatibility_specific": false, "summary_id": "mango-compat.accept"},
+    {"module": "package/argument_resolver/handlers/network.py", "class": "NetworkHandlers", "handler": "handle_recv", "api_name": "recv", "line": 125, "source_disposition": "source", "calling_convention_lookup": "recv", "compatibility_specific": false, "summary_id": "mango-compat.recv"},
+    {"module": "package/argument_resolver/handlers/network.py", "class": "NetworkHandlers", "handler": "handle_recvfrom", "api_name": "recvfrom", "line": 134, "source_disposition": "source", "calling_convention_lookup": "recvfrom", "compatibility_specific": false, "summary_id": "mango-compat.recvfrom"},
+    {"module": "package/argument_resolver/handlers/network.py", "class": "NetworkHandlers", "handler": "handle_nflog_get_payload", "api_name": "nflog_get_payload", "line": 143, "source_disposition": "source", "calling_convention_lookup": "nflog_get_payload", "compatibility_specific": true, "summary_id": "mango-compat.nflog-get-payload"},
+    {"module": "package/argument_resolver/handlers/network.py", "class": "NetworkHandlers", "handler": "handle_socket", "api_name": "socket", "line": 152, "source_disposition": "handle_producer", "calling_convention_lookup": "socket", "compatibility_specific": false, "summary_id": "mango-compat.socket"},
+    {"module": "package/argument_resolver/handlers/network.py", "class": "NetworkHandlers", "handler": "handle_inet_ntoa", "api_name": "inet_ntoa", "line": 205, "source_disposition": "derived_non_source", "calling_convention_lookup": "inet_ntoa", "compatibility_specific": false, "notes": "Returns a fixed synthetic 127.1.1.1 buffer; it is not external input."},
+
+    {"module": "package/argument_resolver/handlers/unistd.py", "class": "UnistdHandlers", "handler": "handle_open", "api_name": "open", "line": 32, "source_disposition": "handle_producer", "calling_convention_lookup": "fread", "compatibility_specific": false, "summary_id": "mango-compat.open", "notes": "Mango intentionally recorded as implemented: the handler looks up fread's calling convention."},
+    {"module": "package/argument_resolver/handlers/unistd.py", "class": "UnistdHandlers", "handler": "handle_read", "api_name": "read", "line": 82, "source_disposition": "source", "calling_convention_lookup": "read", "compatibility_specific": false, "summary_id": "mango-compat.read"},
+
+    {"module": "package/argument_resolver/handlers/stdio.py", "class": "StdioHandlers", "handler": "handle_sprintf", "api_name": "sprintf", "line": 255, "source_disposition": "derived_non_source", "calling_convention_lookup": "sprintf", "compatibility_specific": false},
+    {"module": "package/argument_resolver/handlers/stdio.py", "class": "StdioHandlers", "handler": "handle_vsprintf", "api_name": "vsprintf", "line": 272, "source_disposition": "derived_non_source", "calling_convention_lookup": "vsprintf", "compatibility_specific": false},
+    {"module": "package/argument_resolver/handlers/stdio.py", "class": "StdioHandlers", "handler": "handle_snprintf", "api_name": "snprintf", "line": 289, "source_disposition": "derived_non_source", "calling_convention_lookup": "snprintf", "compatibility_specific": false},
+    {"module": "package/argument_resolver/handlers/stdio.py", "class": "StdioHandlers", "handler": "handle_vsnprintf", "api_name": "vsnprintf", "line": 300, "source_disposition": "derived_non_source", "calling_convention_lookup": "vsnprintf", "compatibility_specific": false},
+    {"module": "package/argument_resolver/handlers/stdio.py", "class": "StdioHandlers", "handler": "handle_asprintf", "api_name": "asprintf", "line": 311, "source_disposition": "derived_non_source", "calling_convention_lookup": "asprintf", "compatibility_specific": false},
+    {"module": "package/argument_resolver/handlers/stdio.py", "class": "StdioHandlers", "handler": "handle___sprintf_chk", "api_name": "__sprintf_chk", "line": 324, "source_disposition": "derived_non_source", "calling_convention_lookup": "__sprintf_chk", "compatibility_specific": true},
+    {"module": "package/argument_resolver/handlers/stdio.py", "class": "StdioHandlers", "handler": "handle___snprintf_chk", "api_name": "__snprintf_chk", "line": 335, "source_disposition": "derived_non_source", "calling_convention_lookup": "__snprintf_chk", "compatibility_specific": true},
+    {"module": "package/argument_resolver/handlers/stdio.py", "class": "StdioHandlers", "handler": "handle_printf", "api_name": "printf", "line": 346, "source_disposition": "no_op", "calling_convention_lookup": null, "compatibility_specific": false},
+    {"module": "package/argument_resolver/handlers/stdio.py", "class": "StdioHandlers", "handler": "handle_twsystem", "api_name": "twsystem", "line": 351, "source_disposition": "derived_non_source", "calling_convention_lookup": "printf", "compatibility_specific": true},
+    {"module": "package/argument_resolver/handlers/stdio.py", "class": "StdioHandlers", "handler": "handle_exec_cmd", "api_name": "exec_cmd", "line": 358, "source_disposition": "derived_non_source", "calling_convention_lookup": "printf", "compatibility_specific": true},
+    {"module": "package/argument_resolver/handlers/stdio.py", "class": "StdioHandlers", "handler": "handle_doSystemCmd", "api_name": "doSystemCmd", "line": 365, "source_disposition": "derived_non_source", "calling_convention_lookup": "printf", "compatibility_specific": true},
+    {"module": "package/argument_resolver/handlers/stdio.py", "class": "StdioHandlers", "handler": "handle_dprintf", "api_name": "dprintf", "line": 372, "source_disposition": "no_op", "calling_convention_lookup": null, "compatibility_specific": false},
+    {"module": "package/argument_resolver/handlers/stdio.py", "class": "StdioHandlers", "handler": "handle_sscanf", "api_name": "sscanf", "line": 463, "source_disposition": "derived_non_source", "calling_convention_lookup": "sscanf", "compatibility_specific": false, "notes": "Parses an existing input buffer; it does not create external ingress."},
+    {"module": "package/argument_resolver/handlers/stdio.py", "class": "StdioHandlers", "handler": "handle_fgets", "api_name": "fgets", "line": 469, "source_disposition": "source", "calling_convention_lookup": "fgets", "compatibility_specific": false, "summary_id": "mango-compat.fgets"},
+    {"module": "package/argument_resolver/handlers/stdio.py", "class": "StdioHandlers", "handler": "handle_fopen", "api_name": "fopen", "line": 526, "source_disposition": "handle_producer", "calling_convention_lookup": "fopen", "compatibility_specific": false, "summary_id": "mango-compat.fopen"},
+    {"module": "package/argument_resolver/handlers/stdio.py", "class": "StdioHandlers", "handler": "handle_fread", "api_name": "fread", "line": 573, "source_disposition": "source", "calling_convention_lookup": "fread", "compatibility_specific": false, "summary_id": "mango-compat.fread"},
+    {"module": "package/argument_resolver/handlers/stdio.py", "class": "StdioHandlers", "handler": "handle_popen", "api_name": "popen", "line": 636, "source_disposition": "no_op", "calling_convention_lookup": null, "compatibility_specific": false},
+
+    {"module": "package/argument_resolver/handlers/stdlib.py", "class": "StdlibHandlers", "handler": "handle_malloc", "api_name": "malloc", "line": 30, "source_disposition": "non_source", "calling_convention_lookup": "malloc", "compatibility_specific": false},
+    {"module": "package/argument_resolver/handlers/stdlib.py", "class": "StdlibHandlers", "handler": "handle_calloc", "api_name": "calloc", "line": 68, "source_disposition": "non_source", "calling_convention_lookup": "calloc", "compatibility_specific": false},
+    {"module": "package/argument_resolver/handlers/stdlib.py", "class": "StdlibHandlers", "handler": "handle_free", "api_name": "free", "line": 103, "source_disposition": "no_op", "calling_convention_lookup": null, "compatibility_specific": false},
+    {"module": "package/argument_resolver/handlers/stdlib.py", "class": "StdlibHandlers", "handler": "handle_rand", "api_name": "rand", "line": 130, "source_disposition": "non_source", "calling_convention_lookup": null, "compatibility_specific": false, "notes": "Returns fixed 0xDEADBEEF, so it is internally generated rather than external input."},
+    {"module": "package/argument_resolver/handlers/stdlib.py", "class": "StdlibHandlers", "handler": "handle_system", "api_name": "system", "line": 144, "source_disposition": "non_source", "calling_convention_lookup": null, "compatibility_specific": false},
+    {"module": "package/argument_resolver/handlers/stdlib.py", "class": "StdlibHandlers", "handler": "handle_getenv", "api_name": "getenv", "line": 162, "source_disposition": "source", "calling_convention_lookup": "getenv", "compatibility_specific": false, "summary_id": "mango-compat.getenv"},
+    {"module": "package/argument_resolver/handlers/stdlib.py", "class": "StdlibHandlers", "handler": "handle_setenv", "api_name": "setenv", "line": 259, "source_disposition": "non_source", "calling_convention_lookup": "setenv", "compatibility_specific": false},
+    {"module": "package/argument_resolver/handlers/stdlib.py", "class": "StdlibHandlers", "handler": "handle_httpSetEnv", "api_name": "httpSetEnv", "line": 264, "source_disposition": "non_source", "calling_convention_lookup": "httpSetEnv", "compatibility_specific": true, "notes": "_setenv discards arg[0], then treats arg[1] as name and arg[2] as value even though the custom declaration has only two arguments."},
+
+    {"module": "package/argument_resolver/handlers/nvram.py", "class": "NVRAMHandlers", "handler": "handle_nvram_set", "api_name": "nvram_set", "line": 43, "source_disposition": "no_op", "calling_convention_lookup": null, "compatibility_specific": true},
+    {"module": "package/argument_resolver/handlers/nvram.py", "class": "NVRAMHandlers", "handler": "handle_SetValue", "api_name": "SetValue", "line": 60, "source_disposition": "no_op", "calling_convention_lookup": null, "compatibility_specific": true},
+    {"module": "package/argument_resolver/handlers/nvram.py", "class": "NVRAMHandlers", "handler": "handle_nvram_safe_set", "api_name": "nvram_safe_set", "line": 78, "source_disposition": "no_op", "calling_convention_lookup": null, "compatibility_specific": true},
+    {"module": "package/argument_resolver/handlers/nvram.py", "class": "NVRAMHandlers", "handler": "handle_acosNvramConfig_set", "api_name": "acosNvramConfig_set", "line": 95, "source_disposition": "no_op", "calling_convention_lookup": null, "compatibility_specific": true},
+    {"module": "package/argument_resolver/handlers/nvram.py", "class": "NVRAMHandlers", "handler": "handle_wlcsm_nvram_set", "api_name": "wlcsm_nvram_set", "line": 112, "source_disposition": "no_op", "calling_convention_lookup": null, "compatibility_specific": true},
+    {"module": "package/argument_resolver/handlers/nvram.py", "class": "NVRAMHandlers", "handler": "handle_envram_set", "api_name": "envram_set", "line": 131, "source_disposition": "no_op", "calling_convention_lookup": null, "compatibility_specific": true},
+    {"module": "package/argument_resolver/handlers/nvram.py", "class": "NVRAMHandlers", "handler": "handle_bcm_nvram_set", "api_name": "bcm_nvram_set", "line": 149, "source_disposition": "no_op", "calling_convention_lookup": null, "compatibility_specific": true},
+    {"module": "package/argument_resolver/handlers/nvram.py", "class": "NVRAMHandlers", "handler": "handle_nvram_get", "api_name": "nvram_get", "line": 268, "source_disposition": "source", "calling_convention_lookup": "nvram_get", "compatibility_specific": true, "summary_id": "mango-compat.nvram-get"},
+    {"module": "package/argument_resolver/handlers/nvram.py", "class": "NVRAMHandlers", "handler": "handle_GetValue", "api_name": "GetValue", "line": 285, "source_disposition": "source", "calling_convention_lookup": "GetValue", "compatibility_specific": true, "summary_id": "mango-compat.getvalue"},
+    {"module": "package/argument_resolver/handlers/nvram.py", "class": "NVRAMHandlers", "handler": "handle_nvram_safe_get", "api_name": "nvram_safe_get", "line": 302, "source_disposition": "source", "calling_convention_lookup": "nvram_safe_get", "compatibility_specific": true, "summary_id": "mango-compat.nvram-safe-get"},
+    {"module": "package/argument_resolver/handlers/nvram.py", "class": "NVRAMHandlers", "handler": "handle_acosNvramConfig_get", "api_name": "acosNvramConfig_get", "line": 319, "source_disposition": "source", "calling_convention_lookup": "acosNvramConfig_get", "compatibility_specific": true, "summary_id": "mango-compat.acos-nvram-config-get"},
+    {"module": "package/argument_resolver/handlers/nvram.py", "class": "NVRAMHandlers", "handler": "handle_acosNvramConfig_read", "api_name": "acosNvramConfig_read", "line": 337, "source_disposition": "source", "calling_convention_lookup": "acosNvramConfig_read", "compatibility_specific": true, "summary_id": "mango-compat.acos-nvram-config-read"},
+    {"module": "package/argument_resolver/handlers/nvram.py", "class": "NVRAMHandlers", "handler": "handle_bcm_nvram_get", "api_name": "bcm_nvram_get", "line": 354, "source_disposition": "source", "calling_convention_lookup": "bcm_nvram_get", "compatibility_specific": true, "summary_id": "mango-compat.bcm-nvram-get"},
+    {"module": "package/argument_resolver/handlers/nvram.py", "class": "NVRAMHandlers", "handler": "handle_envram_get", "api_name": "envram_get", "line": 371, "source_disposition": "source", "calling_convention_lookup": "envram_get", "compatibility_specific": true, "summary_id": "mango-compat.envram-get"},
+    {"module": "package/argument_resolver/handlers/nvram.py", "class": "NVRAMHandlers", "handler": "handle_wlcsm_nvram_get", "api_name": "wlcsm_nvram_get", "line": 388, "source_disposition": "source", "calling_convention_lookup": "wlcsm_nvram_get", "compatibility_specific": true, "summary_id": "mango-compat.wlcsm-nvram-get"},
+
+    {"module": "package/argument_resolver/handlers/url_param.py", "class": "URLParamHandlers", "handler": "handle_custom_param_parser", "api_name": "custom_param_parser", "line": 30, "source_disposition": "source", "calling_convention_lookup": "query_param_parser", "compatibility_specific": true, "summary_id": "mango-compat.custom-param-parser"}
+  ]
+}

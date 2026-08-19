@@ -1,0 +1,396 @@
+{
+  "schema_version": "ct-mini-hardware-metadata-v2",
+  "scope": "platform",
+  "metadata_source": "svd",
+  "profile_id": "nordic-nrf52840-radio-v1",
+  "platform_id": "nordic-nrf52840-radio",
+  "evidence_source": "official_nordic_cmsis_svd",
+  "evidence_reference": "https://github.com/nrfconnect/sdk-hal_nordic/blob/main/nrfx/mdk/nrf52840.svd",
+  "mmio_ranges": [
+    {
+      "start": "0x40001000",
+      "end": "0x40001fff",
+      "name": "nrf52840_radio_register_block",
+      "evidence_source": "official_nordic_cmsis_svd",
+      "evidence_reference": "nrf52840.svd: RADIO base 0x40001000, address block size 0x1000"
+    }
+  ],
+  "peripheral_instances": [
+    {
+      "peripheral_instance": "RADIO",
+      "peripheral_type": "NRF_RADIO",
+      "instance_base": "0x40001000",
+      "evidence_source": "official_nordic_cmsis_svd",
+      "evidence_reference": "nrf52840.svd: RADIO peripheral"
+    }
+  ],
+  "registers": [
+    {
+      "address": "0x40001000",
+      "instance_base": "0x40001000",
+      "field_offset": "0x0",
+      "peripheral_instance": "RADIO",
+      "peripheral_type": "NRF_RADIO",
+      "register": "TASKS_TXEN",
+      "role": "TX_START",
+      "access": "write-only",
+      "expected_behaviors": [
+        "CONSTANT_STORE"
+      ],
+      "evidence_source": "official_nordic_cmsis_svd",
+      "evidence_reference": "nrf52840.svd: RADIO.TASKS_TXEN enables TX mode"
+    },
+    {
+      "address": "0x40001004",
+      "instance_base": "0x40001000",
+      "field_offset": "0x4",
+      "peripheral_instance": "RADIO",
+      "peripheral_type": "NRF_RADIO",
+      "register": "TASKS_RXEN",
+      "role": "RX_START",
+      "access": "write-only",
+      "expected_behaviors": [
+        "CONSTANT_STORE"
+      ],
+      "evidence_source": "official_nordic_cmsis_svd",
+      "evidence_reference": "nrf52840.svd: RADIO.TASKS_RXEN enables RX mode"
+    },
+    {
+      "address": "0x40001008",
+      "instance_base": "0x40001000",
+      "field_offset": "0x8",
+      "peripheral_instance": "RADIO",
+      "peripheral_type": "NRF_RADIO",
+      "register": "TASKS_START",
+      "role": "DMA_START",
+      "access": "write-only",
+      "expected_behaviors": [
+        "CONSTANT_STORE"
+      ],
+      "evidence_source": "official_nordic_cmsis_svd",
+      "evidence_reference": "nrf52840.svd: RADIO.TASKS_START starts the RADIO"
+    },
+    {
+      "address": "0x4000100c",
+      "instance_base": "0x40001000",
+      "field_offset": "0xc",
+      "peripheral_instance": "RADIO",
+      "peripheral_type": "NRF_RADIO",
+      "register": "TASKS_STOP",
+      "role": "CONTROL",
+      "access": "write-only",
+      "expected_behaviors": [
+        "CONSTANT_STORE"
+      ],
+      "evidence_source": "official_nordic_cmsis_svd",
+      "evidence_reference": "nrf52840.svd: RADIO.TASKS_STOP stops the RADIO"
+    },
+    {
+      "address": "0x40001010",
+      "instance_base": "0x40001000",
+      "field_offset": "0x10",
+      "peripheral_instance": "RADIO",
+      "peripheral_type": "NRF_RADIO",
+      "register": "TASKS_DISABLE",
+      "role": "CONTROL",
+      "access": "write-only",
+      "expected_behaviors": [
+        "CONSTANT_STORE"
+      ],
+      "evidence_source": "official_nordic_cmsis_svd",
+      "evidence_reference": "nrf52840.svd: RADIO.TASKS_DISABLE disables the RADIO"
+    },
+    {
+      "address": "0x40001100",
+      "instance_base": "0x40001000",
+      "field_offset": "0x100",
+      "peripheral_instance": "RADIO",
+      "peripheral_type": "NRF_RADIO",
+      "register": "EVENTS_READY",
+      "role": "STATUS",
+      "access": "read-write",
+      "evidence_source": "official_nordic_cmsis_svd",
+      "evidence_reference": "nrf52840.svd: RADIO.EVENTS_READY"
+    },
+    {
+      "address": "0x40001104",
+      "instance_base": "0x40001000",
+      "field_offset": "0x104",
+      "peripheral_instance": "RADIO",
+      "peripheral_type": "NRF_RADIO",
+      "register": "EVENTS_ADDRESS",
+      "role": "STATUS",
+      "access": "read-write",
+      "evidence_source": "official_nordic_cmsis_svd",
+      "evidence_reference": "nrf52840.svd: RADIO.EVENTS_ADDRESS"
+    },
+    {
+      "address": "0x40001108",
+      "instance_base": "0x40001000",
+      "field_offset": "0x108",
+      "peripheral_instance": "RADIO",
+      "peripheral_type": "NRF_RADIO",
+      "register": "EVENTS_PAYLOAD",
+      "role": "STATUS",
+      "access": "read-write",
+      "evidence_source": "official_nordic_cmsis_svd",
+      "evidence_reference": "nrf52840.svd: RADIO.EVENTS_PAYLOAD"
+    },
+    {
+      "address": "0x4000110c",
+      "instance_base": "0x40001000",
+      "field_offset": "0x10c",
+      "peripheral_instance": "RADIO",
+      "peripheral_type": "NRF_RADIO",
+      "register": "EVENTS_END",
+      "role": "STATUS",
+      "access": "read-write",
+      "evidence_source": "official_nordic_cmsis_svd",
+      "evidence_reference": "nrf52840.svd: RADIO.EVENTS_END"
+    },
+    {
+      "address": "0x40001110",
+      "instance_base": "0x40001000",
+      "field_offset": "0x110",
+      "peripheral_instance": "RADIO",
+      "peripheral_type": "NRF_RADIO",
+      "register": "EVENTS_DISABLED",
+      "role": "STATUS",
+      "access": "read-write",
+      "evidence_source": "official_nordic_cmsis_svd",
+      "evidence_reference": "nrf52840.svd: RADIO.EVENTS_DISABLED"
+    },
+    {
+      "address": "0x40001130",
+      "instance_base": "0x40001000",
+      "field_offset": "0x130",
+      "peripheral_instance": "RADIO",
+      "peripheral_type": "NRF_RADIO",
+      "register": "EVENTS_CRCOK",
+      "role": "STATUS",
+      "access": "read-write",
+      "evidence_source": "official_nordic_cmsis_svd",
+      "evidence_reference": "nrf52840.svd: RADIO.EVENTS_CRCOK reports a received packet with valid CRC"
+    },
+    {
+      "address": "0x40001134",
+      "instance_base": "0x40001000",
+      "field_offset": "0x134",
+      "peripheral_instance": "RADIO",
+      "peripheral_type": "NRF_RADIO",
+      "register": "EVENTS_CRCERROR",
+      "role": "STATUS",
+      "access": "read-write",
+      "evidence_source": "official_nordic_cmsis_svd",
+      "evidence_reference": "nrf52840.svd: RADIO.EVENTS_CRCERROR reports a received packet with invalid CRC"
+    },
+    {
+      "address": "0x40001138",
+      "instance_base": "0x40001000",
+      "field_offset": "0x138",
+      "peripheral_instance": "RADIO",
+      "peripheral_type": "NRF_RADIO",
+      "register": "EVENTS_FRAMESTART",
+      "role": "STATUS",
+      "access": "read-write",
+      "evidence_source": "official_nordic_cmsis_svd",
+      "evidence_reference": "nrf52840.svd: RADIO.EVENTS_FRAMESTART reports IEEE 802.15.4 length-field reception"
+    },
+    {
+      "address": "0x40001158",
+      "instance_base": "0x40001000",
+      "field_offset": "0x158",
+      "peripheral_instance": "RADIO",
+      "peripheral_type": "NRF_RADIO",
+      "register": "EVENTS_RXREADY",
+      "role": "STATUS",
+      "access": "read-write",
+      "evidence_source": "official_nordic_cmsis_svd",
+      "evidence_reference": "nrf52840.svd: RADIO.EVENTS_RXREADY reports that the RX path is ready"
+    },
+    {
+      "address": "0x40001200",
+      "instance_base": "0x40001000",
+      "field_offset": "0x200",
+      "peripheral_instance": "RADIO",
+      "peripheral_type": "NRF_RADIO",
+      "register": "SHORTS",
+      "role": "CONTROL",
+      "access": "read-write",
+      "evidence_source": "official_nordic_cmsis_svd",
+      "evidence_reference": "nrf52840.svd: RADIO.SHORTS"
+    },
+    {
+      "address": "0x40001304",
+      "instance_base": "0x40001000",
+      "field_offset": "0x304",
+      "peripheral_instance": "RADIO",
+      "peripheral_type": "NRF_RADIO",
+      "register": "INTENSET",
+      "role": "CONTROL",
+      "access": "read-write",
+      "evidence_source": "official_nordic_cmsis_svd",
+      "evidence_reference": "nrf52840.svd: RADIO.INTENSET"
+    },
+    {
+      "address": "0x40001308",
+      "instance_base": "0x40001000",
+      "field_offset": "0x308",
+      "peripheral_instance": "RADIO",
+      "peripheral_type": "NRF_RADIO",
+      "register": "INTENCLR",
+      "role": "CONTROL",
+      "access": "read-write",
+      "evidence_source": "official_nordic_cmsis_svd",
+      "evidence_reference": "nrf52840.svd: RADIO.INTENCLR"
+    },
+    {
+      "address": "0x40001400",
+      "instance_base": "0x40001000",
+      "field_offset": "0x400",
+      "peripheral_instance": "RADIO",
+      "peripheral_type": "NRF_RADIO",
+      "register": "CRCSTATUS",
+      "role": "STATUS",
+      "access": "read-only",
+      "evidence_source": "official_nordic_cmsis_svd",
+      "evidence_reference": "nrf52840.svd: RADIO.CRCSTATUS"
+    },
+    {
+      "address": "0x40001408",
+      "instance_base": "0x40001000",
+      "field_offset": "0x408",
+      "peripheral_instance": "RADIO",
+      "peripheral_type": "NRF_RADIO",
+      "register": "RXMATCH",
+      "role": "STATUS",
+      "access": "read-only",
+      "evidence_source": "official_nordic_cmsis_svd",
+      "evidence_reference": "nrf52840.svd: RADIO.RXMATCH"
+    },
+    {
+      "address": "0x4000140c",
+      "instance_base": "0x40001000",
+      "field_offset": "0x40c",
+      "peripheral_instance": "RADIO",
+      "peripheral_type": "NRF_RADIO",
+      "register": "RXCRC",
+      "role": "STATUS",
+      "access": "read-only",
+      "evidence_source": "official_nordic_cmsis_svd",
+      "evidence_reference": "nrf52840.svd: RADIO.RXCRC"
+    },
+    {
+      "address": "0x40001414",
+      "instance_base": "0x40001000",
+      "field_offset": "0x414",
+      "peripheral_instance": "RADIO",
+      "peripheral_type": "NRF_RADIO",
+      "register": "PDUSTAT",
+      "role": "STATUS",
+      "access": "read-only",
+      "evidence_source": "official_nordic_cmsis_svd",
+      "evidence_reference": "nrf52840.svd: RADIO.PDUSTAT"
+    },
+    {
+      "address": "0x40001504",
+      "instance_base": "0x40001000",
+      "field_offset": "0x504",
+      "peripheral_instance": "RADIO",
+      "peripheral_type": "NRF_RADIO",
+      "register": "PACKETPTR",
+      "role": "DMA_BUFFER_POINTER",
+      "access": "read-write",
+      "expected_behaviors": [
+        "RAM_POINTER_STORE",
+        "POINTER_STORE"
+      ],
+      "evidence_source": "official_nordic_cmsis_svd",
+      "evidence_reference": "nrf52840.svd: RADIO.PACKETPTR is the packet pointer; it is the receive destination when RADIO is enabled in RX mode"
+    },
+    {
+      "address": "0x40001508",
+      "instance_base": "0x40001000",
+      "field_offset": "0x508",
+      "peripheral_instance": "RADIO",
+      "peripheral_type": "NRF_RADIO",
+      "register": "FREQUENCY",
+      "role": "CONTROL",
+      "access": "read-write",
+      "evidence_source": "official_nordic_cmsis_svd",
+      "evidence_reference": "nrf52840.svd: RADIO.FREQUENCY"
+    },
+    {
+      "address": "0x40001510",
+      "instance_base": "0x40001000",
+      "field_offset": "0x510",
+      "peripheral_instance": "RADIO",
+      "peripheral_type": "NRF_RADIO",
+      "register": "MODE",
+      "role": "CONTROL",
+      "access": "read-write",
+      "evidence_source": "official_nordic_cmsis_svd",
+      "evidence_reference": "nrf52840.svd: RADIO.MODE"
+    },
+    {
+      "address": "0x40001514",
+      "instance_base": "0x40001000",
+      "field_offset": "0x514",
+      "peripheral_instance": "RADIO",
+      "peripheral_type": "NRF_RADIO",
+      "register": "PCNF0",
+      "role": "CONTROL",
+      "access": "read-write",
+      "evidence_source": "official_nordic_cmsis_svd",
+      "evidence_reference": "nrf52840.svd: RADIO.PCNF0"
+    },
+    {
+      "address": "0x40001518",
+      "instance_base": "0x40001000",
+      "field_offset": "0x518",
+      "peripheral_instance": "RADIO",
+      "peripheral_type": "NRF_RADIO",
+      "register": "PCNF1",
+      "role": "CONTROL",
+      "access": "read-write",
+      "evidence_source": "official_nordic_cmsis_svd",
+      "evidence_reference": "nrf52840.svd: RADIO.PCNF1"
+    },
+    {
+      "address": "0x40001530",
+      "instance_base": "0x40001000",
+      "field_offset": "0x530",
+      "peripheral_instance": "RADIO",
+      "peripheral_type": "NRF_RADIO",
+      "register": "RXADDRESSES",
+      "role": "CONTROL",
+      "access": "read-write",
+      "evidence_source": "official_nordic_cmsis_svd",
+      "evidence_reference": "nrf52840.svd: RADIO.RXADDRESSES"
+    },
+    {
+      "address": "0x40001550",
+      "instance_base": "0x40001000",
+      "field_offset": "0x550",
+      "peripheral_instance": "RADIO",
+      "peripheral_type": "NRF_RADIO",
+      "register": "STATE",
+      "role": "STATUS",
+      "access": "read-only",
+      "evidence_source": "official_nordic_cmsis_svd",
+      "evidence_reference": "nrf52840.svd: RADIO.STATE"
+    },
+    {
+      "address": "0x40001ffc",
+      "instance_base": "0x40001000",
+      "field_offset": "0xffc",
+      "peripheral_instance": "RADIO",
+      "peripheral_type": "NRF_RADIO",
+      "register": "POWER",
+      "role": "CONTROL",
+      "access": "read-write",
+      "evidence_source": "official_nordic_cmsis_svd",
+      "evidence_reference": "nrf52840.svd: RADIO.POWER"
+    }
+  ]
+}

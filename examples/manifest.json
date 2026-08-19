@@ -1,0 +1,11 @@
+{
+  "schema_version": "coppertrace-manifest-v1",
+  "manifest_name": "local_firmware",
+  "samples": [
+    {
+      "sample_id": "example-firmware",
+      "binary_path": "/absolute/path/to/firmware.elf",
+      "hardware_metadata_path": "registries/hardware/vendor_device.profile.json"
+    }
+  ]
+}

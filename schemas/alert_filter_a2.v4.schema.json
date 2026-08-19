@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coppertrace.local/schemas/alert_filter_a2.v4.schema.json",
+  "title": "CopperTrace A2 Canonical Alert Filter v4",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "policy",
+    "counts",
+    "canonical_alerts",
+    "merged_duplicates",
+    "dropped_invalid",
+    "non_alert_chains",
+    "artifact_contradictions"
+  ],
+  "properties": {
+    "schema_version": {"const": "ct-mini-alert-filter-a2-v4"},
+    "policy": {
+      "type": "object",
+      "required": [
+        "name",
+        "ranking_is_reference_only",
+        "pre_review_top_k",
+        "all_canonical_alerts_review_eligible"
+      ],
+      "properties": {
+        "name": {"const": "COPPERTRACE_A2"},
+        "ranking_is_reference_only": {"const": true},
+        "pre_review_top_k": {"const": false},
+        "all_canonical_alerts_review_eligible": {"const": true}
+      }
+    },
+    "counts": {
+      "type": "object",
+      "required": ["input_static_alerts", "canonical_alerts", "dropped_invalid"],
+      "properties": {
+        "input_static_alerts": {"type": "integer", "minimum": 0},
+        "canonical_alerts": {"type": "integer", "minimum": 0},
+        "dropped_invalid": {"type": "integer", "minimum": 0}
+      }
+    },
+    "canonical_alerts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "alert_id",
+          "sink_id",
+          "sink_boundary_site_id",
+          "vulnerable_parameter_roles",
+          "represented_alert_ids",
+          "rank",
+          "rank_vector"
+        ],
+        "properties": {
+          "alert_id": {"type": "string", "minLength": 1},
+          "sink_id": {"type": "string", "minLength": 1},
+          "sink_boundary_site_id": {"type": "string"},
+          "vulnerable_parameter_roles": {"type": "array"},
+          "represented_alert_ids": {"type": "array", "minItems": 1},
+          "rank": {"type": "integer", "minimum": 1},
+          "rank_vector": {"type": "array"}
+        }
+      }
+    },
+    "merged_duplicates": {"type": "array"},
+    "dropped_invalid": {"type": "array"},
+    "non_alert_chains": {"type": "array"},
+    "artifact_contradictions": {"type": "array"},
+    "inputs": {"type": "object"}
+  },
+  "not": {
+    "anyOf": [
+      {"required": ["selected"]},
+      {"required": ["deferred"]}
+    ]
+  }
+}

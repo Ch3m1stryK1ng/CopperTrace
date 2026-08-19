@@ -1,0 +1,500 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coppertrace.local/schemas/software_source_summary.schema.json",
+  "title": "CopperTrace Mini software Source summary pack",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "schema_version",
+    "pack_id",
+    "pack_kind",
+    "activation",
+    "description",
+    "policy",
+    "upstream",
+    "source_defaults",
+    "initial_handles",
+    "input_function_inventory",
+    "api_summaries",
+    "handler_inventory"
+  ],
+  "properties": {
+    "$schema": {"type": "string", "minLength": 1},
+    "schema_version": {"const": "ct-mini-software-source-summary-v1"},
+    "pack_id": {"type": "string", "pattern": "^[a-z][a-z0-9_.-]+$"},
+    "pack_kind": {"enum": ["generalized_core", "compatibility"]},
+    "activation": {"enum": ["default", "explicit"]},
+    "description": {"type": "string", "minLength": 1},
+    "policy": {"$ref": "#/$defs/policy"},
+    "upstream": {"$ref": "#/$defs/upstream"},
+    "source_defaults": {"$ref": "#/$defs/sourceDefaults"},
+    "initial_handles": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/initialHandle"}
+    },
+    "input_function_inventory": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/inputFunction"}
+    },
+    "api_summaries": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/apiSummary"}
+    },
+    "callback_registrations": {
+      "type": "array",
+      "description": "Optional trusted framework callback contracts consumed only after exact registration/target binding.",
+      "items": {"type": "object"}
+    },
+    "handler_inventory": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/handlerInventoryEntry"}
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name_matching",
+        "generalized_core_import",
+        "compatibility_specific_core_eligible",
+        "declared_input_without_handler",
+        "notes"
+      ],
+      "properties": {
+        "name_matching": {"const": "exact"},
+        "generalized_core_import": {
+          "const": "allow_only_entries_with_core_eligible_true"
+        },
+        "compatibility_specific_core_eligible": {"const": false},
+        "declared_input_without_handler": {"const": "inventory_only"},
+        "notes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "upstreamFile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "upstream": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "revision", "revision_date", "files"],
+      "properties": {
+        "repository": {"type": "string", "minLength": 1},
+        "revision": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "revision_date": {"type": "string", "format": "date-time"},
+        "files": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/upstreamFile"}
+        }
+      }
+    },
+    "sourceDefaults": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_symbolic_read_bytes",
+        "fread_hard_cap_bytes",
+        "handle_tracker",
+        "first_synthetic_handle",
+        "provenance"
+      ],
+      "properties": {
+        "max_symbolic_read_bytes": {"type": "integer", "minimum": 1},
+        "fread_hard_cap_bytes": {"type": "integer", "minimum": 1},
+        "handle_tracker": {"type": "string", "minLength": 1},
+        "first_synthetic_handle": {"type": "integer", "minimum": 0},
+        "provenance": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/provenance"}
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "line", "symbol"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "line": {"type": "integer", "minimum": 1},
+        "symbol": {"type": "string", "minLength": 1},
+        "note": {"type": "string", "minLength": 1}
+      }
+    },
+    "sourceChannel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "derivation"],
+      "properties": {
+        "kind": {
+          "enum": [
+            "network_socket",
+            "network_packet_filter",
+            "descriptor_inherited",
+            "stdio_stream",
+            "filesystem",
+            "process_environment",
+            "persistent_configuration",
+            "web_request_parameter",
+            "none"
+          ]
+        },
+        "derivation": {"type": "string", "minLength": 1}
+      }
+    },
+    "initialHandle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "value",
+        "name",
+        "kind",
+        "ingress_capable",
+        "source_channel",
+        "provenance"
+      ],
+      "properties": {
+        "value": {"type": "integer", "minimum": 0},
+        "name": {"type": "string", "minLength": 1},
+        "kind": {"enum": ["file_descriptor", "stdio_stream"]},
+        "ingress_capable": {"type": "boolean"},
+        "source_channel": {"$ref": "#/$defs/sourceChannel"},
+        "provenance": {"$ref": "#/$defs/provenance"}
+      }
+    },
+    "inputFunction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "origin",
+        "handler_status",
+        "compatibility_specific",
+        "core_eligible",
+        "provenance"
+      ],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "origin": {"enum": ["direct_literal", "getter_union"]},
+        "handler_status": {"enum": ["modeled", "declared_without_handler"]},
+        "compatibility_specific": {"type": "boolean"},
+        "core_eligible": {"type": "boolean"},
+        "summary_id": {"type": "string", "minLength": 1},
+        "provenance": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/provenance"}
+        }
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"compatibility_specific": {"const": true}}},
+          "then": {"properties": {"core_eligible": {"const": false}}}
+        },
+        {
+          "if": {"properties": {"handler_status": {"const": "modeled"}}},
+          "then": {"required": ["summary_id"]}
+        },
+        {
+          "if": {
+            "properties": {"handler_status": {"const": "declared_without_handler"}}
+          },
+          "then": {"not": {"required": ["summary_id"]}}
+        }
+      ]
+    },
+    "handlerRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["module", "class", "method"],
+      "properties": {
+        "module": {"type": "string", "minLength": 1},
+        "class": {"type": "string", "minLength": 1},
+        "method": {"type": "string", "pattern": "^handle_"}
+      }
+    },
+    "callingConventionVariant": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["when", "consumed_argument_indices"],
+      "properties": {
+        "when": {"type": "string", "minLength": 1},
+        "consumed_argument_indices": {
+          "type": "array",
+          "items": {"type": "integer", "minimum": 0},
+          "uniqueItems": true
+        },
+        "notes": {"type": "string", "minLength": 1}
+      }
+    },
+    "callingConvention": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "abi",
+        "lookup_name",
+        "lookup_mode",
+        "declaration_source",
+        "declared_argument_count",
+        "maximum_consumed_argument_count",
+        "variadic",
+        "trailing_arguments",
+        "notes"
+      ],
+      "properties": {
+        "abi": {"const": "architecture_default"},
+        "lookup_name": {"type": "string", "minLength": 1},
+        "lookup_mode": {"enum": ["fixed_name", "stored_function_name"]},
+        "declaration_source": {
+          "enum": ["angr_glibc", "mango_custom", "mango_nvram"]
+        },
+        "declared_argument_count": {"type": "integer", "minimum": 0},
+        "maximum_consumed_argument_count": {"type": "integer", "minimum": 0},
+        "variadic": {"type": "boolean"},
+        "trailing_arguments": {
+          "enum": ["consumed", "ignored", "conditional", "not_applicable"]
+        },
+        "variants": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/callingConventionVariant"}
+        },
+        "notes": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "argument": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "index",
+        "name",
+        "role",
+        "direction",
+        "c_type",
+        "consumed_by_handler"
+      ],
+      "properties": {
+        "index": {"type": "integer", "minimum": 0},
+        "name": {"type": "string", "minLength": 1},
+        "role": {"type": "string", "minLength": 1},
+        "direction": {"enum": ["in", "out", "inout"]},
+        "c_type": {"type": "string", "minLength": 1},
+        "consumed_by_handler": {"type": "boolean"},
+        "condition": {"type": "string", "minLength": 1},
+        "notes": {"type": "string", "minLength": 1}
+      }
+    },
+    "output": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "role",
+        "carrier",
+        "value_kind",
+        "external_data",
+        "semantics"
+      ],
+      "properties": {
+        "role": {"type": "string", "minLength": 1},
+        "carrier": {
+          "enum": ["argument_pointee", "return", "return_pointee", "none"]
+        },
+        "argument_index": {"type": "integer", "minimum": 0},
+        "value_kind": {"enum": ["bytes", "integer", "pointer", "handle", "none"]},
+        "external_data": {"type": "boolean"},
+        "condition": {"type": "string", "minLength": 1},
+        "semantics": {"type": "string", "minLength": 1}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"carrier": {"const": "argument_pointee"}}},
+          "then": {"required": ["argument_index"]}
+        }
+      ]
+    },
+    "sizeModel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "expression", "units"],
+      "properties": {
+        "kind": {
+          "enum": ["none", "fixed", "argument_bounded", "product_bounded", "value_dependent"]
+        },
+        "expression": {"type": "string", "minLength": 1},
+        "units": {"const": "bytes"},
+        "cap_bytes": {"type": "integer", "minimum": 0},
+        "unknown_bytes": {"type": "string", "minLength": 1},
+        "notes": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "availableExtent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["carrier", "extent_for_role", "proof_kind"],
+      "properties": {
+        "carrier": {"enum": ["return", "argument", "argument_pointee"]},
+        "argument_index": {"type": "integer", "minimum": 0},
+        "parameter_slot": {"type": "integer", "minimum": 0},
+        "extent_for_role": {"type": "string", "minLength": 1},
+        "proof_kind": {"type": "string", "minLength": 1}
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "carrier": {"enum": ["argument", "argument_pointee"]}
+            }
+          },
+          "then": {
+            "anyOf": [
+              {"required": ["argument_index"]},
+              {"required": ["parameter_slot"]}
+            ]
+          }
+        }
+      ]
+    },
+    "handleProvenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tracker", "produces_return_handle", "record_shape", "notes"],
+      "properties": {
+        "tracker": {"type": "string", "minLength": 1},
+        "consumes_argument": {"type": "integer", "minimum": 0},
+        "produces_return_handle": {"type": "boolean"},
+        "parent_argument": {"type": "integer", "minimum": 0},
+        "unresolved_parent": {"type": "string", "minLength": 1},
+        "record_shape": {"type": "string", "minLength": 1},
+        "notes": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "apiSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "summary_kind",
+        "compatibility_specific",
+        "core_eligible",
+        "handler",
+        "calling_convention",
+        "arguments",
+        "outputs",
+        "size",
+        "source_channel",
+        "provenance",
+        "notes"
+      ],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z][a-z0-9_.-]+$"},
+        "name": {"type": "string", "minLength": 1},
+        "summary_kind": {"enum": ["source", "handle_producer"]},
+        "compatibility_specific": {"type": "boolean"},
+        "core_eligible": {"type": "boolean"},
+        "handler": {"$ref": "#/$defs/handlerRef"},
+        "calling_convention": {"$ref": "#/$defs/callingConvention"},
+        "arguments": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/argument"}
+        },
+        "outputs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/output"}
+        },
+        "available_extent": {"$ref": "#/$defs/availableExtent"},
+        "size": {"$ref": "#/$defs/sizeModel"},
+        "handle_provenance": {"$ref": "#/$defs/handleProvenance"},
+        "source_channel": {"$ref": "#/$defs/sourceChannel"},
+        "provenance": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/provenance"}
+        },
+        "notes": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        }
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"compatibility_specific": {"const": true}}},
+          "then": {"properties": {"core_eligible": {"const": false}}}
+        },
+        {
+          "if": {"properties": {"summary_kind": {"const": "handle_producer"}}},
+          "then": {"required": ["handle_provenance"]}
+        }
+      ]
+    },
+    "handlerInventoryEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "module",
+        "class",
+        "handler",
+        "api_name",
+        "line",
+        "source_disposition",
+        "calling_convention_lookup",
+        "compatibility_specific"
+      ],
+      "properties": {
+        "module": {"type": "string", "minLength": 1},
+        "class": {"type": "string", "minLength": 1},
+        "handler": {"type": "string", "pattern": "^handle_"},
+        "api_name": {"type": "string", "minLength": 1},
+        "line": {"type": "integer", "minimum": 1},
+        "source_disposition": {
+          "enum": ["source", "handle_producer", "derived_non_source", "non_source", "no_op"]
+        },
+        "calling_convention_lookup": {
+          "type": ["string", "null"]
+        },
+        "compatibility_specific": {"type": "boolean"},
+        "summary_id": {"type": "string", "minLength": 1},
+        "notes": {"type": "string", "minLength": 1}
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "source_disposition": {"enum": ["source", "handle_producer"]}
+            }
+          },
+          "then": {"required": ["summary_id"]}
+        }
+      ]
+    }
+  }
+}

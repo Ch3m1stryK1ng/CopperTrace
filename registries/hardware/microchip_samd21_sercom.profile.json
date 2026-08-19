@@ -1,0 +1,166 @@
+{
+  "schema_version": "ct-mini-hardware-metadata-v2",
+  "scope": "platform",
+  "platform_id": "microchip-samd21-sercom",
+  "metadata_source": "trusted_platform_summary",
+  "evidence_source": "vendor_cmsis_header",
+  "evidence_reference": "Microchip SAMD21 CMSIS headers: SERCOM APB instance bases, SERCOM_SPI_INTFLAG offset 0x18, SERCOM_SPI_DATA offset 0x28",
+  "mmio_ranges": [
+    {
+      "start": "0x40000000",
+      "end": "0x5fffffff",
+      "name": "arm_external_peripheral_space",
+      "evidence_source": "architecture_and_vendor_memory_map",
+      "evidence_reference": "ARMv7-M peripheral region and Microchip SAMD21 memory map"
+    }
+  ],
+  "registers": [
+    {
+      "address": "0x42000818",
+      "instance_base": "0x42000800",
+      "field_offset": "0x18",
+      "peripheral_instance": "SERCOM0",
+      "register": "SERCOM_SPI_INTFLAG",
+      "role": "STATUS",
+      "access": "read-only",
+      "expected_behaviors": ["BIT_TEST_OR_BRANCH"],
+      "evidence_source": "vendor_cmsis_header",
+      "evidence_reference": "SAMD21 SERCOM0 instance header and SERCOM SPI component header"
+    },
+    {
+      "address": "0x42000828",
+      "instance_base": "0x42000800",
+      "field_offset": "0x28",
+      "peripheral_instance": "SERCOM0",
+      "register": "SERCOM_SPI_DATA",
+      "role": "RX_DATA",
+      "access": "read-write",
+      "expected_behaviors": ["VALUE_TO_MEMORY", "VALUE_TO_CALL"],
+      "evidence_source": "vendor_cmsis_header",
+      "evidence_reference": "SAMD21 SERCOM0 instance header and SERCOM SPI component header"
+    },
+    {
+      "address": "0x42000c18",
+      "instance_base": "0x42000c00",
+      "field_offset": "0x18",
+      "peripheral_instance": "SERCOM1",
+      "register": "SERCOM_SPI_INTFLAG",
+      "role": "STATUS",
+      "access": "read-only",
+      "expected_behaviors": ["BIT_TEST_OR_BRANCH"],
+      "evidence_source": "vendor_cmsis_header",
+      "evidence_reference": "SAMD21 SERCOM1 instance header and SERCOM SPI component header"
+    },
+    {
+      "address": "0x42000c28",
+      "instance_base": "0x42000c00",
+      "field_offset": "0x28",
+      "peripheral_instance": "SERCOM1",
+      "register": "SERCOM_SPI_DATA",
+      "role": "RX_DATA",
+      "access": "read-write",
+      "expected_behaviors": ["VALUE_TO_MEMORY", "VALUE_TO_CALL"],
+      "evidence_source": "vendor_cmsis_header",
+      "evidence_reference": "SAMD21 SERCOM1 instance header and SERCOM SPI component header"
+    },
+    {
+      "address": "0x42001018",
+      "instance_base": "0x42001000",
+      "field_offset": "0x18",
+      "peripheral_instance": "SERCOM2",
+      "register": "SERCOM_SPI_INTFLAG",
+      "role": "STATUS",
+      "access": "read-only",
+      "expected_behaviors": ["BIT_TEST_OR_BRANCH"],
+      "evidence_source": "vendor_cmsis_header",
+      "evidence_reference": "SAMD21 SERCOM2 instance header and SERCOM SPI component header"
+    },
+    {
+      "address": "0x42001028",
+      "instance_base": "0x42001000",
+      "field_offset": "0x28",
+      "peripheral_instance": "SERCOM2",
+      "register": "SERCOM_SPI_DATA",
+      "role": "RX_DATA",
+      "access": "read-write",
+      "expected_behaviors": ["VALUE_TO_MEMORY", "VALUE_TO_CALL"],
+      "evidence_source": "vendor_cmsis_header",
+      "evidence_reference": "SAMD21 SERCOM2 instance header and SERCOM SPI component header"
+    },
+    {
+      "address": "0x42001418",
+      "instance_base": "0x42001400",
+      "field_offset": "0x18",
+      "peripheral_instance": "SERCOM3",
+      "register": "SERCOM_SPI_INTFLAG",
+      "role": "STATUS",
+      "access": "read-only",
+      "expected_behaviors": ["BIT_TEST_OR_BRANCH"],
+      "evidence_source": "vendor_cmsis_header",
+      "evidence_reference": "SAMD21 SERCOM3 instance header and SERCOM SPI component header"
+    },
+    {
+      "address": "0x42001428",
+      "instance_base": "0x42001400",
+      "field_offset": "0x28",
+      "peripheral_instance": "SERCOM3",
+      "register": "SERCOM_SPI_DATA",
+      "role": "RX_DATA",
+      "access": "read-write",
+      "expected_behaviors": ["VALUE_TO_MEMORY", "VALUE_TO_CALL"],
+      "evidence_source": "vendor_cmsis_header",
+      "evidence_reference": "SAMD21 SERCOM3 instance header and SERCOM SPI component header"
+    },
+    {
+      "address": "0x42001818",
+      "instance_base": "0x42001800",
+      "field_offset": "0x18",
+      "peripheral_instance": "SERCOM4",
+      "register": "SERCOM_SPI_INTFLAG",
+      "role": "STATUS",
+      "access": "read-only",
+      "expected_behaviors": ["BIT_TEST_OR_BRANCH"],
+      "evidence_source": "vendor_cmsis_header",
+      "evidence_reference": "SAMD21 SERCOM4 instance header and SERCOM SPI component header"
+    },
+    {
+      "address": "0x42001828",
+      "instance_base": "0x42001800",
+      "field_offset": "0x28",
+      "peripheral_instance": "SERCOM4",
+      "register": "SERCOM_SPI_DATA",
+      "role": "RX_DATA",
+      "access": "read-write",
+      "expected_behaviors": ["VALUE_TO_MEMORY", "VALUE_TO_CALL"],
+      "evidence_source": "vendor_cmsis_header",
+      "evidence_reference": "SAMD21 SERCOM4 instance header and SERCOM SPI component header"
+    },
+    {
+      "address": "0x42001c18",
+      "instance_base": "0x42001c00",
+      "field_offset": "0x18",
+      "peripheral_instance": "SERCOM5",
+      "register": "SERCOM_SPI_INTFLAG",
+      "role": "STATUS",
+      "access": "read-only",
+      "expected_behaviors": ["BIT_TEST_OR_BRANCH"],
+      "evidence_source": "vendor_cmsis_header",
+      "evidence_reference": "SAMD21 SERCOM5 instance header and SERCOM SPI component header"
+    },
+    {
+      "address": "0x42001c28",
+      "instance_base": "0x42001c00",
+      "field_offset": "0x28",
+      "peripheral_instance": "SERCOM5",
+      "register": "SERCOM_SPI_DATA",
+      "role": "RX_DATA",
+      "access": "read-write",
+      "expected_behaviors": ["VALUE_TO_MEMORY", "VALUE_TO_CALL"],
+      "evidence_source": "vendor_cmsis_header",
+      "evidence_reference": "SAMD21 SERCOM5 instance header and SERCOM SPI component header"
+    }
+  ],
+  "evidence_urls": [
+    "https://ww1.microchip.com/downloads/en/DeviceDoc/40001882A.pdf"
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "schema_version": "ct-mini-hardware-metadata-v2",
+  "scope": "platform",
+  "metadata_source": "trusted_platform_summary",
+  "platform_id": "st-stm32-spi-v1",
+  "binary_identity": {
+    "required_symbols": [
+      {
+        "name": "CONFIG_SOC_STM32L475XX",
+        "value": "0x1"
+      }
+    ]
+  },
+  "evidence_source": "cmsis_header+vendor_reference_manual",
+  "evidence_reference": "STM32 CMSIS SPI_TypeDef register layout and STM32 SPI receive-data semantics",
+  "mmio_ranges": [
+    {
+      "start": "0x40000000",
+      "end": "0x5fffffff",
+      "name": "cortex_m_external_peripheral_space",
+      "evidence_source": "arm_and_vendor_memory_map",
+      "evidence_reference": "ARMv7-M peripheral region and STM32 memory map"
+    }
+  ],
+  "peripheral_instances": [
+    {
+      "instance_base": "0x40003c00",
+      "peripheral_instance": "SPI3",
+      "peripheral_type": "SPI_TypeDef",
+      "evidence_source": "firmware_device_configuration+vendor_memory_map",
+      "evidence_reference": "SPI_3 device configuration in the analyzed STM32 platform image"
+    }
+  ],
+  "registers": [
+    {
+      "peripheral_type": "SPI_TypeDef",
+      "field_offset": "0x8",
+      "register": "SR",
+      "role": "STATUS",
+      "evidence_source": "cmsis_header+vendor_reference_manual",
+      "evidence_reference": "STM32 SPI_TypeDef.SR"
+    },
+    {
+      "address": "0x40003c0c",
+      "instance_base": "0x40003c00",
+      "peripheral_instance": "SPI3",
+      "peripheral_type": "SPI_TypeDef",
+      "field_offset": "0xc",
+      "register": "DR",
+      "role": "RX_DATA",
+      "evidence_source": "cmsis_header+vendor_reference_manual",
+      "evidence_reference": "STM32 SPI_TypeDef.DR receive-data read"
+    }
+  ]
+}

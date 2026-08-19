@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coppertrace.local/schemas/validation_result.schema.json",
+  "title": "CopperTrace Mini execution validation result",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "alert_id",
+    "plan_id",
+    "result_class",
+    "reason_code",
+    "policy",
+    "inputs",
+    "sink_checkpoint",
+    "variants"
+  ],
+  "properties": {
+    "schema_version": {"const": "ct-mini-validation-result-v1"},
+    "alert_id": {"type": "string", "minLength": 1},
+    "plan_id": {"type": "string", "minLength": 1},
+    "result_class": {"enum": ["POC", "NON_POC", "INCONCLUSIVE"]},
+    "reason_code": {"type": "string", "minLength": 1},
+    "policy": {"type": "object"},
+    "inputs": {"type": "object"},
+    "sink_checkpoint": {"type": "object"},
+    "variants": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["variant_id", "result_class", "reason_code"],
+        "properties": {
+          "variant_id": {"type": "string"},
+          "result_class": {"enum": ["POC", "NON_POC", "INCONCLUSIVE"]},
+          "reason_code": {"type": "string"},
+          "replay_evidence": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "source_observed": {"type": "boolean"},
+                "sink_observed": {"type": "boolean"},
+                "fault_signature": {"type": ["string", "null"]},
+                "causal_fault_evidence": {"type": ["object", "null"]}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": true
+}

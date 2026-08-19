@@ -1,0 +1,33 @@
+{
+  "platform_id": "microchip-sam3x",
+  "scope": "platform",
+  "metadata_source": "trusted_platform_summary",
+  "evidence_source": "vendor_manual",
+  "evidence_reference": "https://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-11057-32-bit-Cortex-M3-Microcontroller-SAM3X-SAM3A_Datasheet.pdf#SPI",
+  "mmio_ranges": [
+    {
+      "start": "0x40000000",
+      "end": "0x5fffffff",
+      "name": "cortex_m_external_peripheral_space",
+      "evidence_source": "architecture_and_vendor_memory_map",
+      "evidence_reference": "SAM3X-SAM3A datasheet memory mapping"
+    }
+  ],
+  "registers": [
+    {
+      "peripheral_type": "Spi",
+      "register": "SPI_RDR",
+      "role": "RX_DATA"
+    },
+    {
+      "peripheral_type": "Spi",
+      "register": "SPI_TDR",
+      "role": "TX_DATA"
+    },
+    {
+      "peripheral_type": "Spi",
+      "register": "SPI_SR",
+      "role": "STATUS"
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "schema_version": "ct-mini-hardware-metadata-v2",
+  "scope": "platform",
+  "platform_id": "microchip-sam4s16c",
+  "metadata_source": "trusted_platform_summary",
+  "evidence_source": "vendor_cmsis_header+devicetree+role_overlay",
+  "evidence_reference": "sam4s/component_spi.h,sam4s/instance_spi.h,Zephyr sam4s.dtsi,Microchip SAM4S Series Datasheet",
+  "binary_identity": {
+    "required_symbols": [
+      {
+        "name": "CONFIG_SOC_PART_NUMBER_SAM4S16C",
+        "value": "0x1"
+      }
+    ]
+  },
+  "mmio_ranges": [
+    {
+      "start": "0x40000000",
+      "end": "0x5fffffff",
+      "name": "arm_external_peripheral_space",
+      "evidence_source": "architecture_and_vendor_memory_map",
+      "evidence_reference": "Microchip SAM4S memory map"
+    }
+  ],
+  "peripheral_instances": [
+    {
+      "peripheral_instance": "SPI0",
+      "peripheral_type": "Spi",
+      "instance_base": "0x40008000",
+      "evidence_source": "Zephyr devicetree+vendor_cmsis_header",
+      "evidence_reference": "dts/arm/atmel/sam4s.dtsi; sam4s/instance/instance_spi.h"
+    }
+  ],
+  "registers": [
+    {
+      "address": "0x40008008",
+      "instance_base": "0x40008000",
+      "field_offset": "0x8",
+      "peripheral_instance": "SPI0",
+      "peripheral_type": "Spi",
+      "register": "SPI_RDR",
+      "role": "RX_DATA",
+      "evidence_source": "vendor_cmsis_header",
+      "evidence_reference": "sam4s/include/component/component_spi.h: SPI_RDR Receive Data Register; sam4s/include/instance/instance_spi.h: REG_SPI_RDR=0x40008008"
+    },
+    {
+      "address": "0x4000800c",
+      "instance_base": "0x40008000",
+      "field_offset": "0xc",
+      "peripheral_instance": "SPI0",
+      "peripheral_type": "Spi",
+      "register": "SPI_TDR",
+      "role": "TX_DATA",
+      "evidence_source": "vendor_cmsis_header",
+      "evidence_reference": "sam4s/include/component/component_spi.h: SPI_TDR Transmit Data Register"
+    },
+    {
+      "address": "0x40008010",
+      "instance_base": "0x40008000",
+      "field_offset": "0x10",
+      "peripheral_instance": "SPI0",
+      "peripheral_type": "Spi",
+      "register": "SPI_SR",
+      "role": "STATUS",
+      "evidence_source": "vendor_cmsis_header",
+      "evidence_reference": "sam4s/include/component/component_spi.h: SPI_SR Status Register"
+    }
+  ],
+  "evidence_urls": [
+    "https://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-11100-32-bit-Cortex-M4-Microcontroller-SAM4S_Datasheet.pdf"
+  ]
+}

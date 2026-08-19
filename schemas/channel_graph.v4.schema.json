@@ -1,0 +1,711 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coppertrace.local/schemas/channel_graph.v4.schema.json",
+  "title": "CopperTrace Mini Channelgraph v4",
+  "description": "Backward-compatible v4 artifact surface with concrete Channelgraph transfer evidence.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "source_associations",
+    "shared_objects",
+    "nodes",
+    "edges",
+    "call_edges",
+    "channel_edges",
+    "channel_blockers",
+    "counts"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "ct-mini-channel-graph-v4"
+    },
+    "strict_traversal_surface": {
+      "const": "channel_edges"
+    },
+    "source_associations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/sourceAssociation"
+      }
+    },
+    "shared_objects": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/sharedObject"
+      }
+    },
+    "function_nodes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/functionNode"
+      }
+    },
+    "object_nodes": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "nodes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/unifiedNode"
+      }
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/unifiedEdge"
+      }
+    },
+    "call_edges": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/callEdge"
+      }
+    },
+    "channel_edges": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/channelEdge"
+      }
+    },
+    "candidate_channel_edges": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "channel_blockers": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "value_object_bindings": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "counts": {
+      "type": "object"
+    }
+  },
+  "$defs": {
+    "recognition": {
+      "enum": [
+        "deterministic",
+        "heuristic"
+      ]
+    },
+    "sourceAssociation": {
+      "type": "object",
+      "required": [
+        "association_id",
+        "source_definition_id",
+        "state_kind",
+        "relation_kind",
+        "precision"
+      ],
+      "properties": {
+        "association_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_definition_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_id": {
+          "type": "string"
+        },
+        "state_kind": {
+          "enum": [
+            "VALUE",
+            "MEMORY_CONTENT",
+            "OBJECT_REFERENCE"
+          ]
+        },
+        "function_id": {
+          "type": "string"
+        },
+        "atom_id": {
+          "type": "string"
+        },
+        "object_id": {
+          "type": "string"
+        },
+        "pointee_object_id": {
+          "type": "string"
+        },
+        "region": {
+          "type": "object"
+        },
+        "field_path": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "channel_depth": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 8
+        },
+        "predecessor_association_id": {
+          "type": "string"
+        },
+        "relation_kind": {
+          "type": "string",
+          "minLength": 1
+        },
+        "site_id": {
+          "type": "string"
+        },
+        "precision": {
+          "enum": [
+            "EXACT",
+            "MAY"
+          ]
+        },
+        "evidence": {
+          "type": "object"
+        }
+      }
+    },
+    "writeEvidence": {
+      "type": "object",
+      "required": [
+        "function_id",
+        "site_id",
+        "stored_atom_id",
+        "source_associated"
+      ],
+      "properties": {
+        "edge_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "function_id": {
+          "type": "string",
+          "pattern": "^fn:"
+        },
+        "site_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "stored_atom_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "stored_value_id": {
+          "type": "string"
+        },
+        "value_atom_id": {
+          "type": "string"
+        },
+        "value_id": {
+          "type": "string"
+        },
+        "source_associated": {
+          "type": "boolean"
+        },
+        "recognition": {
+          "$ref": "#/$defs/recognition"
+        },
+        "access": {
+          "type": "object"
+        },
+        "evidence": {
+          "type": "object"
+        }
+      }
+    },
+    "readEvidence": {
+      "type": "object",
+      "required": [
+        "function_id",
+        "site_id",
+        "loaded_atom_id"
+      ],
+      "properties": {
+        "edge_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "function_id": {
+          "type": "string",
+          "pattern": "^fn:"
+        },
+        "site_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "loaded_atom_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "loaded_value_id": {
+          "type": "string"
+        },
+        "value_atom_id": {
+          "type": "string"
+        },
+        "value_id": {
+          "type": "string"
+        },
+        "recognition": {
+          "$ref": "#/$defs/recognition"
+        },
+        "access": {
+          "type": "object"
+        },
+        "evidence": {
+          "type": "object"
+        }
+      }
+    },
+    "sharedObject": {
+      "type": "object",
+      "required": [
+        "object_id",
+        "transfer_semantics",
+        "source_lineage_ids",
+        "writers",
+        "readers",
+        "recognition"
+      ],
+      "properties": {
+        "node_id": {
+          "type": "string",
+          "pattern": "^obj:"
+        },
+        "node_kind": {
+          "const": "SHARED_OBJECT"
+        },
+        "object_id": {
+          "type": "string",
+          "pattern": "^obj:"
+        },
+        "base_object_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "region": {
+          "type": "object"
+        },
+        "transfer_semantics": {
+          "enum": [
+            "MEMORY_CONTENT",
+            "OBJECT_REFERENCE"
+          ]
+        },
+        "source_lineage_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "writers": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/writeEvidence"
+          }
+        },
+        "readers": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/readEvidence"
+          }
+        },
+        "recognition": {
+          "$ref": "#/$defs/recognition"
+        },
+        "admission_blockers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "evidence": {
+          "type": "object"
+        }
+      }
+    },
+    "functionNode": {
+      "type": "object",
+      "required": [
+        "node_id",
+        "node_kind"
+      ],
+      "properties": {
+        "node_id": {
+          "type": "string",
+          "pattern": "^fn:"
+        },
+        "node_kind": {
+          "const": "FUNCTION"
+        },
+        "name": {
+          "type": "string"
+        },
+        "entry": {
+          "type": "string"
+        },
+        "deterministic_context_id": {
+          "type": "string"
+        },
+        "deterministic_context_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "context_blockers": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "sharedObjectNode": {
+      "type": "object",
+      "required": [
+        "node_id",
+        "node_kind",
+        "object_id"
+      ],
+      "properties": {
+        "node_id": {
+          "type": "string",
+          "pattern": "^obj:"
+        },
+        "node_kind": {
+          "const": "SHARED_OBJECT"
+        },
+        "object_id": {
+          "type": "string",
+          "pattern": "^obj:"
+        },
+        "base_object_id": {
+          "type": "string"
+        },
+        "recognition": {
+          "$ref": "#/$defs/recognition"
+        }
+      }
+    },
+    "unifiedNode": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/functionNode"
+        },
+        {
+          "$ref": "#/$defs/sharedObjectNode"
+        }
+      ]
+    },
+    "commonEdge": {
+      "type": "object",
+      "required": [
+        "edge_id",
+        "src_node_id",
+        "dst_node_id",
+        "edge_kind",
+        "site_id"
+      ],
+      "properties": {
+        "edge_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "src_node_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "dst_node_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "edge_kind": {
+          "enum": [
+            "CALL",
+            "CALLIND",
+            "CHANNEL_WRITE",
+            "CHANNEL_READ"
+          ]
+        },
+        "site_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "callEdge": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/commonEdge"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "src_node_id": {
+              "pattern": "^fn:"
+            },
+            "dst_node_id": {
+              "pattern": "^(fn:|unknown-call-target:)"
+            },
+            "edge_kind": {
+              "enum": [
+                "CALL",
+                "CALLIND"
+              ]
+            },
+            "resolution": {
+              "enum": [
+                "DIRECT",
+                "EXACT_INDIRECT_TARGET",
+                "FINITE_TABLE_MAY_TARGET",
+                "UNRESOLVED_INDIRECT"
+              ]
+            },
+            "recognition": {
+              "$ref": "#/$defs/recognition"
+            },
+            "analysis_precision": {
+              "enum": [
+                "EXACT",
+                "MAY"
+              ]
+            },
+            "argument_value_ids": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "resolved_argument_object_ids": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "formal_parameter_object_ids": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "resolution_kind": {
+              "type": "string"
+            },
+            "resolution_evidence": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              }
+            },
+            "argument_bindings": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              }
+            },
+            "bound_output_effects": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "resolution"
+            ],
+            "properties": {
+              "resolution": {
+                "const": "FINITE_TABLE_MAY_TARGET"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "recognition",
+              "analysis_precision"
+            ],
+            "properties": {
+              "recognition": {
+                "const": "heuristic"
+              },
+              "analysis_precision": {
+                "const": "MAY"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "channelWriteEdge": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/commonEdge"
+        },
+        {
+          "type": "object",
+          "required": [
+            "object_id",
+            "recognition",
+            "source_associated",
+            "traversable",
+            "stored_atom_id"
+          ],
+          "properties": {
+            "src_node_id": {
+              "pattern": "^fn:"
+            },
+            "dst_node_id": {
+              "pattern": "^obj:"
+            },
+            "edge_kind": {
+              "const": "CHANNEL_WRITE"
+            },
+            "object_id": {
+              "type": "string",
+              "pattern": "^obj:"
+            },
+            "recognition": {
+              "$ref": "#/$defs/recognition"
+            },
+            "source_associated": {
+              "type": "boolean"
+            },
+            "traversable": {
+              "const": true
+            },
+            "stored_atom_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "stored_value_id": {
+              "type": "string"
+            },
+            "value_atom_id": {
+              "type": "string"
+            },
+            "region": {
+              "type": "object"
+            },
+            "transfer_semantics": {
+              "enum": [
+                "MEMORY_CONTENT",
+                "OBJECT_REFERENCE"
+              ]
+            },
+            "evidence": {
+              "type": "object"
+            }
+          }
+        }
+      ]
+    },
+    "channelReadEdge": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/commonEdge"
+        },
+        {
+          "type": "object",
+          "required": [
+            "object_id",
+            "recognition",
+            "source_associated",
+            "traversable",
+            "loaded_atom_id"
+          ],
+          "properties": {
+            "src_node_id": {
+              "pattern": "^obj:"
+            },
+            "dst_node_id": {
+              "pattern": "^fn:"
+            },
+            "edge_kind": {
+              "const": "CHANNEL_READ"
+            },
+            "object_id": {
+              "type": "string",
+              "pattern": "^obj:"
+            },
+            "recognition": {
+              "$ref": "#/$defs/recognition"
+            },
+            "source_associated": {
+              "type": "boolean"
+            },
+            "traversable": {
+              "const": true
+            },
+            "loaded_atom_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "loaded_value_id": {
+              "type": "string"
+            },
+            "value_atom_id": {
+              "type": "string"
+            },
+            "region": {
+              "type": "object"
+            },
+            "transfer_semantics": {
+              "enum": [
+                "MEMORY_CONTENT",
+                "OBJECT_REFERENCE"
+              ]
+            },
+            "evidence": {
+              "type": "object"
+            }
+          }
+        }
+      ]
+    },
+    "channelEdge": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/channelWriteEdge"
+        },
+        {
+          "$ref": "#/$defs/channelReadEdge"
+        }
+      ]
+    },
+    "unifiedEdge": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/callEdge"
+        },
+        {
+          "$ref": "#/$defs/channelWriteEdge"
+        },
+        {
+          "$ref": "#/$defs/channelReadEdge"
+        }
+      ]
+    }
+  }
+}

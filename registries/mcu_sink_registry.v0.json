@@ -1,0 +1,266 @@
+{
+  "schema_version": "ct-mini-sink-registry-v0",
+  "name": "mcu_sink_registry",
+  "description": "Pre-defined sink registry for MCU firmware sink pre-work. Entries are sink seeds, not vulnerability verdicts.",
+  "policy": {
+    "enabled_only": true,
+    "front_pipeline_llm": false,
+    "no_exact_sample_or_cve_function_shortcuts": true,
+    "decisions": {
+      "ACCEPT_DETERMINISTIC": "Primitive, compiler intrinsic, or body-proved wrapper semantics with bound roles.",
+      "ACCEPT_HEURISTIC": "Generalized STORE/loop/parser structure retained as a backward-DFA startpoint.",
+      "DROP_LOCAL_HEURISTIC": "The site does not satisfy the local admission threshold; this is not proof that it can never be a sink.",
+      "DROP_PROVEN": "A local contradiction proves that the observed site is not a sink of the nominated class."
+    },
+    "meaning": {
+      "primitive_sinks": "Low-level C/library/compiler routines that directly write/copy/format memory.",
+      "framework_sinks": "RTOS/network/framework APIs with known argument roles. These supplement body-derived wrappers.",
+      "pattern_sinks": "Code-shape sink types inherited from CopperTrace miners. These require pattern/dataflow detectors, not only name scanning.",
+      "dispatch_patterns": "Indirect call shapes recorded as unresolved dispatch edges unless their targets are resolved later."
+    },
+    "default_vulnerable_parameter_roles_by_label": {
+      "COPY_SINK": ["src", "len"],
+      "MEMSET_SINK": ["len"],
+      "STORE_SINK": ["dst", "value"],
+      "LOOP_WRITE_SINK": ["dst", "src", "value", "len", "index", "bound"],
+      "FORMAT_STRING_SINK": ["fmt"],
+      "FUNC_PTR_SINK": ["target", "index"],
+      "LIFETIME_SINK": ["object"]
+    }
+  },
+  "sink_labels": [
+    {
+      "label": "COPY_SINK",
+      "enabled": true,
+      "sourceagent_definition": "sourceagent/pipeline/models.py:33",
+      "meaning": "Memory/string copy, copy-like loop, or framework buffer append/copy where dst/src/len roles can be recovered.",
+      "detectors": ["primitive_sinks", "framework_sinks", "body_derived_wrappers", "pattern_sinks.loop_copy"]
+    },
+    {
+      "label": "MEMSET_SINK",
+      "enabled": true,
+      "sourceagent_definition": "sourceagent/pipeline/models.py:34",
+      "meaning": "Memory fill/clear where dst/value/len roles can be recovered.",
+      "detectors": ["primitive_sinks"]
+    },
+    {
+      "label": "STORE_SINK",
+      "enabled": true,
+      "sourceagent_definition": "sourceagent/pipeline/models.py:35",
+      "meaning": "Store through argument/global/unknown pointer or queue/message API that writes an object into shared state.",
+      "detectors": ["framework_sinks.queue", "pattern_sinks.pointer_store", "pattern_sinks.param_store"]
+    },
+    {
+      "label": "LOOP_WRITE_SINK",
+      "enabled": true,
+      "sourceagent_definition": "sourceagent/pipeline/models.py:36",
+      "meaning": "Loop that writes to memory each iteration, especially indexed or pointer-increment writes.",
+      "detectors": ["pattern_sinks.loop_write"]
+    },
+    {
+      "label": "FORMAT_STRING_SINK",
+      "enabled": true,
+      "sourceagent_definition": "sourceagent/pipeline/models.py:37",
+      "meaning": "Printf-family call where the format argument is variable/non-literal, plus buffer-formatting calls with dst/fmt roles.",
+      "detectors": ["primitive_sinks.format_buffer", "pattern_sinks.nonliteral_format"]
+    },
+    {
+      "label": "FUNC_PTR_SINK",
+      "enabled": true,
+      "sourceagent_definition": "sourceagent/pipeline/models.py:38",
+      "meaning": "Indirect call where function pointer or dispatch index may be attacker-controlled.",
+      "detectors": ["pattern_sinks.indirect_call_control"]
+    },
+    {
+      "label": "LIFETIME_SINK",
+      "enabled": true,
+      "sourceagent_definition": "sourceagent/pipeline/models.py:39",
+      "meaning": "Double-free, use-after-free, or related object lifetime misuse visible in decompiled code.",
+      "detectors": ["pattern_sinks.double_free", "pattern_sinks.use_after_free", "pattern_sinks.casted_pointer_deref"]
+    }
+  ],
+  "primitive_sinks": [
+    {"name": "memcpy", "enabled": true, "kind": "primitive_memory_sink", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2},
+    {"name": "memmove", "enabled": true, "kind": "primitive_memory_sink", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2},
+    {"name": "bcopy", "enabled": true, "kind": "primitive_memory_sink", "label": "COPY_SINK", "src_arg": 0, "dst_arg": 1, "len_arg": 2},
+    {"name": "__aeabi_memcpy", "enabled": true, "kind": "primitive_memory_sink", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2},
+    {"name": "__aeabi_memcpy4", "enabled": true, "kind": "primitive_memory_sink", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2},
+    {"name": "__aeabi_memcpy8", "enabled": true, "kind": "primitive_memory_sink", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2},
+    {"name": "__aeabi_memmove", "enabled": true, "kind": "primitive_memory_sink", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2},
+    {"name": "__aeabi_memmove4", "enabled": true, "kind": "primitive_memory_sink", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2},
+    {"name": "__aeabi_memmove8", "enabled": true, "kind": "primitive_memory_sink", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2},
+    {"name": "__rt_memcpy", "enabled": true, "kind": "primitive_memory_sink", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2},
+    {"name": "__rt_memmove", "enabled": true, "kind": "primitive_memory_sink", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2},
+    {"name": "__memcpy_r4", "enabled": true, "kind": "primitive_memory_sink", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2},
+    {"name": "__memcpy_r7", "enabled": true, "kind": "primitive_memory_sink", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2},
+    {"name": "memset", "enabled": true, "kind": "primitive_memory_sink", "label": "MEMSET_SINK", "dst_arg": 0, "value_arg": 1, "len_arg": 2},
+    {"name": "bzero", "enabled": true, "kind": "primitive_memory_sink", "label": "MEMSET_SINK", "dst_arg": 0, "len_arg": 1},
+    {"name": "__aeabi_memset", "enabled": true, "kind": "primitive_memory_sink", "label": "MEMSET_SINK", "dst_arg": 0, "len_arg": 1, "value_arg": 2},
+    {"name": "__aeabi_memclr", "enabled": true, "kind": "primitive_memory_sink", "label": "MEMSET_SINK", "dst_arg": 0, "len_arg": 1, "value_expr": "0"},
+    {"name": "strcpy", "enabled": true, "kind": "primitive_string_sink", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1},
+    {"name": "strncpy", "enabled": true, "kind": "primitive_string_sink", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2},
+    {"name": "strlcpy", "enabled": true, "kind": "primitive_string_sink", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2},
+    {"name": "strcat", "enabled": true, "kind": "primitive_string_sink", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1},
+    {"name": "strncat", "enabled": true, "kind": "primitive_string_sink", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2},
+    {"name": "sprintf", "enabled": true, "kind": "primitive_format_sink", "label": "FORMAT_STRING_SINK", "dst_arg": 0, "fmt_arg": 1},
+    {"name": "snprintf", "enabled": true, "kind": "primitive_format_sink", "label": "FORMAT_STRING_SINK", "dst_arg": 0, "len_arg": 1, "fmt_arg": 2},
+    {"name": "vsprintf", "enabled": true, "kind": "primitive_format_sink", "label": "FORMAT_STRING_SINK", "dst_arg": 0, "fmt_arg": 1},
+    {"name": "vsnprintf", "enabled": true, "kind": "primitive_format_sink", "label": "FORMAT_STRING_SINK", "dst_arg": 0, "len_arg": 1, "fmt_arg": 2}
+  ],
+  "framework_sinks": [
+    {"name": "net_buf_simple_add_mem", "enabled": true, "framework": "zephyr", "kind": "framework_copy_sink", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2, "vulnerable_parameter_roles": ["src", "len"]},
+    {"name": "net_buf_add_mem", "enabled": true, "framework": "zephyr", "kind": "framework_copy_sink", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2, "vulnerable_parameter_roles": ["src", "len"]},
+    {"name": "net_buf_simple_pull", "enabled": true, "framework": "zephyr", "kind": "framework_buffer_state_sink", "label": "COPY_SINK", "dst_arg": 0, "len_arg": 1, "vulnerable_parameter_roles": ["len"]},
+    {"name": "net_buf_pull", "enabled": true, "framework": "zephyr", "kind": "framework_buffer_state_sink", "label": "COPY_SINK", "dst_arg": 0, "len_arg": 1, "vulnerable_parameter_roles": ["len"]},
+    {"name": "net_buf_simple_add", "enabled": true, "framework": "zephyr", "kind": "framework_buffer_state_sink", "label": "COPY_SINK", "dst_arg": 0, "len_arg": 1, "vulnerable_parameter_roles": ["len"]},
+    {"name": "net_buf_add", "enabled": true, "framework": "zephyr", "kind": "framework_buffer_state_sink", "label": "COPY_SINK", "dst_arg": 0, "len_arg": 1, "vulnerable_parameter_roles": ["len"]},
+    {"name": "sys_mem_swap", "enabled": true, "framework": "zephyr", "kind": "framework_memory_mutation_sink", "label": "LOOP_WRITE_SINK", "dst_arg": 0, "len_arg": 1, "vulnerable_parameter_roles": ["dst", "len"]},
+    {"name": "ring_buf_put", "enabled": true, "framework": "zephyr", "kind": "framework_copy_sink", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2, "vulnerable_parameter_roles": ["src", "len"]},
+    {"name": "ring_buf_get", "enabled": true, "framework": "zephyr", "kind": "framework_copy_sink", "label": "COPY_SINK", "dst_arg": 1, "src_arg": 0, "len_arg": 2, "vulnerable_parameter_roles": ["dst", "len"]},
+    {"name": "k_msgq_put", "enabled": true, "framework": "zephyr", "kind": "framework_queue_sink", "label": "STORE_SINK", "dst_arg": 0, "src_arg": 1, "vulnerable_parameter_roles": ["src"]},
+    {"name": "k_msgq_get", "enabled": true, "framework": "zephyr", "kind": "framework_queue_sink", "label": "STORE_SINK", "dst_arg": 1, "src_arg": 0, "vulnerable_parameter_roles": ["dst"]},
+    {"name": "packetbuf_copyfrom", "enabled": true, "framework": "contiki", "kind": "framework_copy_sink", "label": "COPY_SINK", "src_arg": 0, "len_arg": 1, "dst_expr": "packetbuf", "vulnerable_parameter_roles": ["src", "len"]},
+    {"name": "packetbuf_copyto", "enabled": true, "framework": "contiki", "kind": "framework_copy_sink", "label": "COPY_SINK", "dst_arg": 0, "src_expr": "packetbuf", "vulnerable_parameter_roles": ["dst"]},
+    {"name": "uip_ipaddr_copy", "enabled": true, "framework": "contiki", "kind": "framework_copy_sink", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_expr": "sizeof(ipaddr)", "vulnerable_parameter_roles": ["src"]},
+    {"name": "pbuf_take", "enabled": true, "framework": "lwip", "kind": "framework_copy_sink", "label": "COPY_SINK", "dst_arg": 0, "src_arg": 1, "len_arg": 2, "vulnerable_parameter_roles": ["src", "len"]},
+    {"name": "pbuf_copy_partial", "enabled": true, "framework": "lwip", "kind": "framework_copy_sink", "label": "COPY_SINK", "src_arg": 0, "dst_arg": 1, "len_arg": 2, "vulnerable_parameter_roles": ["src", "len"]},
+    {"name": "xQueueSend", "enabled": true, "framework": "freertos", "kind": "framework_queue_sink", "label": "STORE_SINK", "dst_arg": 0, "src_arg": 1, "vulnerable_parameter_roles": ["src"]},
+    {"name": "xQueueSendToBack", "enabled": true, "framework": "freertos", "kind": "framework_queue_sink", "label": "STORE_SINK", "dst_arg": 0, "src_arg": 1, "vulnerable_parameter_roles": ["src"]},
+    {"name": "xQueueSendToFront", "enabled": true, "framework": "freertos", "kind": "framework_queue_sink", "label": "STORE_SINK", "dst_arg": 0, "src_arg": 1, "vulnerable_parameter_roles": ["src"]},
+    {"name": "xQueueReceive", "enabled": true, "framework": "freertos", "kind": "framework_queue_sink", "label": "STORE_SINK", "dst_arg": 1, "src_arg": 0, "vulnerable_parameter_roles": ["dst"]},
+    {"name": "osMessageQueuePut", "enabled": true, "framework": "cmsis_rtos2", "kind": "framework_queue_sink", "label": "STORE_SINK", "dst_arg": 0, "src_arg": 1, "vulnerable_parameter_roles": ["src"]},
+    {"name": "osMessageQueueGet", "enabled": true, "framework": "cmsis_rtos2", "kind": "framework_queue_sink", "label": "STORE_SINK", "dst_arg": 1, "src_arg": 0, "vulnerable_parameter_roles": ["dst"]}
+  ],
+  "pattern_sinks": [
+    {
+      "name": "pointer_store",
+      "enabled": true,
+      "label": "STORE_SINK",
+      "kind": "store_pattern_sink",
+      "sourceagent_reference": "sourceagent/pipeline/miners/additional_sinks.py:502",
+      "patterns": ["store via ARG pointer", "store via GLOBAL_PTR", "store via UNKNOWN pointer"],
+      "roles": {"dst": "store target", "value": "rhs"},
+      "requires_detector": "memory_access_or_statement_store_detector"
+    },
+    {
+      "name": "param_store",
+      "enabled": true,
+      "label": "STORE_SINK",
+      "kind": "store_pattern_sink",
+      "sourceagent_reference": "sourceagent/pipeline/miners/additional_sinks.py:607",
+      "patterns": ["*param_N = ...", "*(type *)(param_N + off) = ...", "param_N[index] = ...", "semantic pointer parameter field store"],
+      "roles": {"dst": "param-derived location", "value": "rhs"},
+      "requires_detector": "decompiled_statement_pattern_detector"
+    },
+    {
+      "name": "field_update_store",
+      "enabled": true,
+      "label": "STORE_SINK",
+      "kind": "store_pattern_sink",
+      "sourceagent_reference": "sourceagent/pipeline/miners/additional_sinks.py:607",
+      "patterns": [
+        "object->field = input_derived_local + object->field",
+        "(object->subobject).field = value",
+        "object->field += input_derived_local"
+      ],
+      "roles": {"dst": "field store target", "value": "rhs"},
+      "requires_detector": "decompiled_statement_pattern_detector",
+      "emission_rule": "emit STORE_SINK when a local scalar is first copied from an input buffer and then used in a field update; otherwise leave for semantic review"
+    },
+    {
+      "name": "loop_write",
+      "enabled": true,
+      "label": "LOOP_WRITE_SINK",
+      "kind": "loop_write_pattern_sink",
+      "sourceagent_reference": "sourceagent/pipeline/miners/additional_sinks.py:758",
+      "patterns": ["for/while/do loop containing indexed store", "pointer arithmetic store in loop", "*dst++ = value"],
+      "roles": {"dst": "store expression", "index": "index expression", "bound": "loop bound"},
+      "requires_detector": "loop_body_store_detector"
+    },
+    {
+      "name": "loop_copy",
+      "enabled": true,
+      "label": "COPY_SINK",
+      "kind": "loop_copy_pattern_sink",
+      "sourceagent_reference": "sourceagent/pipeline/miners/additional_sinks.py:1131",
+      "patterns": ["dst[i] = src[i]", "*dst++ = *src++"],
+      "roles": {"dst": "loop destination", "src": "loop source", "len": "loop bound or index range"},
+      "requires_detector": "loop_copy_idiom_detector"
+    },
+    {
+      "name": "parser_field_store",
+      "enabled": true,
+      "label": "PARSING_OVERFLOW_SINK",
+      "kind": "parser_store_pattern_sink",
+      "patterns": ["struct_field = buf[offset]", "struct_field = *(type *)(buf + off)", "parsed field later used as parser bound"],
+      "roles": {"dst": "parser state field", "src": "input buffer byte/region", "len": "parsed length/bound field when present"},
+      "requires_detector": "parser_store_statement_detector",
+      "emission_rule": "emit semantic candidate; LLM/review must confirm sink semantics"
+    },
+    {
+      "name": "unbounded_walk",
+      "enabled": true,
+      "label": "UNBOUNDED_WALK_SINK",
+      "kind": "parser_walk_pattern_sink",
+      "patterns": ["p = p + *p + const", "p = p + len + const followed by *p", "packet pointer walk without proven end guard"],
+      "roles": {"dst": "advanced pointer", "len": "data-derived step", "guard": "end/capacity guard if present"},
+      "requires_detector": "unbounded_parser_walk_detector",
+      "emission_rule": "emit semantic candidate; LLM/review must confirm sink semantics"
+    },
+    {
+      "name": "nonliteral_format",
+      "enabled": true,
+      "label": "FORMAT_STRING_SINK",
+      "kind": "format_pattern_sink",
+      "sourceagent_reference": "sourceagent/pipeline/miners/format_string_sink.py:33",
+      "format_functions": ["printf", "fprintf", "sprintf", "snprintf", "vprintf", "vfprintf", "vsprintf", "vsnprintf", "syslog"],
+      "roles": {"fmt": "format argument", "dst": "destination buffer when present", "len": "bound argument when present"},
+      "emission_rule": "emit only when format argument is non-literal or unresolved",
+      "requires_detector": "format_argument_literal_detector"
+    },
+    {
+      "name": "indirect_call_control",
+      "enabled": true,
+      "label": "FUNC_PTR_SINK",
+      "kind": "control_flow_pattern_sink",
+      "sourceagent_reference": "sourceagent/pipeline/miners/func_ptr_sink.py:35",
+      "patterns": ["indexed function table dispatch", "function pointer parameter call", "computed/casted indirect call", "table[index](...)"],
+      "roles": {"target": "function pointer expression", "index": "dispatch index when present"},
+      "requires_detector": "indirect_call_taint_or_index_detector"
+    },
+    {
+      "name": "double_free",
+      "enabled": true,
+      "label": "LIFETIME_SINK",
+      "kind": "lifetime_pattern_sink",
+      "sourceagent_reference": "sourceagent/pipeline/miners/additional_sinks.py:1844",
+      "patterns": ["free(ptr) followed by free(ptr)"],
+      "roles": {"object": "freed pointer"},
+      "requires_detector": "lifetime_sequence_detector"
+    },
+    {
+      "name": "use_after_free",
+      "enabled": true,
+      "label": "LIFETIME_SINK",
+      "kind": "lifetime_pattern_sink",
+      "sourceagent_reference": "sourceagent/pipeline/miners/additional_sinks.py:1844",
+      "patterns": ["free(ptr) followed by ptr dereference"],
+      "roles": {"object": "freed pointer", "use": "post-free dereference"},
+      "requires_detector": "lifetime_sequence_detector"
+    },
+    {
+      "name": "casted_pointer_deref",
+      "enabled": true,
+      "label": "LIFETIME_SINK",
+      "kind": "lifetime_or_type_confusion_pattern_sink",
+      "sourceagent_reference": "sourceagent/pipeline/chain_artifacts.py:1769",
+      "patterns": ["ptr = (type *)source; ptr->field"],
+      "roles": {"object": "casted pointer", "source": "source expression", "field": "dereferenced field"},
+      "requires_detector": "casted_pointer_deref_detector"
+    }
+  ],
+  "dispatch_patterns": [
+    {"name": "casted_function_pointer_call", "enabled": true, "status": "unresolved_dispatch_only"},
+    {"name": "function_pointer_call", "enabled": true, "status": "unresolved_dispatch_only"}
+  ]
+}

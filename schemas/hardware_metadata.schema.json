@@ -1,0 +1,237 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coppertrace.local/schemas/hardware_metadata.schema.json",
+  "title": "CopperTrace Mini trusted hardware metadata",
+  "oneOf": [
+    {"$ref": "#/$defs/v1"},
+    {"$ref": "#/$defs/v2"}
+  ],
+  "$defs": {
+    "addressValue": {
+      "oneOf": [
+        {"type": "string", "pattern": "^0[xX][0-9a-fA-F]+$"},
+        {"type": "integer", "minimum": 0}
+      ]
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "metadataSource": {
+      "enum": ["svd", "typed_register_map", "trusted_platform_summary"]
+    },
+    "dmaFunctions": {
+      "type": "object",
+      "patternProperties": {
+        "^fn:[0-9a-fA-F]+$": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["register_roles"],
+          "properties": {
+            "direction": {
+              "enum": ["peripheral_to_memory", "memory_to_peripheral", "unknown"]
+            },
+            "register_roles": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["address", "role", "descriptor_id"],
+                "properties": {
+                  "address": {
+                    "type": "string",
+                    "pattern": "^0x[0-9a-fA-F]+$"
+                  },
+                  "role": {
+                    "enum": ["peripheral_address", "memory_destination", "count", "control"]
+                  },
+                  "descriptor_id": {"type": "string", "minLength": 1},
+                  "direction": {
+                    "enum": ["peripheral_to_memory", "memory_to_peripheral", "unknown"]
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "v1": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "metadata_source",
+        "binary_sha256",
+        "register_metadata",
+        "dma_functions"
+      ],
+      "properties": {
+        "schema_version": {"const": "ct-mini-hardware-metadata-v1"},
+        "metadata_source": {"$ref": "#/$defs/metadataSource"},
+        "binary_sha256": {"$ref": "#/$defs/sha256"},
+        "register_metadata": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["address", "role"],
+            "properties": {
+              "address": {
+                "type": "string",
+                "pattern": "^0x[0-9a-fA-F]+$"
+              },
+              "role": {"enum": ["DATA", "STATUS", "CONTROL"]},
+              "peripheral": {"type": "string"},
+              "register": {"type": "string"}
+            }
+          }
+        },
+        "dma_functions": {"$ref": "#/$defs/dmaFunctions"}
+      }
+    },
+    "mmioRangeV2": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["start", "end", "evidence_source", "evidence_reference"],
+      "properties": {
+        "start": {"$ref": "#/$defs/addressValue"},
+        "end": {"$ref": "#/$defs/addressValue"},
+        "name": {"type": "string", "minLength": 1},
+        "evidence_source": {"type": "string", "minLength": 1},
+        "evidence_reference": {"type": "string", "minLength": 1}
+      }
+    },
+    "peripheralInstanceV2": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "peripheral_instance",
+        "peripheral_type",
+        "instance_base",
+        "evidence_source",
+        "evidence_reference"
+      ],
+      "properties": {
+        "peripheral_instance": {"type": "string", "minLength": 1},
+        "peripheral_type": {"type": "string", "minLength": 1},
+        "instance_base": {"$ref": "#/$defs/addressValue"},
+        "evidence_source": {"type": "string", "minLength": 1},
+        "evidence_reference": {"type": "string", "minLength": 1}
+      }
+    },
+    "registerV2": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "evidence_source", "evidence_reference"],
+      "properties": {
+        "address": {"$ref": "#/$defs/addressValue"},
+        "peripheral_type": {"type": "string", "minLength": 1},
+        "field_offset": {"$ref": "#/$defs/addressValue"},
+        "peripheral_instance": {"type": "string", "minLength": 1},
+        "instance_base": {"$ref": "#/$defs/addressValue"},
+        "register": {"type": "string", "minLength": 1},
+        "role": {
+          "enum": [
+            "RX_DATA",
+            "EXTERNAL_INPUT_DATA",
+            "TX_DATA",
+            "STATUS",
+            "CONTROL",
+            "DMA_RX_BUFFER_POINTER",
+            "DMA_BUFFER_POINTER",
+            "DMA_PERIPHERAL_SOURCE",
+            "DMA_MEMORY_DESTINATION",
+            "DMA_TRANSFER_COUNT",
+            "DMA_DIRECTION",
+            "DMA_START",
+            "RX_START",
+            "TX_START",
+            "UNKNOWN"
+          ]
+        },
+        "access": {
+          "enum": ["read-only", "write-only", "read-write", "readwrite"]
+        },
+        "expected_behaviors": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1},
+          "uniqueItems": true
+        },
+        "evidence_source": {"type": "string", "minLength": 1},
+        "evidence_reference": {"type": "string", "minLength": 1}
+      },
+      "anyOf": [
+        {"required": ["address"]},
+        {"required": ["peripheral_type", "field_offset"]}
+      ]
+    },
+    "v2": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "metadata_source", "platform_id", "registers"],
+      "properties": {
+        "schema_version": {"const": "ct-mini-hardware-metadata-v2"},
+        "scope": {"enum": ["platform", "binary"], "default": "platform"},
+        "metadata_source": {"$ref": "#/$defs/metadataSource"},
+        "profile_id": {"type": "string", "minLength": 1},
+        "platform_id": {"type": "string", "minLength": 1},
+        "binary_sha256": {"$ref": "#/$defs/sha256"},
+        "evidence_source": {"type": "string", "minLength": 1},
+        "evidence_reference": {"type": "string", "minLength": 1},
+        "evidence_urls": {
+          "type": "array",
+          "items": {"type": "string", "format": "uri"},
+          "uniqueItems": true
+        },
+        "mmio_ranges": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/mmioRangeV2"}
+        },
+        "peripheral_instances": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/peripheralInstanceV2"}
+        },
+        "registers": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/registerV2"}
+        },
+        "binary_identity": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["required_symbols"],
+          "properties": {
+            "required_symbols": {
+              "type": "array",
+              "items": {
+                "oneOf": [
+                  {"type": "string", "minLength": 1},
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["name"],
+                    "properties": {
+                      "name": {"type": "string", "minLength": 1},
+                      "value": {"$ref": "#/$defs/addressValue"}
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "dma_functions": {"$ref": "#/$defs/dmaFunctions"}
+      },
+      "allOf": [
+        {
+          "if": {
+            "required": ["scope"],
+            "properties": {"scope": {"const": "binary"}}
+          },
+          "then": {"required": ["binary_sha256"]}
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coppertrace.local/schemas/whole_alert_review.v3.schema.json",
+  "title": "CopperTrace Whole-Alert Review v3",
+  "type": "object",
+  "required": ["schema_version", "decisions"],
+  "properties": {
+    "schema_version": {"const": "ct-mini-whole-alert-review-v3"},
+    "decisions": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "required": [
+          "alert_id",
+          "decision",
+          "dangerous_condition",
+          "blocking_relation",
+          "evidence_refs",
+          "missing_evidence",
+          "reason"
+        ],
+        "properties": {
+          "alert_id": {"type": "string", "minLength": 1},
+          "decision": {"enum": ["TRUPOC", "REJECT", "UNRESOLVED"]},
+          "dangerous_condition": {"type": "string"},
+          "blocking_relation": {"type": "string"},
+          "evidence_refs": {"type": "array", "items": {"type": "string"}},
+          "missing_evidence": {"type": "array", "items": {"type": "string"}},
+          "reason": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

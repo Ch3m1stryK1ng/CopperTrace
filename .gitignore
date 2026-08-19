@@ -1,0 +1,38 @@
+.env
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+
+# Generated analysis and review outputs
+artifacts/
+loot/
+tmp/
+workspaces/
+*.log
+
+# Firmware and dataset payloads are distributed separately.
+datasets/
+firmware/
+*.elf
+*.bin
+*.hex
+*.uf2
+*.ihex
+
+# Decompiler projects and local tool state
+*.gpr
+*.rep/
+.ctmini-work/
+.worktrees/
+.cliproxy-auth-smoke/
+
+# Editor and OS metadata
+.idea/
+.vscode/
+*.swp
+*~
+*:Zone.Identifier
+.DS_Store

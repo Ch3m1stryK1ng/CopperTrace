@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coppertrace.local/schemas/reviewed_alerts.v4.schema.json",
+  "title": "CopperTrace Reviewed Canonical Alerts v4",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "counts",
+    "trupocs",
+    "rejected_alerts",
+    "unresolved_alerts",
+    "validation_queue"
+  ],
+  "properties": {
+    "schema_version": {"const": "ct-mini-reviewed-alerts-v4"},
+    "counts": {
+      "type": "object",
+      "required": ["reviewed", "trupocs", "rejected", "unresolved", "validation_queue"],
+      "properties": {
+        "reviewed": {"type": "integer", "minimum": 0},
+        "trupocs": {"type": "integer", "minimum": 0},
+        "rejected": {"type": "integer", "minimum": 0},
+        "unresolved": {"type": "integer", "minimum": 0},
+        "validation_queue": {"type": "integer", "minimum": 0}
+      }
+    },
+    "trupocs": {"type": "array"},
+    "rejected_alerts": {"type": "array"},
+    "unresolved_alerts": {"type": "array"},
+    "validation_queue": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "queue_rank",
+          "queue_round",
+          "alert_id",
+          "sink_callsite_ids",
+          "a2_reference_rank"
+        ],
+        "properties": {
+          "queue_rank": {"type": "integer", "minimum": 1},
+          "queue_round": {
+            "enum": ["DISTINCT_SINK_CALLSITE", "ADDITIONAL_SOURCE_LINEAGE"]
+          },
+          "alert_id": {"type": "string", "minLength": 1},
+          "sink_callsite_ids": {"type": "array", "minItems": 1},
+          "a2_reference_rank": {"type": "integer", "minimum": 1}
+        },
+        "additionalProperties": false
+      }
+    },
+    "firmware": {"type": "object"},
+    "run": {"type": "object"}
+  }
+}
